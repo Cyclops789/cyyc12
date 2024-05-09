@@ -1,113 +1,144 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
+  const [text, setText] = useState<string[]>();
+  const [clicked, setClicked] = useState(false);
+  const [openShell, setOpenSheel] = useState(false);
+  const [command, setCommand] = useState('');
+  const [output, setOutput] = useState('');
+  let i = 0;
+
+  const dummyTerminalText = [
+    "Found device VMware Virtual_S 2.",
+    "Activating swap /dev/disk/by-uuid/8ed17f08-eb8c-4374-bc43-b3ee4dabc875. Found device VMware_Virtual_S 1.",
+    "Mounting boot...",
+    "Activated swap /dev/disk/by-uuid/8ed17f08-eb8c-4374-bc43-b3ee4dabc875. Reached target Swaps.",
+    "Mounting Temporary Directory /tmp...",
+    "Mounted Temporary Directory /tmp.",
+    "Mounted /boot.",
+    "Reached target Local File Systems.",
+    "Starting Automatic Boot Loader Update...",
+    "Starting Create Volatile Files and Directories...",
+    "Finished Automatic Boot Loader Update.",
+    "Finished Create Volatile Files and Directories. Starting Record System Boot/Shutdown in UTMP... Finished Record System Boot/Shutdown in UTMP.",
+    "Reached target System Initialization.",
+    "Started Daily verification of password and group files. Started Daily Cleanup of Temporary Directories.",
+    "Reached target Timer Units.",
+    "Listening on D-Bus System Message Bus Socket.",
+    "Reached target Socket Units.",
+    "Reached target Basic System.",
+    "Started D-Bus System Message Bus.",
+    "Starting Network Manager...",
+    "Starting User Login Management...",
+    "Started Verify integrity of password and group files.",
+    "Started User Login Management.",
+    "Started Network Manager.",
+    "Reached target Network.",
+    "Starting Permit User Sessions...",
+    "Finished Permit User Sessions.",
+    "Started Getty on tty1.",
+    "Reached target Login Prompts.",
+    "Reached target Multi-User System.",
+    "Reached target Graphical Interface.",
+    "Starting Hostname Service...",
+    "Started Hostname Service.",
+    "Listening on Load/Save RF Kill Switch Status /dev/rfkill Watch. Starting Network Manager Script Dispatcher Service...",
+    "Started Network Manager Script Dispatcher Service.",
+  ]
+
+  const onStart = () => {
+    setClicked(true);
+
+    setTimeout(() => {
+      const e = dummyTerminalText[i];
+      setText((t) => {
+        if (t) {
+          return [...t, e]
+        } else {
+          return [e]
+        }
+      })
+      i++;
+      if (i < dummyTerminalText.length) {
+        onStart()
+      } else {
+        setOpenSheel(true)
+      }
+    }, 70)
+  }
+
+  const handleChangeAndSize = (ev: any) => {
+    const target = ev.target;
+    target.style.width = '10px';
+    target.style.width = `${target.scrollWidth}px`;
+
+    setCommand(ev.target.value)
+  }
+
+  const onSendCommand = () => {
+    switch (command) {
+      case "help": {
+        setOutput('Commands')
+        break;
+      }
+    }
+  }
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <label htmlFor="shell">
+      <main className="flex justify-center items-center bg-black w-screen h-screen cursor-text">
+        <div className="border-2 border-green-800 w-[90%] h-[90%] overflow-auto">
+          <div className="flex justify-between">
+          <div className="bg-green-800 w-full h-[30px] flex justify-center items-center">
+            <span>~ : zsh - Knosole</span>
+          </div>
+          <div className="bg-red-800 w-[30px] h-[30px] flex justify-center items-center cursor-pointer">
+            <span>X</span>
+          </div>
+          </div>
+          <div className="ml-2 mt-2">
+            {!clicked && (
+              <button onClick={onStart} className="bg-green-800 text-black hover:text-white active:text-white">
+                <div className="px-2 py-1 text-xl">
+                  Start
+                </div>
+              </button>
+            )}
+            {(!openShell && text) && (
+              <div>
+                {text.map((t) => <div className="text-white">{'['} <span className="text-green-800">OK</span>  {']'} <span>{t}</span></div>)}
+              </div>
+            )}
+            {openShell && (
+              <div className="text-green-800">
+                <span className="text-red-800">[</span> hamza
+                <span className="text-red-800">@</span>debian  <span className="text-red-800">]</span> #
+                {' '}<input
+                  onKeyUp={event => {
+                    if (event.key === 'Enter') {
+                      onSendCommand()
+                    }
+                  }}
+                  onChange={handleChangeAndSize}
+                  type="text"
+                  name="shell"
+                  id="shell"
+                  className="bg-transparent focus:outline-none focus:ring-0"
+                />
+              </div>
+            )}
+
+          </div>
         </div>
-      </div>
+        <div className="bg-green-800 h-[90%] w-[5%]">
+            <div>Test 1</div>
+            <div>Test 2</div>
+            <div>Test 3</div>
+            <div></div>
+        </div>
+      </main>
+    </label>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
   );
 }
