@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Sheel = $zsh",
-  description: "Welcome to my portfolio",
+  title: "$SHELL=/usr/bin/zsh",
+  description: "Terminal portfolio",
 };
 
 export default function RootLayout({
