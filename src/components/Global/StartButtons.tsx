@@ -3,13 +3,13 @@ import { useGeneralStore } from '@/stores/general';
 import Button from '@/components/Global/Button';
 
 function StartButtons() {
-    const { initialAction, setInitialAction} = useGeneralStore();
+    const { initialAction, setInitialAction } = useGeneralStore();
 
     return (
         <>
             {!initialAction && (
                 <div className='flex justify-center items-center space-x-3'>
-                    <Button onClick={() => {setInitialAction('terminal'); }}>
+                    <Button onClick={() => setInitialAction('terminal')}>
                         Terminal
                     </Button>
 

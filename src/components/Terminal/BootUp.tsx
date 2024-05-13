@@ -5,13 +5,13 @@ import { useGeneralStore } from '@/stores/general';
 
 function BootUp() {
     const { dummyTerminalText, setOpenTerminal, addTerminalText, openTerminal, terminalTexts, initialAction } = useGeneralStore();
-    const [i, setI] = useState(0);
+    let i = 0;
 
     const onStart = () => {
         setTimeout(() => {
             const currentDummyText = dummyTerminalText[i];
             addTerminalText(currentDummyText);
-            setI(i+1);
+            i++;
             if (i < dummyTerminalText.length) {
                 onStart()
             } else {
@@ -21,9 +21,9 @@ function BootUp() {
     }
 
     useEffect(() => {
-        if(openTerminal) onStart();
-    }, [openTerminal]);
-    
+        if(initialAction === 'terminal') onStart();
+    }, [initialAction]);
+
     return (
         <>
             {(!openTerminal && terminalTexts && initialAction === 'terminal') && (

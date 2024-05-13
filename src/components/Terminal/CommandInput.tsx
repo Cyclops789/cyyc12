@@ -16,8 +16,10 @@ function CommandInput() {
                         onKeyUp={event => {
                             if (event.key === 'Enter' && commandPlaceHolder) {
                                 addCommand(commandPlaceHolder);
+                                setCommandPlaceHolder('');
                             }
                         }}
+                        value={commandPlaceHolder || ''}
                         onChange={(e) => setCommandPlaceHolder(e.target.value)}
                         type="text"
                         name="terminal"

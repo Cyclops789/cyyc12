@@ -1,10 +1,10 @@
 "use client";
-import TerminalLabel from "@/components/TerminalLabel";
-import Tab from "@/components/Tab";
-import StartButtons from "@/components/StartButtons";
-import BootUp from "@/components/BootUp";
-import CommandInput from "@/components/CommandInput";
-import OutPuts from "@/components/OutPut";
+import TerminalLabel from "@/components/Terminal/TerminalLabel";
+import Tab from "@/components/Terminal/Tab";
+import StartButtons from "@/components/Global/StartButtons";
+import BootUp from "@/components/Terminal/BootUp";
+import CommandInput from "@/components/Terminal/CommandInput";
+import OutPuts from "@/components/Terminal/OutPut";
 
 export default function Home() {
 
