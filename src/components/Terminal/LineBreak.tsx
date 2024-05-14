@@ -7,7 +7,7 @@ function LineBreak({ command }: Props) {
         <div className="text-green-800">
             <span className="text-red-800">[</span> hamza
             <span className="text-red-800">@</span>debian  <span className="text-red-800">]</span> #
-            {' '}{command}
+            {' '}<span className={'text-white'}>{command}</span>
         </div>
     )
 }

@@ -15,6 +15,5 @@ export const useCommandsStore = create<ICommandsStore>((set) => ({
 
     setCommandPlaceHolder: (commandPlaceHolder) => set(() => ({ commandPlaceHolder })),
     setCommands: (commands) => set(() => ({ commands })),
-    // Inset command at the first so we wont need to use reverse() when mapping through commands
     addCommand: (command) => set(({ commands }) => ({ commands: [...commands || [], command] })),
 }));

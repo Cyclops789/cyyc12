@@ -8,10 +8,13 @@ function OutPuts() {
     const { commands } = useCommandsStore();
     
     return (
-        <div className='text-green-800'>
+        <div className='text-white'>
             {commands?.map((command, i) => 
                 <>
-                    <LineBreak key={`${command}-${i}`} command={command} />  {getCommandOutputs(command)?.map(child => child)}
+                    <LineBreak key={`${command}-${i}`} command={command} />  
+                    <div className={"mt-2"}>
+                        {getCommandOutputs(command)?.map(child => child)}
+                    </div>
                 </> 
             )}
         </div>

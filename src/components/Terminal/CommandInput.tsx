@@ -3,7 +3,7 @@ import { useCommandsStore } from "@/stores/commands";
 import { useGeneralStore } from "@/stores/general";
 
 function CommandInput() {
-    const { addCommand, setCommandPlaceHolder, commandPlaceHolder } = useCommandsStore();
+    const { addCommand, setCommandPlaceHolder, commandPlaceHolder, setCommands } = useCommandsStore();
     const { openTerminal } = useGeneralStore();
 
     return (
@@ -15,8 +15,20 @@ function CommandInput() {
                     {' '}<input
                         onKeyUp={event => {
                             if (event.key === 'Enter' && commandPlaceHolder) {
-                                addCommand(commandPlaceHolder);
-                                setCommandPlaceHolder('');
+
+                                switch(commandPlaceHolder) {
+                                    case 'clear': {
+                                        setCommands([]);
+                                        setCommandPlaceHolder('');
+                                    }
+                                    case 'reload': {
+                                        window.location.reload();
+                                    }
+                                    default: {
+                                        addCommand(commandPlaceHolder);
+                                        setCommandPlaceHolder('');
+                                    }
+                                }
                             }
                         }}
                         value={commandPlaceHolder || ''}
@@ -24,7 +36,7 @@ function CommandInput() {
                         type="text"
                         name="terminal"
                         id="terminal"
-                        className="bg-transparent focus:outline-none focus:ring-0"
+                        className="bg-transparent focus:outline-none focus:ring-0 text-white"
                     />
                 </div>
             )}

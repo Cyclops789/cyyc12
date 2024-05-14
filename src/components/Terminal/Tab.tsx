@@ -1,16 +1,15 @@
 import React from 'react'
 
-function Tab() {
+type Props = { initialAction: "terminal" | "desktop" | null };
+
+function Tab({ initialAction }: Props) {
     return (
         <div className="flex justify-between">
             <div className="bg-green-800 w-full h-[30px] flex justify-center items-center">
-                <span>~ : zsh - Terminal</span>
-            </div>
-            <div className="bg-red-800 w-[30px] h-[30px] flex justify-center items-center cursor-pointer">
-                <span>X</span>
+                <span>{initialAction === 'terminal' ? '~ : zsh - Terminal' : initialAction === 'desktop' ? 'Debian 12 - Desktop' : ''} </span>
             </div>
         </div>
     )
 }
 
-export default Tab
+export default Tab;
