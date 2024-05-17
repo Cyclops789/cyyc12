@@ -49,10 +49,10 @@ const commands: { command: string, outputs: React.ReactNode[] }[] = [
     {
         command: 'projects',
         outputs: [
-            <div><a href="https://github.com/Cyclops789/walkincity-nextjs">WalkIncity <span style={{ color: 'rgb(21,128,61)' }}>{'>'}</span></a></div>,
-            <div><a href="https://github.com/Cyclops789/portfolio">Terminal portfolio <span style={{ color: 'rgb(21,128,61)' }}>{'>'}</span></a></div>,
+            <div><a target="_blank" href="https://github.com/Cyclops789/walkincity-nextjs">WalkIncity <span style={{ color: 'rgb(21,128,61)' }}>{'>'}</span></a></div>,
+            <div><a target="_blank" href="https://github.com/Cyclops789/portfolio">Terminal portfolio <span style={{ color: 'rgb(21,128,61)' }}>{'>'}</span></a></div>,
             <div>GreyWeb game dashboard <span style={{ color: 'rgb(185, 28, 28)' }}>{'>'}</span></div>,
-            <div><a href="https://github.com/Cyclops789/rumble-notifier">Rumble Notifier <span style={{ color: 'rgb(21,128,61)' }}>{'>'}</span></a></div>,
+            <div><a target="_blank" href="https://github.com/Cyclops789/rumble-notifier">Rumble Notifier <span style={{ color: 'rgb(21,128,61)' }}>{'>'}</span></a></div>,
         ]
     }
 ]

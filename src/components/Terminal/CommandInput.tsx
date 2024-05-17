@@ -20,9 +20,11 @@ function CommandInput() {
                                     case 'clear': {
                                         setCommands([]);
                                         setCommandPlaceHolder('');
+                                        break;
                                     }
                                     case 'reload': {
                                         window.location.reload();
+                                        break;
                                     }
                                     default: {
                                         addCommand(commandPlaceHolder);
