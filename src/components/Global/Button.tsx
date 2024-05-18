@@ -6,7 +6,7 @@ function Button({ children, onClick, className }: Props) {
     return (
         <button 
             onClick={onClick} 
-            className={`bg-green-800 text-black hover:text-white active:text-white ${className || ''}`}
+            className={`bg-green-600 hover:bg-green-500 text-black active:text-white ${className || ''}`}
         >
             <div className="px-2 py-1 text-xl">
                 {children}

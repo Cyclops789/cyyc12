@@ -1,28 +1,15 @@
 "use client";
-
-import TerminalLabel from "@/components/Terminal/TerminalLabel";
-import Tab from "@/components/Terminal/Tab";
-import StartButtons from "@/components/Global/StartButtons";
-import BootUp from "@/components/Terminal/BootUp";
-import CommandInput from "@/components/Terminal/CommandInput";
-import OutPuts from "@/components/Terminal/OutPut";
-import { useGeneralStore } from "@/stores/general";
+import Desktop from "@/components/Desktop/Desktop";
+import Image from "next/image";
+import DesktopHandler from "@/components/Desktop/DesktopHandler";
 
 export default function Home() {
-
-  const { initialAction } = useGeneralStore();
-
-  return (
-    <TerminalLabel className="flex justify-center items-center bg-black w-screen h-screen cursor-text">
-      <div className="border-2 border-green-800 w-[90%] h-[90%] overflow-auto">
-        <Tab initialAction={initialAction} />
-        <div className="ml-2 mt-2">
-          <StartButtons />
-          <BootUp />
-          <OutPuts />
-          <CommandInput />
-        </div>
-      </div>
-    </TerminalLabel>
-  );
+	return (
+		<DesktopHandler>
+			<Desktop />
+			<div className="w-screen h-screen bg-black flex justify-center items-center">
+				<Image className="z-[1] w-[100px]" src={'/debian.png'} alt={"background-image"} width={3840} height={2160} />
+			</div>
+		</DesktopHandler>
+	);
 }

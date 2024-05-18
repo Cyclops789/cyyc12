@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useGeneralStore } from '@/stores/general';
 
 function BootUp() {
-    const { dummyTerminalText, setOpenTerminal, addTerminalText, openTerminal, terminalTexts, initialAction } = useGeneralStore();
+    const { dummyTerminalText, addTerminalText, terminalTexts, setDesktopStatus, desktopStatus } = useGeneralStore();
     let i = 0;
 
     const onStart = () => {
@@ -15,20 +15,26 @@ function BootUp() {
             if (i < dummyTerminalText.length) {
                 onStart()
             } else {
-                setOpenTerminal(true);
+                setDesktopStatus('started');
             }
-        }, i === 4 ? 100 : 70);
+        }, i % 4 ? 200 : 140);
     }
 
     useEffect(() => {
-        if(initialAction === 'terminal') onStart();
-    }, [initialAction]);
+        if(desktopStatus === 'starting') onStart();
+    }, [desktopStatus]);
 
+    useEffect(() => {
+        if(terminalTexts?.length > 0) {
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    }, [terminalTexts]);
+    
     return (
         <>
-            {(!openTerminal && terminalTexts && initialAction === 'terminal') && (
+            {(terminalTexts) && (
                 <div>
-                    {terminalTexts.map((t, i) => <div key={`${t}-${i}`} className="text-white">{'['} <span className="text-green-800">OK</span>  {']'} <span>{t}</span></div>)}
+                    {terminalTexts.map((t, i) => <div key={`${t}-${i}`} className="text-white">{'['} <span className="text-green-600">OK</span>  {']'} <span>{t}</span></div>)}
                 </div>
             )}
         </>
