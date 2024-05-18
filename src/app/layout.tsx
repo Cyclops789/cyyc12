@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "$SHELL=/usr/bin/zsh",
-  description: "Terminal portfolio",
+  title: "Debian 12 Desktop",
+  description: "Debian 12 desktop as portfolio",
 };
 
 export default function RootLayout({
