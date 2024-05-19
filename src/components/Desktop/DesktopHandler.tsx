@@ -19,7 +19,7 @@ function DesktopHandler({ children }: Props) {
                         {getAvailableWindows(windows)?.map((fWindow, i) =>
                             <WindowContainer title={fWindow.title}>
                                 <React.Fragment key={`${i}-${fWindow.title}`}>
-                                    {fWindow.children}
+                                    {fWindow.windowChildren}
                                 </React.Fragment>
                             </WindowContainer>
                         )}
@@ -29,7 +29,11 @@ function DesktopHandler({ children }: Props) {
             )
 
         case 'starting':
-            return (<BootUp />);
+            return (
+                <div className={'p-3'}>
+                    <BootUp />
+                </div>
+            );
 
         case 'stopped':
             return (

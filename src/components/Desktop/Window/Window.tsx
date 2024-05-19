@@ -10,14 +10,12 @@ function Window({ children, title }: Props) {
     const nodeRef = useRef(null);
 
     return (
-        <ReactDraggable handle={'.handler'} nodeRef={nodeRef}>
+        <ReactDraggable {...{ handle: '.handler', nodeRef: nodeRef }}>
             <div 
                 ref={nodeRef}
                 className={'border-2 border-red-600 rounded-lg no-cursor'}
             >
-                <Tab 
-                    title={title} 
-                />
+                <Tab {...{title}} />
                 {children}
             </div>
         </ReactDraggable>

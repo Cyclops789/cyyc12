@@ -8,16 +8,16 @@ function StartButtons() {
     const { desktopStatus, setDesktopStatus } = useGeneralStore();
 
     return (
-        <>
-            {desktopStatus === 'stopped' && (
-                <div className='flex justify-center items-center space-x-3'>
-                    <Button className='rounded-lg w-[100px] h-[50px]' onClick={() => setDesktopStatus('starting')}>
-                        <FontAwesomeIcon icon={faPowerOff} />
-                    </Button>
-                </div>
-            )}
-        </>
+        desktopStatus === 'stopped' && (
+            <div className='flex justify-center items-center space-x-3'>
+                <Button className='rounded-lg w-[100px] h-[50px]' onClick={() => setDesktopStatus('starting')}>
+                    <div className={'flex justify-center items-center'}>
+                        <FontAwesomeIcon className={'w-[20px]'} icon={faPowerOff} />
+                    </div>
+                </Button>
+            </div>
+        )
     )
 }
 
-export default StartButtons
+export default StartButtons;
