@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { useGeneralStore } from '@/stores/general'
 import { getAvailableWindows } from '@/helpers/windowsHelper';
-import WindowContainer from './Window/Window';
-import BootUp from '../Terminal/BootUp';
-import StartButtons from '../Global/StartButtons';
+import StartButtons from '@/components/Global/StartButtons';
+import BootUp from '@/components/Terminal/BootUp';
+import WindowContainer from '@/components/Desktop/Window/Window';
 
 type Props = { children: React.ReactNode };
 
@@ -17,11 +17,11 @@ function DesktopHandler({ children }: Props) {
                 <>
                     <div className='z-[99] fixed top-0 right-0'>
                         {getAvailableWindows(windows)?.map((fWindow, i) =>
-                            <WindowContainer title={fWindow.title}>
-                                <React.Fragment key={`${i}-${fWindow.title}`}>
+                            <React.Fragment key={`${i}-${fWindow.title}`}>
+                                <WindowContainer title={fWindow.title}>
                                     {fWindow.windowChildren}
-                                </React.Fragment>
-                            </WindowContainer>
+                                </WindowContainer>
+                            </React.Fragment>
                         )}
                     </div>
                     {children}

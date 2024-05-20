@@ -1,11 +1,15 @@
 import React from "react";
+/* For some reasons custom values w-[10px]... doesnt work / render so we are going to convert some classes to vanilla css */
+import { twj } from "tw-to-css";
 
-const commands: { command: string, outputs: React.ReactNode[] }[] = [
+// Commands that doesnt have any output or uses js actions
+export const additionalCommands = ["clear", "reload"]
+export const commands: { command: string, outputs: React.ReactNode[] }[] = [
     {
         command: 'help',
         outputs: [
             <div className="flex items-center w-full">
-                <div style={{ color: 'rgb(21 128 61 / var(--tw-text-opacity))', width: 114 }} className="pr-2">
+                <div style={twj('text-green-400 w-[114px]')} className="pr-2">
                     <div>help</div>
                     <div>about</div>
                     <div>projects</div>
@@ -49,10 +53,52 @@ const commands: { command: string, outputs: React.ReactNode[] }[] = [
     {
         command: 'projects',
         outputs: [
-            <div><a target="_blank" href="https://github.com/Cyclops789/walkincity-nextjs">WalkIncity <span style={{ color: 'rgb(21,128,61)' }}>{'>'}</span></a></div>,
-            <div><a target="_blank" href="https://github.com/Cyclops789/portfolio">Terminal portfolio <span style={{ color: 'rgb(21,128,61)' }}>{'>'}</span></a></div>,
-            <div>GreyWeb game dashboard <span style={{ color: 'rgb(185, 28, 28)' }}>{'>'}</span></div>,
-            <div><a target="_blank" href="https://github.com/Cyclops789/rumble-notifier">Rumble Notifier <span style={{ color: 'rgb(21,128,61)' }}>{'>'}</span></a></div>,
+            <div><a target="_blank" href="https://github.com/Cyclops789/walkincity-nextjs">WalkIncity <span style={twj('text-green-500')}>{'>'}</span></a></div>,
+            <div><a target="_blank" href="https://github.com/Cyclops789/portfolio">Terminal portfolio <span style={twj('text-green-500')}>{'>'}</span></a></div>,
+            <div>GreyWeb game dashboard <span style={twj('text-red-500')}>{'>'}</span></div>,
+            <div><a target="_blank" href="https://github.com/Cyclops789/rumble-notifier">Rumble Notifier <span style={twj('text-green-500')}>{'>'}</span></a></div>,
+        ]
+    },
+    {
+        command: "socials",
+        outputs: [
+            <pre></pre>
+        ]
+    },
+    {
+        command: "github",
+        outputs: [
+            <pre></pre>
+        ]
+    },
+    {
+        command: "email",
+        outputs: [
+            <pre></pre>
+        ]
+    },
+    {
+        command: "desktop",
+        outputs: [
+            <pre></pre>
+        ]
+    },
+    {
+        command: "info",
+        outputs: [
+            <pre></pre>
+        ]
+    },
+    {
+        command: "pwd",
+        outputs: [
+            <pre></pre>
+        ]
+    },
+    {
+        command: "ls",
+        outputs: [
+            <pre></pre>
         ]
     }
 ]

@@ -1,18 +1,22 @@
-import React from 'react';
+import tw from "tailwind-styled-components"
 
-type Props = { children: React.ReactNode; onClick: () => void, className?: string; }
+const Button = tw.button`
+    relative
+    bg-green-600 
+    border-green-600 
+    text-black
+    rounded-lg 
+    w-[100px]
+    h-[50px]
+    transition-all
+    duration-100
+    
+    shadow-green-700
+    shadow-[0px_6px_0]    
+    translate-y-[-6px]
 
-function Button({ children, onClick, className = '' }: Props) {
-    return (
-        <button 
-            onClick={onClick} 
-            className={`bg-green-600 hover:bg-green-500 text-black active:text-white ${className}`}
-        >
-            <div className="px-2 py-1 text-xl">
-                {children}
-            </div>
-        </button>
-    )
-}
+    active:shadow-[0px_0px_0]    
+    active:translate-y-[-0px]
+`;
 
 export default Button;

@@ -33,7 +33,7 @@ export const fWindows: IAvailableWindows[] = [
         title: 'terminal',
         windowChildren: <Terminal />,
         desktop: {
-            className:'h-[65px] w-[65px] mt-3',
+            className: 'h-[65px] w-[65px]',
             child: {
                 icon: faTerminal,
                 className: 'text-[40px]',

@@ -1,10 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useCommandsStore } from "@/stores/commands";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloud, faBolt } from '@fortawesome/free-solid-svg-icons';
+import { commands, additionalCommands } from '@/helpers/commandsHelper';
 
 function CommandInput() {
     const { addCommand, setCommandPlaceHolder, commandPlaceHolder, setCommands } = useCommandsStore();
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Tab' || event.keyCode === 9) {
+                event.preventDefault();
+                const allCommands = [...commands.map((command) => (command.command)), ...additionalCommands];
+
+                for (let i = 0; i < allCommands.length; i++) {
+                    const command = allCommands[i];
+                    if(command.substring(0, commandPlaceHolder?.length || 0) === commandPlaceHolder) {
+                        setCommandPlaceHolder(command);
+                        break;
+                    }
+                }
+            }
+        }
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [commandPlaceHolder])
 
     return (
         <>
@@ -15,7 +39,6 @@ function CommandInput() {
                 {' '}<input
                     onKeyUp={event => {
                         if (event.key === 'Enter' && commandPlaceHolder) {
-
                             switch (commandPlaceHolder) {
                                 case 'clear': {
                                     setCommands([]);
