@@ -1,6 +1,6 @@
 import React from 'react'
-import { AvailableWindows } from '@/stores/general';
-import { useGeneralStore } from '@/stores/general';
+import { AvailableWindows } from '@/stores/windows';
+import { useWindowsStore } from '@/stores/windows';
 import { useCommandsStore } from '@/stores/commands';
 import tw from 'tailwind-styled-components';
 
@@ -16,7 +16,7 @@ const Button = tw.button`
 type Props = { children: React.ReactNode, title: AvailableWindows, style?: React.CSSProperties | undefined };
 
 function DesktopIcon({ children, style, title }: Props) {
-    const { addWindow, removeWindow, windows } = useGeneralStore();
+    const { windows, toggleWindow } = useWindowsStore();
     const { setCommands } = useCommandsStore();
 
     return (
@@ -24,10 +24,10 @@ function DesktopIcon({ children, style, title }: Props) {
             <Button
                 {...{
                     onClick: () => {
-                        if (!windows.find(window => window === title)) {
-                            addWindow(title)
+                        if (!windows.some(window => window.window.open)) {
+                            toggleWindow(title, true);
                         } else {
-                            removeWindow(title)
+                            toggleWindow(title, false);
                             if (title === 'terminal') {
                                 setCommands([]);
                             }

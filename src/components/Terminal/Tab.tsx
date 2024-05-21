@@ -1,6 +1,6 @@
 import React from 'react'
-import { useGeneralStore } from '@/stores/general';
-import { AvailableWindows } from '@/stores/general';
+import { useWindowsStore } from '@/stores/windows';
+import { AvailableWindows } from '@/stores/windows';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { useCommandsStore } from '@/stores/commands';
@@ -8,7 +8,7 @@ import { useCommandsStore } from '@/stores/commands';
 type Props = { title: AvailableWindows };
 
 function Tab({ title }: Props) {
-    const { removeWindow } = useGeneralStore();
+    const { toggleWindow } = useWindowsStore();
     const { setCommands } = useCommandsStore();
 
     return (
@@ -19,7 +19,7 @@ function Tab({ title }: Props) {
             <div className='flex space-x-2 items-center mr-1'>
                 <button
                     onClick={() => {
-                        removeWindow(title);
+                        toggleWindow(title, false);
                         if(title === 'terminal') {
                             setCommands([]);
                         }

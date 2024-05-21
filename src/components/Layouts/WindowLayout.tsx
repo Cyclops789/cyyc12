@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+// import { type WindowSize } from '@/stores/windows';
 
-type Props = { children: React.ReactNode };
+type Props = { children: React.ReactNode};
 
 function WindowLayout({ children }: Props) {
+
     return (
-        <div className={'w-[80vw] h-[80vh]'}>
+        <div className='w-full h-[calc(100%-30px)]'>
             {children}
         </div>
     )

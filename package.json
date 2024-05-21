@@ -18,7 +18,7 @@
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",
-    "react-draggable": "^4.4.6",
+    "react-rnd": "^10.4.10",
     "styled-components": "^6.1.11",
     "tailwind-styled-components": "^2.2.0",
     "tw-to-css": "0.0.12",

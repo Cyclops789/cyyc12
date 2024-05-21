@@ -1,6 +1,5 @@
 import { create } from 'zustand'
 
-export type AvailableWindows = 'terminal' | 'portfolio' | 'projects' | 'socials';
 export type DesktopActions   = 'start' | 'restart' | 'stop' | null;
 export type DeskTopStatus    = 'started' | 'starting' | 'stopped' | 'stopping';
 
@@ -11,11 +10,7 @@ export interface IGeneralStore {
     openTerminal: boolean;
     terminalTexts: string[];
     dummyTerminalText: string[];
-    windows: AvailableWindows[];
 
-    setWindows: (windows: AvailableWindows[]) => void;
-    addWindow: (window: AvailableWindows) => void;
-    removeWindow: (window: AvailableWindows) => void;
     setDesktopAction: (desktopAction: DesktopActions) => void;
     setDesktopStatus: (desktopStatus: DeskTopStatus) => void;
     setShowBootUp: (showBootUp: boolean) => void;
@@ -24,9 +19,6 @@ export interface IGeneralStore {
     addTerminalText: (terminalText: string) => void;
 }
 
-const filterWindows = (windows: AvailableWindows[], windowToRemove: AvailableWindows): AvailableWindows[] => {
-    return windows.filter((fWindow) => fWindow.toLowerCase() !== windowToRemove.toLowerCase())
-}
 
 export const useGeneralStore = create<IGeneralStore>((set) => ({
     desktopStatus: 'stopped',
@@ -71,7 +63,6 @@ export const useGeneralStore = create<IGeneralStore>((set) => ({
         "Listening on Load/Save RF Kill Switch Status /dev/rfkill Watch. Starting Network Manager Script Dispatcher Service...",
         "Started Network Manager Script Dispatcher Service.",
     ],
-    windows: [],
 
     setDesktopAction: (desktopAction) => set(() => ({ desktopAction })),
     setDesktopStatus: (desktopStatus) => set(() => ({ desktopStatus })),
@@ -80,8 +71,4 @@ export const useGeneralStore = create<IGeneralStore>((set) => ({
     setOpenTerminal: (openTerminal) => set(() => ({ openTerminal })),
     setTerminalText: (terminalTexts) => set(() => ({ terminalTexts })),
     addTerminalText: (terminalText) => set(({ terminalTexts }) => ({ terminalTexts: [...terminalTexts as string[], terminalText] })),
-
-    setWindows: (windows) => set(() => ({ windows })),
-    addWindow: (window) => set(({ windows }) => ({ windows: [...windows as AvailableWindows[], window] })),
-    removeWindow: (window) => set(({ windows }) => ({ windows: filterWindows(windows, window) })),
 }));

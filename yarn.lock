@@ -2248,6 +2248,11 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
+re-resizable@6.9.14:
+  version "6.9.14"
+  resolved "https://registry.yarnpkg.com/re-resizable/-/re-resizable-6.9.14.tgz#b31e2bdef5e9068f295ca2ec2118d1e7b64449d9"
+  integrity sha512-2UbPrpezMr6gkHKNCRA/N6QGGU237SKOZ78yMHId204A/oXWSAREAIuGZNQ9qlrJosewzcsv2CphZH3u7hC6ng==
+
 react-dom@^18:
   version "18.3.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.3.1.tgz#c2265d79511b57d479b3dd3fdfa51536494c5cb4"
@@ -2256,7 +2261,7 @@ react-dom@^18:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
 
-react-draggable@^4.4.6:
+react-draggable@4.4.6:
   version "4.4.6"
   resolved "https://registry.yarnpkg.com/react-draggable/-/react-draggable-4.4.6.tgz#63343ee945770881ca1256a5b6fa5c9f5983fe1e"
   integrity sha512-LtY5Xw1zTPqHkVmtM3X8MUOxNDOUhv/khTgBgrUvwaS064bwVvxT+q5El0uUFNx5IEPKXuRejr7UqLwBIg5pdw==
@@ -2268,6 +2273,15 @@ react-is@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-rnd@^10.4.10:
+  version "10.4.10"
+  resolved "https://registry.yarnpkg.com/react-rnd/-/react-rnd-10.4.10.tgz#c2b01422bda66da4c9bbab4f0276bfe853b56237"
+  integrity sha512-YjQAgEeSbNUoOXSD9ZBvIiLVizFb+bNhpDk8DbIRHA557NW02CXbwsAeOTpJQnsdhEL+NP2I+Ssrwejqcodtjg==
+  dependencies:
+    re-resizable "6.9.14"
+    react-draggable "4.4.6"
+    tslib "2.6.2"
 
 react@^18:
   version "18.3.1"
