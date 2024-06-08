@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "VT323", monospace !important;
+  font-weight: 400;
+  font-style: normal !important;
+  background: black;
+  overflow: hidden;
+}
+
+.cursor {
+  display: inline-block;
+  font-family: monospace;
+  font-size: 16px;
+  border-right: 2px solid rgb(22 101 52 / var(--tw-text-opacity));
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: rgb(22 101 52 / var(--tw-text-opacity));
+  }
+}
