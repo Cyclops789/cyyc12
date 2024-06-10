@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import DesktopIcon from './DesktopIcon';
 import { useWindowsStore } from '@/stores/windows';
@@ -5,9 +6,28 @@ import tw from 'twin.macro';
 
 function Desktop() {
     const { windows } = useWindowsStore();
-
+    const desktopRef = useRef<HTMLDivElement>(null);
+    const { updateActiveWindow } = useWindowsStore();
+  
+    const handleActiveWindow = (event: MouseEvent) => {
+      if(event.target === desktopRef.current) {
+        updateActiveWindow(undefined)
+      }
+    };
+  
+    useEffect(() => {
+      if (desktopRef && desktopRef.current) {
+        desktopRef.current.addEventListener('mousedown', handleActiveWindow);
+      }
+  
+      return () => {
+        if (desktopRef && desktopRef.current) {
+          desktopRef.current && desktopRef.current.removeEventListener('mousedown', handleActiveWindow);
+        }
+      };
+    }, [desktopRef]);
     return (
-        <div css={tw`z-[9] fixed top-4 left-4 w-screen h-screen`}>
+        <div ref={desktopRef} css={tw`z-[9] fixed top-4 left-4 w-screen h-screen`}>
             <div css={tw`space-y-[35px]`}>
                 {windows.map((fWindow, index) => (
                     <DesktopIcon key={`${index}-${fWindow.window.name}`} title={fWindow.window.name} css={tw`${fWindow.desktop.className || ''}`}>

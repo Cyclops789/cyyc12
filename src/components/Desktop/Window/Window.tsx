@@ -12,13 +12,27 @@ import { useLocalStorage } from 'react-localstorage-helper';
 type Props = { children: React.ReactNode, window: IAvailableWindows };
 
 function Window({ children, window }: Props) {
-    const nodeRef = useRef(null);
-    const { updateWindowSize, updateWindowPos } = useWindowsStore();
+    const nodeRef = useRef<HTMLDivElement>(null);
+    const { updateWindowSize, updateWindowPos, updateActiveWindow, activeWindow } = useWindowsStore();
 
     const [initialWidth, saveInitialWidth] = useLocalStorage<string>(`${window.window.name}.size.width`, `${window.window.size?.width || 990}`);
     const [initialHeight, saveInitialHeight] = useLocalStorage<string>(`${window.window.name}.size.height`, `${window.window.size?.height || 990}`);
     const [initialXPos, saveInitialXPos] = useLocalStorage<string>(`${window.window.name}.pos.x`, `${window.window.pos?.x || 0}`);
     const [initialYPos, saveInitialYPos] = useLocalStorage<string>(`${window.window.name}.pos.y`, `${window.window.pos?.y || 0}`);
+
+    const handleActiveWindow = () => updateActiveWindow(window.window.name);
+
+    useEffect(() => {
+        if(nodeRef && nodeRef.current) {
+            nodeRef.current.addEventListener('mousedown', handleActiveWindow);
+        }
+
+        return () => {
+            if(nodeRef && nodeRef.current) {
+                nodeRef.current && nodeRef.current.removeEventListener('mousedown', handleActiveWindow);
+            }  
+        };
+    }, [nodeRef])
 
     return (
         <Rnd
@@ -29,7 +43,7 @@ function Window({ children, window }: Props) {
                 y: parseInt(initialYPos)
             }}
             onDragStop={(_e, d) => { 
-                updateWindowPos(window.window.name ,{ x: d.x, y: d.y })
+                updateWindowPos(window.window.name, { x: d.x, y: d.y })
 
                 if(d.y && d.y != 0) {
                     saveInitialYPos(`${d.y}`);
@@ -54,7 +68,11 @@ function Window({ children, window }: Props) {
                     saveInitialHeight(`${delta.height}`);
                 }
             }}
-            css={tw`z-[99]`}
+            minWidth={130}
+            minHeight={130}
+            css={[
+                activeWindow === window.window.name ? tw`z-[99]` : tw`z-[98]`
+            ]}
             dragHandleClassName={'handler'}
         >
             <div
