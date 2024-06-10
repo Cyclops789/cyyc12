@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useGeneralStore } from '@/stores/general'
 import StartButtons from '@/components/Global/StartButtons';
 import BootUp from '@/components/Terminal/BootUp';
 import WindowContainer from '@/components/Desktop/Window/Window';
 import { useWindowsStore } from '@/stores/windows';
+import UserSelectionHandler from '@/components/Desktop/UserSelectionHandler';
 import tw from 'twin.macro';
 
 type Props = { children: React.ReactNode };
@@ -15,7 +16,7 @@ function DesktopHandler({ children }: Props) {
     switch (desktopStatus) {
         case 'started':
             return (
-                <>
+                <UserSelectionHandler>
                     <div css={tw`z-[99]`}>
                         {windows?.map((fWindow, i) =>
                             fWindow.window.open && (
@@ -27,7 +28,7 @@ function DesktopHandler({ children }: Props) {
                         )}
                     </div>
                     {children}
-                </>
+                </UserSelectionHandler>
             )
 
         case 'starting':
