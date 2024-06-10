@@ -1890,6 +1890,11 @@ lodash.merge@^4.6.2:
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+  integrity sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==
+
 lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
@@ -2235,6 +2240,13 @@ react-localstorage-helper@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/react-localstorage-helper/-/react-localstorage-helper-0.1.0.tgz#7d63bf34efded4d63fa83aaac1138133e88e3a0c"
   integrity sha512-X+n9QG1p0u0aSkzA3sXPytIktYWZB9FCuc+JN5vUu5jNw885VUA7b5sWidiFOaFTnl7VJOZiRd40B+CVFZC6bA==
+
+react-mouse-select@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-mouse-select/-/react-mouse-select-1.1.2.tgz#3a333d5239147bd138b62b8a66fd36212631522b"
+  integrity sha512-9NoCEFF6rJPWlr5OX7xNsgc1W/Ii14ZAJ0CtdM0igA0iPCmY4gCbro8F5KiK/O0MRp3dhUlOtdprlSjCr3fUcA==
+  dependencies:
+    lodash.throttle "^4.1.1"
 
 react-refresh@^0.14.2:
   version "0.14.2"
