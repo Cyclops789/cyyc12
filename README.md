@@ -1,7 +1,7 @@
 # TODO: 
 MouseSelectionEvent:
-~~- Fix: switch between directions~~
-~~- Fix: dont fire the selection when the user is pressing on a window (**X1**)~~
+- ~~Fix: switch between directions~~
+- ~~Fix: dont fire the selection when the user is pressing on a window (**X1**)~~
 - Add: desktop icons selection
 
 Windows:
@@ -9,8 +9,8 @@ Windows:
 - Add: minimize button
 - Add: motion effect when minimizing / closing a window
 - Fix: windows size when you reopen them
-~~- Fix: z-index (update when clicking on a window, probably using **X1**)~~
-~~- Fix: limit width resizing when it reaches the tab text~~
+- ~~Fix: z-index (update when clicking on a window, probably using **X1**)~~
+- ~~Fix: limit width resizing when it reaches the tab text~~
 
 Desktop:
 - Add: buttom bar
@@ -20,4 +20,4 @@ Desktop Icons:
 - Add: OnHover display a background (with low opacity) and a border
 
 References:
-X1: add / use active windows state
+- X1: add / use active windows state
