@@ -8,6 +8,7 @@ Windows:
 - Add: full screen button
 - Add: minimize button
 - Add: motion effect when minimizing / closing a window
+- Fix: windows size when you reopen them
 ~~- Fix: z-index (update when clicking on a window, probably using **X1**)~~
 ~~- Fix: limit width resizing when it reaches the tab text~~
 
