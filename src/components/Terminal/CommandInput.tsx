@@ -3,7 +3,11 @@ import { useCommandsStore } from "@/stores/commands";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloud, faBolt } from '@fortawesome/free-solid-svg-icons';
 import { commands, additionalCommands } from '@/helpers/commandsHelper';
-import tw from 'twin.macro';
+import tw, { styled } from 'twin.macro';
+
+const Input = styled.input`
+    ${tw`bg-transparent (outline-none focus:outline-none)! focus:ring-0 text-white`}
+`;
 
 function CommandInput() {
     const { addCommand, setCommandPlaceHolder, commandPlaceHolder, setCommands } = useCommandsStore();
@@ -34,10 +38,10 @@ function CommandInput() {
     return (
         <>
             <div css={tw`text-green-400`}>
-                <FontAwesomeIcon className={'text-blue-500 w-4'} icon={faCloud} />
+                <FontAwesomeIcon css={tw`text-blue-500 w-4`} icon={faCloud} />
                 <span css={tw`text-orange-400`}> hamza</span>
-                <span css={tw`text-white`}>@</span>debian.cyyc.lol <FontAwesomeIcon className={'text-orange-400 w-4'} icon={faBolt} />
-                {' '}<input
+                <span css={tw`text-white`}>@</span>debian.cyyc.lol <FontAwesomeIcon css={tw`text-orange-400 w-4`} icon={faBolt} />
+                {' '}<Input
                     onKeyUp={event => {
                         if (event.key === 'Enter' && commandPlaceHolder) {
                             switch (commandPlaceHolder) {
@@ -62,7 +66,6 @@ function CommandInput() {
                     type="text"
                     name="terminal"
                     id="terminal"
-                    css={tw`bg-transparent focus:outline-none focus:ring-0 text-white`}
                 />
             </div>
         </>

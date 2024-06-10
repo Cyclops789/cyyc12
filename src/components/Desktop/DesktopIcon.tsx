@@ -22,7 +22,7 @@ const Button = styled.button`
 type Props = { children: React.ReactNode, title: AvailableWindows, css?: CSSProp | undefined };
 
 function DesktopIcon({ children, css, title }: Props) {
-    const { windows, toggleWindow } = useWindowsStore();
+    const { toggleWindow } = useWindowsStore();
     const { setCommands } = useCommandsStore();
 
     return (
@@ -30,13 +30,9 @@ function DesktopIcon({ children, css, title }: Props) {
             <Button
                 {...{
                     onClick: () => {
-                        if (!windows.some(window => window.window.open)) {
-                            toggleWindow(title, true);
-                        } else {
-                            toggleWindow(title, false);
-                            if (title === 'terminal') {
-                                setCommands([]);
-                            }
+                        toggleWindow(title, true);
+                        if (title === 'terminal') {
+                            setCommands([]);
                         }
                     },
                     css

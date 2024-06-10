@@ -1,33 +1,29 @@
-import 'twin.macro'
-import styledImport, { CSSProp, css as cssImport } from 'styled-components'
-
-declare module 'twin.macro' {
-  // The styled and css imports
-  const styled: typeof styledImport
-  const css: typeof cssImport
-}
+import { ComponentType, ReactElement } from 'react';
+// eslint-disable-next-line no-restricted-imports
+import styledImport, { css as cssImport, CSSProp, StyledComponentProps } from 'styled-components';
 
 declare module 'react' {
-  // The css prop
-  interface HTMLAttributes<T> extends DOMAttributes<T> {
-    css?: CSSProp
-    tw?: string
-  }
-  interface Element {
-    key?: string
-  }
-  // The inline svg css prop
-  interface SVGProps<T> extends SVGProps<SVGSVGElement> {
-    css?: CSSProp
-    tw?: string
+  interface Attributes {
+    css?: CSSProp;
   }
 }
 
-// The 'as' prop on styled components
-declare global {
-  namespace JSX {
-    interface IntrinsicAttributes<T> extends DOMAttributes<T> {
-      as?: string | Element
-    }
+declare module 'styled-components' {
+  interface StyledComponentBase<
+    C extends string | ComponentType<any>,
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    T extends object,
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    O extends object = {},
+    A extends keyof any = never,
+  > extends ForwardRefExoticBase<StyledComponentProps<C, T, O, A>> {
+    (
+      props: StyledComponentProps<C, T, O, A> & { as?: Element | string; forwardedAs?: never | undefined },
+    ): ReactElement<StyledComponentProps<C, T, O, A>>;
   }
+}
+
+declare module 'twin.macro' {
+  const css: typeof cssImport;
+  const styled: typeof styledImport;
 }

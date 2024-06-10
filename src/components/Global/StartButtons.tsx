@@ -12,7 +12,7 @@ function StartButtons() {
             <div css={tw`flex justify-center items-center space-x-3`}>
                 <Button onClick={() => setDesktopStatus('starting')}>
                     <div css={tw`flex justify-center items-center`}>
-                        <FontAwesomeIcon className={'w-[20px]'} icon={faPowerOff} />
+                        <FontAwesomeIcon css={tw`w-[20px]`} icon={faPowerOff} />
                     </div>
                 </Button>
             </div>

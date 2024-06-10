@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRef } from 'react';
 import Tab from '@/components/Terminal/Tab';
 // import { AvailableWindows, WindowSize } from '@/stores/windows';
@@ -7,6 +7,7 @@ import WindowLayout from '@/components/Layouts/WindowLayout';
 import { Rnd } from 'react-rnd';
 import { IAvailableWindows } from '@/stores/windows';
 import tw from 'twin.macro';
+import { useLocalStorage } from 'react-localstorage-helper';
 
 type Props = { children: React.ReactNode, window: IAvailableWindows };
 
@@ -14,21 +15,44 @@ function Window({ children, window }: Props) {
     const nodeRef = useRef(null);
     const { updateWindowSize, updateWindowPos } = useWindowsStore();
 
+    const [initialWidth, saveInitialWidth] = useLocalStorage<string>(`${window.window.name}.size.width`, `${window.window.size?.width || 990}`);
+    const [initialHeight, saveInitialHeight] = useLocalStorage<string>(`${window.window.name}.size.height`, `${window.window.size?.height || 990}`);
+    const [initialXPos, saveInitialXPos] = useLocalStorage<string>(`${window.window.name}.pos.x`, `${window.window.pos?.x || 0}`);
+    const [initialYPos, saveInitialYPos] = useLocalStorage<string>(`${window.window.name}.pos.y`, `${window.window.pos?.y || 0}`);
+
     return (
         <Rnd
             default={{ 
-                width: window.window.size?.width || 990, 
-                height: window.window.size?.height || 490, 
-                x: window.window.pos?.x || 0, 
-                y: window.window.pos?.y || 0 
+                width: initialWidth, 
+                height: initialHeight, 
+                x: parseInt(initialXPos), 
+                y: parseInt(initialYPos)
             }}
-            position={{ x: window.window.pos?.x || 0, y: window.window.pos?.y || 0 }}
-            onDragStop={(_e, d) => { updateWindowPos(window.window.name ,{ x: d.x, y: d.y }) }}
+            onDragStop={(_e, d) => { 
+                updateWindowPos(window.window.name ,{ x: d.x, y: d.y })
+
+                if(d.y && d.y != 0) {
+                    saveInitialYPos(`${d.y}`);
+                }
+
+                if(d.x && d.x != 0) {
+                    saveInitialXPos(`${d.x}`);
+                }
+            }}
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             onResizeStop={(_e, _direction, _ref, delta, _position) => {
                 updateWindowSize(window.window.name, {
                     width: delta.width,
                     height: delta.height
                 });
+
+                if(delta.width && delta.width != 0) {
+                    saveInitialWidth(`${delta.width}`);
+                }
+
+                if(delta.height && delta.height != 0) {
+                    saveInitialHeight(`${delta.height}`);
+                }
             }}
             css={tw`z-[99]`}
             dragHandleClassName={'handler'}
@@ -37,7 +61,7 @@ function Window({ children, window }: Props) {
                 ref={nodeRef}
                 css={tw`border-2 border-red-600 rounded-lg cursor-none h-full`}
             >
-                <Tab {...{ title: window.window.name }} />
+                <Tab {...{ window }} />
                 <WindowLayout>
                     {children}
                 </WindowLayout>

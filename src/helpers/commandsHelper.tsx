@@ -1,4 +1,16 @@
 import React from "react";
+import tw, { styled } from "twin.macro";
+
+const HelpContainer = styled.div`
+    ${tw`flex items-center w-full`}
+
+    & .help-menu{
+        ${tw`text-green-400 w-[114px] pr-2`}
+    }
+`;
+
+const GreenSpan = tw.span`text-green-500`;
+const RedSpan = tw.span`text-red-500`;
 
 // Commands that doesnt have any output or uses js actions
 export const additionalCommands = ["clear", "reload"]
@@ -6,8 +18,8 @@ export const commands: { command: string, outputs: React.ReactNode[] }[] = [
     {
         command: 'help',
         outputs: [
-            <div className="flex items-center w-full">
-                <div css={'text-green-400 w-[114px]'} className="pr-2">
+            <HelpContainer>
+                <div className={"help-menu"}>
                     <div>help</div>
                     <div>about</div>
                     <div>projects</div>
@@ -38,7 +50,7 @@ export const commands: { command: string, outputs: React.ReactNode[] }[] = [
                     <div> - display the current working directory</div>
                     <div> - display the current files and folders in this directory</div>
                 </div>
-            </div>
+            </HelpContainer>
         ]
     },
     {
@@ -51,10 +63,10 @@ export const commands: { command: string, outputs: React.ReactNode[] }[] = [
     {
         command: 'projects',
         outputs: [
-            <div><a target="_blank" href="https://github.com/Cyclops789/walkincity-nextjs">WalkIncity <span css={'text-green-500'}>{'>'}</span></a></div>,
-            <div><a target="_blank" href="https://github.com/Cyclops789/portfolio">Terminal portfolio <span css={'text-green-500'}>{'>'}</span></a></div>,
-            <div>GreyWeb game dashboard <span css={'text-red-500'}>{'>'}</span></div>,
-            <div><a target="_blank" href="https://github.com/Cyclops789/rumble-notifier">Rumble Notifier <span css={'text-green-500'}>{'>'}</span></a></div>,
+            <div><a target="_blank" href="https://github.com/Cyclops789/walkincity-nextjs">WalkIncity <GreenSpan>{'>'}</GreenSpan></a></div>,
+            <div><a target="_blank" href="https://github.com/Cyclops789/portfolio">Terminal portfolio <GreenSpan>{'>'}</GreenSpan></a></div>,
+            <div>GreyWeb game dashboard <RedSpan>{'>'}</RedSpan></div>,
+            <div><a target="_blank" href="https://github.com/Cyclops789/rumble-notifier">Rumble Notifier <GreenSpan>{'>'}</GreenSpan></a></div>,
         ]
     },
     {

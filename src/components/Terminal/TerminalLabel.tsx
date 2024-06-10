@@ -1,11 +1,12 @@
 import React from 'react'
+import tw from 'twin.macro';
 
-type Props = { children: React.ReactNode; className: string; }
+type Props = { children: React.ReactNode }
 
-function TerminalLabel({ children, className }: Props) {
+function TerminalLabel({ children }: Props) {
     return (
         <label htmlFor="terminal">
-            <div className={className}>
+            <div css={tw`bg-[rgb(21,29,36)] w-full h-full cursor-text overflow-hidden rounded-b-lg`}>
                 {children}
             </div>
         </label>

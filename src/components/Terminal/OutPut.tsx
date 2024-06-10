@@ -1,3 +1,4 @@
+import React from 'react';
 import { useCommandsStore } from '@/stores/commands';
 import { getCommandOutputs } from '@/helpers/commandsHelper';
 import LineBreak from '@/components/Terminal/LineBreak';
@@ -7,14 +8,14 @@ function OutPuts() {
     const { commands } = useCommandsStore();
     
     return (
-        <div className='text-white'>
+        <div css={tw`text-white`}>
             {commands?.map((command, i) => 
-                <>
-                    <LineBreak key={`${command}-${i}`} command={command} />  
+                <React.Fragment key={`${command}-${i}`}>
+                    <LineBreak command={command} />  
                     <div css={tw`mt-2`}>
                         {getCommandOutputs(command)?.map(child => child)}
                     </div>
-                </> 
+                </React.Fragment> 
             )}
         </div>
     )

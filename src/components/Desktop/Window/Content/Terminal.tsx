@@ -5,7 +5,7 @@ import tw from 'twin.macro';
 
 function Terminal() {
     return (
-        <TerminalLabel className="bg-[rgb(21,29,36)] w-full h-full cursor-text overflow-hidden rounded-b-lg">
+        <TerminalLabel>
             <div css={tw`p-2`}>
                 <OutPuts />
                 <CommandInput />
