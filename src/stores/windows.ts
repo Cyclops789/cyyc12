@@ -23,7 +23,9 @@ export interface IAvailableWindows {
 
 export interface IGeneralStore {
     windows: IAvailableWindows[];
+    activeWindow: AvailableWindows | undefined;
 
+    updateActiveWindow: (activeWindow: AvailableWindows | undefined) => void;
     updateWindowSize: (windowName: AvailableWindows, size: WindowSize) => void;
     updateWindowPos: (windowName: AvailableWindows, pos: WindowPos) => void;
     toggleWindow: (windowName: AvailableWindows, action: boolean) => void;
@@ -60,7 +62,9 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
             }
         },
     ],
+    activeWindow: undefined,
 
+    updateActiveWindow: (activeWindow) => set(() => ({ activeWindow })),
     updateWindowSize: (windowName, data) => set((state) => {
         const index = state.windows.findIndex((window) => window.window.name === windowName);
         if (index !== -1) {
