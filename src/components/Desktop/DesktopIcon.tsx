@@ -7,9 +7,7 @@ import { CSSProp } from 'styled-components';
 
 const Button = styled.button`
     ${tw`w-[60px] h-[60px] rounded-lg`} 
-
     background: repeating-linear-gradient(to top, #400605 0%, #CF1512 128%);
-  
   
     &:active:hover {
       background: repeating-linear-gradient(to top, #310504 0%, #970F0D 128%);
@@ -19,7 +17,7 @@ const Button = styled.button`
 const IconContainer = styled.div`
     ${tw`w-[80px] border border-transparent`}
 
-    &:hover {
+    &:not(.selected):hover {
         border-radius: 5px;
         border-width: 1px;
         border-color: #DC2626; 
