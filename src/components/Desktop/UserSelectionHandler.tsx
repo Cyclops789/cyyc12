@@ -1,19 +1,23 @@
-import React, { useRef } from 'react';
+import React, { useEffect, type RefObject } from 'react';
 import { useWindowsStore } from '@/stores/windows';
 import { ReactMouseSelect } from 'react-mouse-select';
 import './UserSelectionHandler.css'
-type Props = { children: React.ReactNode };
+type Props = { children: React.ReactNode, selectAbleContainerRef: RefObject<HTMLDivElement> };
 
-function UserSelectionHandler({ children }: Props) {
-    const containerRef = useRef<HTMLElement>(null);
+function UserSelectionHandler({ children, selectAbleContainerRef }: Props) {
     const { activeWindow } = useWindowsStore();
+
+    useEffect(() => {
+        console.log('activeWindow', activeWindow)
+    }, [activeWindow])
 
     return (
         <>
             {(activeWindow === undefined) && 
                 <ReactMouseSelect
-                    containerRef={containerRef}
+                    containerRef={selectAbleContainerRef}
                     frameClassName={`UserSelectionHandler`}
+                    itemClassName={`UserSelectionItem`}
                 />
             }
             {children}

@@ -6,44 +6,52 @@ import tw, { styled } from 'twin.macro';
 import { CSSProp } from 'styled-components';
 
 const Button = styled.button`
-    ${tw`w-full h-full rounded-lg`} 
+    ${tw`w-[60px] h-[60px] rounded-lg`} 
 
     background: repeating-linear-gradient(to top, #400605 0%, #CF1512 128%);
   
-    &:hover {
-      background: repeating-linear-gradient(to top, #310504 0%, #970F0D 128%);
-    }
   
     &:active:hover {
       background: repeating-linear-gradient(to top, #310504 0%, #970F0D 128%);
     }
-`
+`;
 
-type Props = { children: React.ReactNode, title: AvailableWindows, css?: CSSProp | undefined };
+const IconContainer = styled.div`
+    ${tw`w-[80px] border border-transparent`}
 
-function DesktopIcon({ children, css, title }: Props) {
+    &:hover {
+        border-radius: 5px;
+        border-width: 1px;
+        border-color: #DC2626; 
+        background-color: #dc26261e;
+    }
+`;
+
+type Props = { children: React.ReactNode, title: AvailableWindows, css?: CSSProp | undefined, className?: string };
+
+function DesktopIcon({ children, css, title, className }: Props) {
     const { toggleWindow } = useWindowsStore();
     const { setCommands } = useCommandsStore();
 
     return (
-        <div css={tw`w-[65px] h-[65px]`}>
-            <Button
-                {...{
-                    onClick: () => {
-                        toggleWindow(title, true);
-                        if (title === 'terminal') {
-                            setCommands([]);
-                        }
-                    },
-                    css
-                }}
-            >
-                <div css={tw`p-2`}>
+        <IconContainer draggable className={`${className ?? ''} UserSelectionItem`}>
+            <div css={tw`p-2`}>
+                <Button
+                    {...{
+                        onClick: () => {
+                            toggleWindow(title, true);
+                            if (title === 'terminal') {
+                                setCommands([]);
+                            }
+                        },
+                        css
+                    }}
+                >
                     {children}
-                </div>
-            </Button>
-            <div css={tw`text-center capitalize text-white text-xs mt-1`}>{title}</div>
-        </div>
+                </Button>
+                <div css={tw`text-center capitalize text-white text-xs mt-3`}>{title}</div>
+            </div>
+        </IconContainer>
     )
 }
 

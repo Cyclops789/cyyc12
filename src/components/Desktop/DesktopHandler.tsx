@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type RefObject } from 'react'
 import { useGeneralStore } from '@/stores/general'
 import StartButtons from '@/components/Global/StartButtons';
 import BootUp from '@/components/Terminal/BootUp';
@@ -7,16 +7,16 @@ import { useWindowsStore } from '@/stores/windows';
 import UserSelectionHandler from '@/components/Desktop/UserSelectionHandler';
 import tw from 'twin.macro';
 
-type Props = { children: React.ReactNode };
+type Props = { children: React.ReactNode, selectAbleContainerRef: RefObject<HTMLDivElement> };
 
-function DesktopHandler({ children }: Props) {
+function DesktopHandler({ children, selectAbleContainerRef }: Props) {
     const { desktopStatus } = useGeneralStore();
     const { windows } = useWindowsStore();
 
     switch (desktopStatus) {
         case 'started':
             return (
-                <UserSelectionHandler>
+                <UserSelectionHandler {...{ selectAbleContainerRef }}>
                     <div css={tw`z-[99]`}>
                         {windows?.map((fWindow, i) =>
                             fWindow.window.open && (

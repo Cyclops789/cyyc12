@@ -7,7 +7,7 @@ import tw from 'twin.macro';
 type Props = { window: IAvailableWindows };
 
 function Tab({ window }: Props) {
-    const { toggleWindow } = useWindowsStore();
+    const { toggleWindow, updateActiveWindow } = useWindowsStore();
     const { setCommands } = useCommandsStore();
 
     return (
@@ -19,6 +19,7 @@ function Tab({ window }: Props) {
                 <button
                     onClick={() => {
                         toggleWindow(window.window.name, false);
+                        updateActiveWindow(undefined);
                         if(window.window.name === 'terminal') {
                             setCommands([]);
                         }

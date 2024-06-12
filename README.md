@@ -2,7 +2,7 @@
 MouseSelectionEvent:
 - ~~Fix: switch between directions~~
 - ~~Fix: dont fire the selection when the user is pressing on a window (**X1**)~~
-- Add: desktop icons selection
+- ~~Add: desktop icons selection~~
 
 Windows:
 - Add: full screen button
@@ -14,10 +14,10 @@ Windows:
 
 Desktop:
 - Add: buttom bar
-- Add: active windwos / opened windows (Using **X1**)
+- ~~Add: active windwos / opened windows (Using **X1**)~~
 
 Desktop Icons:
-- Add: OnHover display a background (with low opacity) and a border
+- ~~Add: OnHover display a background (with low opacity) and a border~~
 
 References:
-- X1: add / use active windows state
+- ~~X1: add / use active windows state~~
