@@ -23,5 +23,8 @@ Desktop:
 Desktop Icons:
 - ~~Add: OnHover display a background (with low opacity) and a border~~
 
+Terminal:
+- Add: fastfetch
+
 References:
 - ~~X1: add / use active windows state~~
