@@ -5,18 +5,16 @@ import { faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import tw from 'twin.macro';
 
 function StartButtons() {
-    const { desktopStatus, setDesktopStatus } = useGeneralStore();
+    const { setDesktopStatus } = useGeneralStore();
 
     return (
-        desktopStatus === 'stopped' && (
-            <div css={tw`flex justify-center items-center space-x-3`}>
-                <Button onClick={() => setDesktopStatus('starting')}>
-                    <div css={tw`flex justify-center items-center`}>
-                        <FontAwesomeIcon css={tw`w-[20px]`} icon={faPowerOff} />
-                    </div>
-                </Button>
-            </div>
-        )
+        <div css={tw`flex justify-center items-center space-x-3`}>
+            <Button onClick={() => setDesktopStatus('starting')}>
+                <div css={tw`flex justify-center items-center`}>
+                    <FontAwesomeIcon css={tw`w-[20px]`} icon={faPowerOff} />
+                </div>
+            </Button>
+        </div>
     )
 }
 

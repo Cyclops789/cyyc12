@@ -11,11 +11,7 @@ function Desktop({ selectAbleContainerRef }: Props) {
     const desktopRef = useRef<HTMLDivElement>(null);
     const { updateActiveWindow } = useWindowsStore();
   
-    const handleActiveWindow = (event: MouseEvent) => {
-      if(event.target) {
-        updateActiveWindow(undefined)
-      }
-    };
+    const handleActiveWindow = (event: MouseEvent) => updateActiveWindow(undefined);
   
     useEffect(() => {
       if (desktopRef && desktopRef.current) {

@@ -1,4 +1,4 @@
-import React, { useEffect, type RefObject } from 'react';
+import React, { type RefObject } from 'react';
 import { useWindowsStore } from '@/stores/windows';
 import { ReactMouseSelect } from 'react-mouse-select';
 import './UserSelectionHandler.css'
@@ -6,10 +6,6 @@ type Props = { children: React.ReactNode, selectAbleContainerRef: RefObject<HTML
 
 function UserSelectionHandler({ children, selectAbleContainerRef }: Props) {
     const { activeWindow } = useWindowsStore();
-
-    useEffect(() => {
-        console.log('activeWindow', activeWindow)
-    }, [activeWindow])
 
     return (
         <>

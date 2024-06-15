@@ -7,7 +7,7 @@ import { faTerminal, faDiagramProject } from '@fortawesome/free-solid-svg-icons'
 export type AvailableWindows = 'terminal' | 'portfolio' | 'projects' | 'socials';
 export type WindowSize = { width: number, height: number };
 export type WindowPos = { x: number, y: number };
-export type WindowContainer = { name: AvailableWindows, size?: WindowSize, pos?: WindowPos, open: boolean };
+export type WindowContainer = { name: AvailableWindows, size?: WindowSize, pos?: WindowPos, open: boolean, minimize: boolean };
 
 export interface IAvailableWindows {
     window: WindowContainer,
@@ -29,6 +29,7 @@ export interface IGeneralStore {
     updateWindowSize: (windowName: AvailableWindows, size: WindowSize) => void;
     updateWindowPos: (windowName: AvailableWindows, pos: WindowPos) => void;
     toggleWindow: (windowName: AvailableWindows, action: boolean) => void;
+    toggleWindowResize: (windowName: AvailableWindows, action: boolean) => void;
 }
 
 export const useWindowsStore = create<IGeneralStore>((set) => ({
@@ -37,6 +38,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
             window: {
                 name: 'projects',
                 open: false,
+                minimize: false,
             },
             windowChildren: Projects,
             desktop: {
@@ -51,6 +53,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
             window: {
                 name: 'terminal',
                 open: false,
+                minimize: false,
             },
             windowChildren: Terminal,
             desktop: {
@@ -99,6 +102,20 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
           const updatedWindows = [
             ...state.windows.slice(0, index),
             { ...state.windows[index], window: {...state.windows[index].window, open: action } },
+            ...state.windows.slice(index + 1),
+          ];
+    
+          return { windows: updatedWindows };
+        }
+
+        return state;
+    }),
+    toggleWindowResize: (windowName, action) => set((state) => {
+        const index = state.windows.findIndex((window) => window.window.name === windowName);
+        if (index !== -1) {
+          const updatedWindows = [
+            ...state.windows.slice(0, index),
+            { ...state.windows[index], window: {...state.windows[index].window, minimize: action } },
             ...state.windows.slice(index + 1),
           ];
     

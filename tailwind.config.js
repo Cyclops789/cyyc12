@@ -2,7 +2,11 @@
 export default {
   content: [],
   theme: {
-    extend: {},
+    extend: {
+      scale: {
+        '95': '0.95',
+      }
+    },
   },
   plugins: [],
 }

@@ -6,8 +6,8 @@ MouseSelectionEvent:
 
 Windows:
 - Add: full screen button
-- Add: minimize button
-- Add: motion effect when minimizing / closing a window
+- ~~Add: minimize button~~
+- ~~Add: motion effect when minimizing / closing a window~~
 - Fix: windows size when you reopen them
 - ~~Fix: z-index (update when clicking on a window, probably using **X1**)~~
 - ~~Fix: limit width resizing when it reaches the tab text~~
@@ -15,6 +15,8 @@ Windows:
 Desktop:
 - Add: buttom bar
 - ~~Add: active windwos / opened windows (Using **X1**)~~
+- Fix: do not fire MouseSelectionEvent over a DesktopIcon
+- Fix: DesktopHandler should use full screen size
 
 Desktop Icons:
 - ~~Add: OnHover display a background (with low opacity) and a border~~

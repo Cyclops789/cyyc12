@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRef } from 'react';
 import Tab from '@/components/Terminal/Tab';
 // import { AvailableWindows, WindowSize } from '@/stores/windows';
@@ -13,6 +13,9 @@ type Props = { children: React.ReactNode, window: IAvailableWindows };
 
 function Window({ children, window }: Props) {
     const nodeRef = useRef<HTMLDivElement>(null);
+    const [closeOpacity, setCloseOpacity] = useState(false);
+    const [minimizeAnimation, toggleMinimizeAnimation] = useState<boolean>();
+
     const { updateWindowSize, updateWindowPos, updateActiveWindow, activeWindow } = useWindowsStore();
 
     const [initialWidth, saveInitialWidth] = useLocalStorage<string>(`${window.window.name}.size.width`, `${window.window.size?.width || 990}`);
@@ -77,9 +80,14 @@ function Window({ children, window }: Props) {
         >
             <div
                 ref={nodeRef}
-                css={tw`border-2 border-red-600 rounded-lg cursor-none h-full`}
+                css={[
+                    tw`border-2 border-red-600 rounded-lg cursor-none h-full transform-gpu transition-opacity duration-[150ms] ease-out`,
+                    closeOpacity && tw`opacity-0 scale-95`,
+                    minimizeAnimation && tw`opacity-0 scale-95`,
+                    (minimizeAnimation === false) && tw`opacity-100 scale-100`,
+                ]}
             >
-                <Tab {...{ window }} />
+                <Tab {...{ window, setCloseOpacity, toggleMinimizeAnimation }} />
                 <WindowLayout>
                     {children}
                 </WindowLayout>
