@@ -14,6 +14,7 @@ Windows:
 
 Desktop:
 - ~~Add: task bar~~
+- Add: start menu
 - Fix: add scale animation when you close / minimize window though TaskBar
 - ~~Add: active windwos / opened windows (Using **X1**)~~
 - Fix: do not fire MouseSelectionEvent over a DesktopIcon
