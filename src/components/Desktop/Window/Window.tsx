@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRef } from 'react';
-import Tab from '@/components/Terminal/Tab';
+import Tab from '@/components/Desktop/Window/Tab';
 // import { AvailableWindows, WindowSize } from '@/stores/windows';
 import { useWindowsStore } from '@/stores/windows';
 import WindowLayout from '@/components/Layouts/WindowLayout';
@@ -71,7 +71,7 @@ function Window({ children, window }: Props) {
                     saveInitialHeight(`${delta.height}`);
                 }
             }}
-            minWidth={130}
+            minWidth={208}
             minHeight={130}
             css={[
                 activeWindow === window.window.name ? tw`z-[99]` : tw`z-[98]`

@@ -12,7 +12,7 @@ type Props = {
 };
 
 function Tab({ window, setCloseOpacity, toggleMinimizeAnimation }: Props) {
-    const { toggleWindow, updateActiveWindow, toggleWindowResize } = useWindowsStore();
+    const { toggleWindow, updateActiveWindow, toggleWindowMinimize, } = useWindowsStore();
     const { setCommands } = useCommandsStore();
 
     return (
@@ -25,8 +25,9 @@ function Tab({ window, setCloseOpacity, toggleMinimizeAnimation }: Props) {
                     onClick={() => {
                         setCloseOpacity(true);
                         setTimeout(() => {
-                            toggleWindowResize(window.window.name, false);
+                            toggleWindowMinimize(window.window.name, true);
                             toggleMinimizeAnimation(true);
+                            updateActiveWindow(undefined);
                         }, 200);
                     }}
                     css={tw`bg-white w-[20px] h-[20px] rounded-full flex justify-center items-center`}

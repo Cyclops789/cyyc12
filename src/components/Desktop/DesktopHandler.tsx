@@ -19,7 +19,7 @@ function DesktopHandler({ children, selectAbleContainerRef }: Props) {
                 <UserSelectionHandler {...{ selectAbleContainerRef }}>
                     <div css={tw`z-[99]`}>
                         {windows?.map((fWindow, i) =>
-                            fWindow.window.open && (
+                            (fWindow.window.open && !fWindow.window.minimize) && (
                                 <React.Fragment key={`${i}-${fWindow.window.name}`}>
                                     <WindowContainer window={fWindow}>
                                         <fWindow.windowChildren />

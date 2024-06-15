@@ -29,7 +29,7 @@ export interface IGeneralStore {
     updateWindowSize: (windowName: AvailableWindows, size: WindowSize) => void;
     updateWindowPos: (windowName: AvailableWindows, pos: WindowPos) => void;
     toggleWindow: (windowName: AvailableWindows, action: boolean) => void;
-    toggleWindowResize: (windowName: AvailableWindows, action: boolean) => void;
+    toggleWindowMinimize: (windowName: AvailableWindows, action: boolean) => void;
 }
 
 export const useWindowsStore = create<IGeneralStore>((set) => ({
@@ -110,7 +110,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
 
         return state;
     }),
-    toggleWindowResize: (windowName, action) => set((state) => {
+    toggleWindowMinimize: (windowName, action) => set((state) => {
         const index = state.windows.findIndex((window) => window.window.name === windowName);
         if (index !== -1) {
           const updatedWindows = [

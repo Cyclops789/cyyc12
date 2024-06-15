@@ -13,7 +13,8 @@ Windows:
 - ~~Fix: limit width resizing when it reaches the tab text~~
 
 Desktop:
-- Add: buttom bar
+- ~~Add: task bar~~
+- Fix: add scale animation when you close / minimize window though TaskBar
 - ~~Add: active windwos / opened windows (Using **X1**)~~
 - Fix: do not fire MouseSelectionEvent over a DesktopIcon
 - ~~Fix: DesktopHandler should use full screen size~~
