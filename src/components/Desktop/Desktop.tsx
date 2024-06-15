@@ -11,7 +11,7 @@ function Desktop({ selectAbleContainerRef }: Props) {
     const desktopRef = useRef<HTMLDivElement>(null);
     const { updateActiveWindow } = useWindowsStore();
   
-    const handleActiveWindow = (event: MouseEvent) => updateActiveWindow(undefined);
+    const handleActiveWindow = (_event: MouseEvent) => updateActiveWindow(undefined);
   
     useEffect(() => {
       if (desktopRef && desktopRef.current) {
@@ -26,7 +26,7 @@ function Desktop({ selectAbleContainerRef }: Props) {
     }, [desktopRef]);
 
     return (
-        <div ref={desktopRef} css={tw`z-[9] fixed top-4 left-4 w-screen h-screen`}>
+        <div ref={desktopRef} css={tw`z-[9] fixed w-screen h-screen`}>
             <div ref={selectAbleContainerRef} css={tw`space-y-[25px] h-screen`}>
                 {windows.map((fWindow, index) => (
                     <DesktopIcon key={`${index}-${fWindow.window.name}`} title={fWindow.window.name} css={tw`${fWindow.desktop.className || ''}`}>

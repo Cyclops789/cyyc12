@@ -16,7 +16,7 @@ Desktop:
 - Add: buttom bar
 - ~~Add: active windwos / opened windows (Using **X1**)~~
 - Fix: do not fire MouseSelectionEvent over a DesktopIcon
-- Fix: DesktopHandler should use full screen size
+- ~~Fix: DesktopHandler should use full screen size~~
 
 Desktop Icons:
 - ~~Add: OnHover display a background (with low opacity) and a border~~
