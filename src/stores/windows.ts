@@ -7,7 +7,7 @@ import { faTerminal, faDiagramProject } from '@fortawesome/free-solid-svg-icons'
 export type AvailableWindows = 'terminal' | 'portfolio' | 'projects' | 'socials';
 export type WindowSize = { width: number, height: number };
 export type WindowPos = { x: number, y: number };
-export type WindowContainer = { name: AvailableWindows, size?: WindowSize, pos?: WindowPos, open: boolean, minimize: boolean, fullscreen: boolean };
+export type WindowContainer = { name: AvailableWindows, size?: WindowSize, pos?: WindowPos, open: boolean, minimize: boolean, fullscreen: boolean, order: number };
 
 export interface IAvailableWindows {
     window: WindowContainer,
@@ -42,6 +42,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 open: false,
                 minimize: false,
                 fullscreen: false,
+                order: 1,
             },
             windowChildren: Projects,
             desktop: {
@@ -58,6 +59,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 open: false,
                 minimize: false,
                 fullscreen: false,
+                order: 2,
             },
             windowChildren: Terminal,
             desktop: {
@@ -71,7 +73,28 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
     ],
     activeWindow: undefined,
 
-    updateActiveWindow: (activeWindow) => set(() => ({ activeWindow })),
+    updateActiveWindow: (activeWindow) => set((state) => {
+        if (activeWindow !== undefined) {
+            const newWindows = state.windows.map((nWindow) => {
+                if (nWindow.window.name === activeWindow) {
+                    return { ...nWindow, window: { ...nWindow.window, order: 0 } };
+                } else {
+                    return { ...nWindow, window: { ...nWindow.window, order: nWindow.window.order + 1 } };
+                }
+            });
+
+            return {
+                ...state,
+                windows: newWindows,
+                activeWindow: activeWindow,
+            };
+        } else {
+            return {
+                activeWindow: undefined,
+            };
+        }
+    }),
+
     updateWindowSize: (windowName, data) => set((state) => {
         const index = state.windows.findIndex((window) => window.window.name === windowName);
         if (index !== -1) {

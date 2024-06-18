@@ -1,4 +1,4 @@
-import React, { type RefObject } from 'react'
+import React, { useEffect, type RefObject } from 'react'
 import { useGeneralStore } from '@/stores/general'
 import StartButtons from '@/components/Global/StartButtons';
 import BootUp from '@/components/Terminal/BootUp';

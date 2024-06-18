@@ -5,10 +5,10 @@ MouseSelectionEvent:
 - ~~Add: desktop icons selection~~
 
 Windows:
-- Add: full screen button
+- ~~Add: fullscreen button~~
 - ~~Add: minimize button~~
 - ~~Add: motion effect when minimizing / closing a window~~
-- Fix: windows size when you reopen them
+- ~~Fix: windows size when you reopen them~~ 90% (still glitching sometimes)
 - ~~Fix: z-index (update when clicking on a window, probably using **X1**)~~
 - ~~Fix: limit width resizing when it reaches the tab text~~
 
