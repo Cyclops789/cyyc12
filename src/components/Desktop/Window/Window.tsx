@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { useRef } from 'react';
 import Tab from '@/components/Desktop/Window/Tab';
 // import { AvailableWindows, WindowSize } from '@/stores/windows';
@@ -11,83 +11,90 @@ import { useLocalStorage } from 'react-localstorage-helper';
 
 type Props = { children: React.ReactNode, window: IAvailableWindows };
 
-function Window({ children, window }: Props) {
+function Window({ children, window: cWindow }: Props) {
     const nodeRef = useRef<HTMLDivElement>(null);
     const [closeOpacity, setCloseOpacity] = useState(false);
     const [minimizeAnimation, toggleMinimizeAnimation] = useState<boolean>();
 
     const { updateWindowSize, updateWindowPos, updateActiveWindow, activeWindow } = useWindowsStore();
 
-    const [initialWidth, saveInitialWidth] = useLocalStorage<string>(`${window.window.name}.size.width`, `${window.window.size?.width || 990}`);
-    const [initialHeight, saveInitialHeight] = useLocalStorage<string>(`${window.window.name}.size.height`, `${window.window.size?.height || 990}`);
-    const [initialXPos, saveInitialXPos] = useLocalStorage<string>(`${window.window.name}.pos.x`, `${window.window.pos?.x || 0}`);
-    const [initialYPos, saveInitialYPos] = useLocalStorage<string>(`${window.window.name}.pos.y`, `${window.window.pos?.y || 0}`);
+    const [initialWidth, saveInitialWidth] = useLocalStorage<string>(`${cWindow.window.name}.size.width`, `${cWindow.window.size?.width || 990}`);
+    const [initialHeight, saveInitialHeight] = useLocalStorage<string>(`${cWindow.window.name}.size.height`, `${cWindow.window.size?.height || 990}`);
+    const [initialXPos, saveInitialXPos] = useLocalStorage<string>(`${cWindow.window.name}.pos.x`, `${cWindow.window.pos?.x || 0}`);
+    const [initialYPos, saveInitialYPos] = useLocalStorage<string>(`${cWindow.window.name}.pos.y`, `${cWindow.window.pos?.y || 0}`);
 
-    const handleActiveWindow = () => updateActiveWindow(window.window.name);
+    const handleActiveWindow = () => updateActiveWindow(cWindow.window.name);
 
     useEffect(() => {
-        if(nodeRef && nodeRef.current) {
+        if (nodeRef && nodeRef.current) {
             nodeRef.current.addEventListener('mousedown', handleActiveWindow);
         }
 
         return () => {
-            if(nodeRef && nodeRef.current) {
-                nodeRef.current && nodeRef.current.removeEventListener('mousedown', handleActiveWindow);
-            }  
+            if (nodeRef && nodeRef.current) {
+                nodeRef.current.removeEventListener('mousedown', handleActiveWindow);
+            }
         };
     }, [nodeRef])
 
     return (
         <Rnd
-            default={{ 
-                width: initialWidth, 
-                height: initialHeight, 
-                x: parseInt(initialXPos), 
+            default={{
+                width: initialWidth,
+                height: initialHeight,
+                x: parseInt(initialXPos),
                 y: parseInt(initialYPos)
             }}
-            onDragStop={(_e, d) => { 
-                updateWindowPos(window.window.name, { x: d.x, y: d.y })
+            enableResizing={!cWindow.window.fullscreen}
+            disableDragging={cWindow.window.fullscreen}
+            onDragStop={(_e, d) => {
+                updateWindowPos(cWindow.window.name, { x: d.x, y: d.y })
 
-                if(d.y && d.y != 0) {
+                if (d.y && d.y != 0) {
                     saveInitialYPos(`${d.y}`);
                 }
 
-                if(d.x && d.x != 0) {
+                if (d.x && d.x != 0) {
                     saveInitialXPos(`${d.x}`);
                 }
             }}
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             onResizeStop={(_e, _direction, _ref, delta, _position) => {
-                updateWindowSize(window.window.name, {
-                    width: delta.width,
-                    height: delta.height
-                });
+                updateWindowSize(cWindow.window.name, {
+                    // width: delta.width,
+                    // height: delta.height
 
-                if(delta.width && delta.width != 0) {
+                    width: _ref.offsetWidth,
+                    height: _ref.offsetHeight,
+                });
+                
+
+                if (delta.width && delta.width != 0) {
                     saveInitialWidth(`${delta.width}`);
                 }
 
-                if(delta.height && delta.height != 0) {
+                if (delta.height && delta.height != 0) {
                     saveInitialHeight(`${delta.height}`);
                 }
             }}
             minWidth={208}
             minHeight={130}
             css={[
-                activeWindow === window.window.name ? tw`z-[99]` : tw`z-[98]`
+                tw`transition-all duration-[150ms] ease-out`,
+                activeWindow === window.window.name ? tw`z-[99]` : tw`z-[98]`,
             ]}
             dragHandleClassName={'handler'}
         >
             <div
                 ref={nodeRef}
                 css={[
-                    tw`border-2 border-red-600 rounded-lg cursor-none h-full transform-gpu transition-opacity duration-[150ms] ease-out`,
+                    tw`border-2 border-red-600 rounded-lg cursor-none h-full w-full transform-gpu transition-all duration-[150ms] ease-out`,
                     closeOpacity && tw`opacity-0 scale-95`,
                     minimizeAnimation && tw`opacity-0 scale-95`,
                     (minimizeAnimation === false) && tw`opacity-100 scale-100`,
                 ]}
             >
-                <Tab {...{ window, setCloseOpacity, toggleMinimizeAnimation }} />
+                <Tab {...{ window: cWindow, setCloseOpacity, toggleMinimizeAnimation }} />
                 <WindowLayout>
                     {children}
                 </WindowLayout>
@@ -96,4 +103,4 @@ function Window({ children, window }: Props) {
     );
 }
 
-export default Window;
+export default memo(Window);

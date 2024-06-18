@@ -1,4 +1,3 @@
-import React from 'react'
 import tw, { styled } from 'twin.macro'
 import { useWindowsStore } from '@/stores/windows'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,7 +10,7 @@ function TaskBar() {
     const { windows, activeWindow, updateActiveWindow, toggleWindow, toggleWindowMinimize } = useWindowsStore();
 
     return (
-        <div css={tw`fixed z-[99] bottom-0 left-0 h-[50px] w-screen bg-[#2a2d32]`}>
+        <div css={tw`fixed z-[99] bottom-0 left-0 h-[50px] w-screen bg-[rgba(42,45,50,0.92)]`}>
             <div css={tw`pl-[7px] flex space-x-3`}>
                 <div css={tw`relative w-[40px] h-[50px] flex justify-center items-center hover:cursor-pointer hover:brightness-125`}>
                     <div css={[

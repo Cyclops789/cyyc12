@@ -24,7 +24,8 @@ function DesktopHandler({ children, selectAbleContainerRef }: Props) {
                                     <WindowContainer window={fWindow}>
                                         <fWindow.windowChildren />
                                     </WindowContainer>
-                                </React.Fragment>)
+                                </React.Fragment>
+                            )
                         )}
                     </div>
                     {children}

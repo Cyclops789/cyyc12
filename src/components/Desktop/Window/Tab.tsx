@@ -12,7 +12,7 @@ type Props = {
 };
 
 function Tab({ window, setCloseOpacity, toggleMinimizeAnimation }: Props) {
-    const { toggleWindow, updateActiveWindow, toggleWindowMinimize, } = useWindowsStore();
+    const { toggleWindow, updateActiveWindow, toggleWindowMinimize, toggleWindowFullScreen } = useWindowsStore();
     const { setCommands } = useCommandsStore();
 
     return (
@@ -35,16 +35,7 @@ function Tab({ window, setCloseOpacity, toggleMinimizeAnimation }: Props) {
                     <div css={tw`bg-black rounded h-[1.5px] w-[10px]`} />
                 </button>
                 <button
-                    onClick={() => {
-                        setCloseOpacity(true);
-                        setTimeout(() => {
-                            toggleWindow(window.window.name, false);
-                            updateActiveWindow(undefined);
-                            if(window.window.name === 'terminal') {
-                                setCommands([]);
-                            }
-                        }, 200)
-                    }}
+                    onClick={() => toggleWindowFullScreen(window.window.name, !window.window.fullscreen)}
                     css={tw`bg-white w-[20px] h-[20px] rounded-full flex justify-center items-center`}
                 >
                     <FontAwesomeIcon css={tw`text-[10px]`} icon={faWindowRestore} />

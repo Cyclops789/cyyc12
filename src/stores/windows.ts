@@ -7,7 +7,7 @@ import { faTerminal, faDiagramProject } from '@fortawesome/free-solid-svg-icons'
 export type AvailableWindows = 'terminal' | 'portfolio' | 'projects' | 'socials';
 export type WindowSize = { width: number, height: number };
 export type WindowPos = { x: number, y: number };
-export type WindowContainer = { name: AvailableWindows, size?: WindowSize, pos?: WindowPos, open: boolean, minimize: boolean };
+export type WindowContainer = { name: AvailableWindows, size?: WindowSize, pos?: WindowPos, open: boolean, minimize: boolean, fullscreen: boolean };
 
 export interface IAvailableWindows {
     window: WindowContainer,
@@ -28,8 +28,10 @@ export interface IGeneralStore {
     updateActiveWindow: (activeWindow: AvailableWindows | undefined) => void;
     updateWindowSize: (windowName: AvailableWindows, size: WindowSize) => void;
     updateWindowPos: (windowName: AvailableWindows, pos: WindowPos) => void;
+
     toggleWindow: (windowName: AvailableWindows, action: boolean) => void;
     toggleWindowMinimize: (windowName: AvailableWindows, action: boolean) => void;
+    toggleWindowFullScreen: (windowName: AvailableWindows, action: boolean) => void;
 }
 
 export const useWindowsStore = create<IGeneralStore>((set) => ({
@@ -39,6 +41,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 name: 'projects',
                 open: false,
                 minimize: false,
+                fullscreen: false,
             },
             windowChildren: Projects,
             desktop: {
@@ -54,6 +57,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 name: 'terminal',
                 open: false,
                 minimize: false,
+                fullscreen: false,
             },
             windowChildren: Terminal,
             desktop: {
@@ -71,13 +75,13 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
     updateWindowSize: (windowName, data) => set((state) => {
         const index = state.windows.findIndex((window) => window.window.name === windowName);
         if (index !== -1) {
-          const updatedWindows = [
-            ...state.windows.slice(0, index),
-            { ...state.windows[index], window: {...state.windows[index].window, size: data } },
-            ...state.windows.slice(index + 1),
-          ];
-    
-          return { windows: updatedWindows };
+            const updatedWindows = [
+                ...state.windows.slice(0, index),
+                { ...state.windows[index], window: { ...state.windows[index].window, size: data } },
+                ...state.windows.slice(index + 1),
+            ];
+
+            return { windows: updatedWindows };
         }
 
         return state;
@@ -85,13 +89,13 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
     updateWindowPos: (windowName, data) => set((state) => {
         const index = state.windows.findIndex((window) => window.window.name === windowName);
         if (index !== -1) {
-          const updatedWindows = [
-            ...state.windows.slice(0, index),
-            { ...state.windows[index], window: {...state.windows[index].window, pos: data } },
-            ...state.windows.slice(index + 1),
-          ];
-    
-          return { windows: updatedWindows };
+            const updatedWindows = [
+                ...state.windows.slice(0, index),
+                { ...state.windows[index], window: { ...state.windows[index].window, pos: data } },
+                ...state.windows.slice(index + 1),
+            ];
+
+            return { windows: updatedWindows };
         }
 
         return state;
@@ -99,13 +103,13 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
     toggleWindow: (windowName, action) => set((state) => {
         const index = state.windows.findIndex((window) => window.window.name === windowName);
         if (index !== -1) {
-          const updatedWindows = [
-            ...state.windows.slice(0, index),
-            { ...state.windows[index], window: {...state.windows[index].window, open: action } },
-            ...state.windows.slice(index + 1),
-          ];
-    
-          return { windows: updatedWindows };
+            const updatedWindows = [
+                ...state.windows.slice(0, index),
+                { ...state.windows[index], window: { ...state.windows[index].window, open: action } },
+                ...state.windows.slice(index + 1),
+            ];
+
+            return { windows: updatedWindows };
         }
 
         return state;
@@ -113,13 +117,27 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
     toggleWindowMinimize: (windowName, action) => set((state) => {
         const index = state.windows.findIndex((window) => window.window.name === windowName);
         if (index !== -1) {
-          const updatedWindows = [
-            ...state.windows.slice(0, index),
-            { ...state.windows[index], window: {...state.windows[index].window, minimize: action } },
-            ...state.windows.slice(index + 1),
-          ];
-    
-          return { windows: updatedWindows };
+            const updatedWindows = [
+                ...state.windows.slice(0, index),
+                { ...state.windows[index], window: { ...state.windows[index].window, minimize: action } },
+                ...state.windows.slice(index + 1),
+            ];
+
+            return { windows: updatedWindows };
+        }
+
+        return state;
+    }),
+    toggleWindowFullScreen: (windowName, action) => set((state) => {
+        const index = state.windows.findIndex((window) => window.window.name === windowName);
+        if (index !== -1) {
+            const updatedWindows = [
+                ...state.windows.slice(0, index),
+                { ...state.windows[index], window: { ...state.windows[index].window, fullscreen: action } },
+                ...state.windows.slice(index + 1),
+            ];
+
+            return { windows: updatedWindows };
         }
 
         return state;
