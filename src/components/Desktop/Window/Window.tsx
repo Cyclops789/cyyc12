@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useRef } from 'react';
 import Tab from '@/components/Desktop/Window/Tab';
 // import { AvailableWindows, WindowSize } from '@/stores/windows';
@@ -13,10 +13,10 @@ type Props = { children: React.ReactNode, window: IAvailableWindows };
 
 function Window({ children, window: cWindow }: Props) {
     const nodeRef = useRef<HTMLDivElement>(null);
-    const { updateWindowSize, updateWindowPos, updateActiveWindow, toggleWindowMinimize } = useWindowsStore();
+    const [hideRnd, setHideRnd] = useState(false);
 
+    const { updateWindowSize, updateWindowPos, updateActiveWindow, toggleWindowMinimize } = useWindowsStore();
     const windowOrder = useMemo(() => cWindow.window.order, [cWindow.window.order]);
-    //const minimizeAnimation = useMemo(() => cWindow.window.minimize, [cWindow.window.minimize]);
 
     const [initialWidth, saveInitialWidth] = useLocalStorage<string>(`${cWindow.window.name}.size.width`, `${cWindow.window.size?.width || 990}`);
     const [initialHeight, saveInitialHeight] = useLocalStorage<string>(`${cWindow.window.name}.size.height`, `${cWindow.window.size?.height || 490}`);
@@ -48,6 +48,7 @@ function Window({ children, window: cWindow }: Props) {
                 setTimeout(() => {
                     (nodeRef.current as any).style.transform = 'scale(1)';
                     (nodeRef.current as any).style.display = 'none';
+                    setHideRnd(true);
                 }, 150);
             } else if(cWindow.window.minimize === "disabled") {
                 nodeRef.current.style.opacity = '1';
@@ -56,6 +57,7 @@ function Window({ children, window: cWindow }: Props) {
                 setTimeout(() => {
                     (nodeRef.current as any).style.transform = 'scale(1)';
                     (nodeRef.current as any).style.display = '';
+                    setHideRnd(false);
                 }, 150);
             } else {
                 toggleWindowMinimize(cWindow.window.name, undefined);
@@ -95,7 +97,7 @@ function Window({ children, window: cWindow }: Props) {
             minWidth={208}
             minHeight={130}
 
-            css={[ tw`transition-all duration-[150ms] ease-out` ]}
+            css={[ tw`transition-all duration-[150ms] ease-out`, hideRnd && tw`!hidden` ]}
             style={{ zIndex: 60 - windowOrder }}
             dragHandleClassName={'dragHandler'}
         >
