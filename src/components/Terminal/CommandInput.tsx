@@ -10,7 +10,7 @@ const Input = styled.input`
 `;
 
 function CommandInput() {
-    const { addCommand, setCommandPlaceHolder, commandPlaceHolder, setCommands } = useCommandsStore();
+    const { addCommand, setCommandPlaceHolder, commandPlaceHolder, setCommands, commands: storeCommands } = useCommandsStore();
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -26,6 +26,10 @@ function CommandInput() {
                     }
                 }
             }
+
+            if(event.key === 'ArrowUp') {
+                setCommandPlaceHolder(storeCommands?.[storeCommands.length - 1] ?? '');
+            }
         }
 
         document.addEventListener('keydown', handleKeyDown);
@@ -39,8 +43,8 @@ function CommandInput() {
         <>
             <div css={tw`text-green-400`}>
                 <FontAwesomeIcon css={tw`text-blue-500 w-4`} icon={faCloud} />
-                <span css={tw`text-orange-400`}> hamza</span>
-                <span css={tw`text-white`}>@</span>debian.cyyc.lol <FontAwesomeIcon css={tw`text-orange-400 w-4`} icon={faBolt} />
+                <span css={tw`text-red-500`}> hamza</span>
+                <span css={tw`text-white`}>@</span>debian <FontAwesomeIcon css={tw`text-red-500 w-4`} icon={faBolt} />
                 {' '}<Input
                     onKeyUp={event => {
                         if (event.key === 'Enter' && commandPlaceHolder) {

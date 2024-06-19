@@ -1,6 +1,7 @@
 import tw, { styled } from 'twin.macro'
 import { useWindowsStore } from '@/stores/windows'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useCommandsStore } from '@/stores/commands';
 
 const TaskBarButton = styled.div`
     ${tw`w-[35px] h-[35px] rounded flex justify-center items-center bg-red-900/90`} 
@@ -8,6 +9,7 @@ const TaskBarButton = styled.div`
 
 function TaskBar() {
     const { windows, activeWindow, updateActiveWindow, toggleWindow, toggleWindowMinimize } = useWindowsStore();
+    const { setCommands } = useCommandsStore();
 
     return (
         <div css={tw`fixed z-[99] bottom-0 left-0 h-[50px] w-screen bg-[rgba(42,45,50,0.92)]`}>
@@ -31,6 +33,9 @@ function TaskBar() {
                             if (!gWindow.window.open) {
                                 toggleWindow(gWindow.window.name, true);
                                 updateActiveWindow(gWindow.window.name);
+                                if (gWindow.window.name === 'konsole') {
+                                    setCommands(['help']);
+                                }
                             } else {
                                 if (gWindow.window.minimize === "enabled") {
                                     toggleWindowMinimize(gWindow.window.name, "disabled");

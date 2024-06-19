@@ -1,7 +1,7 @@
 import React, { type RefObject } from 'react'
 import { useGeneralStore } from '@/stores/general'
 import StartButtons from '@/components/Global/StartButtons';
-import BootUp from '@/components/Terminal/BootUp';
+import BootUp from '@/components/BootUp';
 import WindowContainer from '@/components/Desktop/Window/Window';
 import { useWindowsStore } from '@/stores/windows';
 import UserSelectionHandler from '@/components/Desktop/UserSelectionHandler';

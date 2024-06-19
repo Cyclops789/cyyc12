@@ -46,8 +46,7 @@ function DesktopIcon({ children, css, title, className }: Props) {
     }, []);
 
     return (
-        <IconContainer 
-             
+        <IconContainer
             className={`${className ?? ''} UserSelectionItem`}
             onMouseDown={() => updateActiveWindow(title)}
             ref={iconContainerRef} 
@@ -57,8 +56,9 @@ function DesktopIcon({ children, css, title, className }: Props) {
                     {...{
                         onClick: () => {
                             toggleWindow(title, true);
-                            if (title === 'terminal') {
-                                setCommands([]);
+                            updateActiveWindow(title);
+                            if (title === 'konsole') {
+                                setCommands(['help']);
                             }
                         },
                         css

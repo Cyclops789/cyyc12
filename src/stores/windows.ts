@@ -4,7 +4,7 @@ import Terminal from "@/components/Desktop/Window/Content/Terminal";
 import Projects from "@/components/Desktop/Window/Content/Projects";
 import { faTerminal, faDiagramProject } from '@fortawesome/free-solid-svg-icons';
 
-export type AvailableWindows = 'terminal' | 'portfolio' | 'projects' | 'socials';
+export type AvailableWindows = 'konsole' | 'portfolio' | 'projects' | 'socials';
 export type WindowSize = { width: number, height: number };
 export type WindowPos = { x: number, y: number };
 export type WindowContainer = { 
@@ -63,7 +63,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
         },
         {
             window: {
-                name: 'terminal',
+                name: 'konsole',
                 open: false,
                 minimize: undefined,
                 fullscreen: false,

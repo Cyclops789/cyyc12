@@ -97,14 +97,15 @@ function Window({ children, window: cWindow }: Props) {
             minWidth={208}
             minHeight={130}
 
-            css={[ tw`transition-all duration-[150ms] ease-out`, hideRnd && tw`!hidden` ]}
+            css={[ tw`rounded-lg transition-all duration-[150ms] ease-out`, hideRnd && tw`!hidden` ]}
             style={{ zIndex: 60 - windowOrder }}
             dragHandleClassName={'dragHandler'}
         >
             <div
                 ref={nodeRef}
                 css={[
-                    tw`border-2 border-red-600 rounded-lg cursor-none h-full w-full transform-gpu transition-all duration-[200ms] ease-out`,
+                    tw`border-2 cursor-none border-red-600 h-full w-full transform-gpu transition-all duration-[200ms] ease-out`,
+                    cWindow.window.fullscreen ? tw`rounded-t-lg` : tw`rounded-lg`
                 ]}
             >
                 <Tab {...{ window: cWindow }} />

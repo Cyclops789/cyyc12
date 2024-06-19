@@ -20,23 +20,21 @@ function BootUp() {
     }
 
     useEffect(() => {
-        if(desktopStatus === 'starting') onStart();
+        if (desktopStatus === 'starting') onStart();
     }, [desktopStatus]);
 
     useEffect(() => {
-        if(terminalTexts?.length > 0) {
+        if (terminalTexts?.length > 0) {
             window.scrollTo(0, document.body.scrollHeight);
         }
     }, [terminalTexts]);
-    
+
     return (
-        <>
-            {(terminalTexts) && (
-                <div>
-                    {terminalTexts.map((t, i) => <div key={`${t}-${i}`} css={tw`text-white`}>{'['} <span css={tw`text-green-600`}>OK</span>  {']'} <span>{t}</span></div>)}
-                </div>
-            )}
-        </>
+        terminalTexts && (
+            <div>
+                {terminalTexts.map((t, i) => <div key={`${t}-${i}`} css={tw`text-white`}>{'['} <span css={tw`text-green-600`}>OK</span>  {']'} <span>{t}</span></div>)}
+            </div>
+        )
     )
 }
 
