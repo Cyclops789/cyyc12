@@ -32,11 +32,11 @@ function TaskBar() {
                                 toggleWindow(gWindow.window.name, true);
                                 updateActiveWindow(gWindow.window.name);
                             } else {
-                                if (gWindow.window.minimize) {
-                                    toggleWindowMinimize(gWindow.window.name, false);
+                                if (gWindow.window.minimize === "enabled") {
+                                    toggleWindowMinimize(gWindow.window.name, "disabled");
                                     updateActiveWindow(gWindow.window.name);
                                 } else {
-                                    toggleWindowMinimize(gWindow.window.name, true);
+                                    toggleWindowMinimize(gWindow.window.name, "enabled");
                                     updateActiveWindow(undefined);
                                 }
                             }

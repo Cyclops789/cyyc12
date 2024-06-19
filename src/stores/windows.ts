@@ -7,7 +7,15 @@ import { faTerminal, faDiagramProject } from '@fortawesome/free-solid-svg-icons'
 export type AvailableWindows = 'terminal' | 'portfolio' | 'projects' | 'socials';
 export type WindowSize = { width: number, height: number };
 export type WindowPos = { x: number, y: number };
-export type WindowContainer = { name: AvailableWindows, size?: WindowSize, pos?: WindowPos, open: boolean, minimize: boolean, fullscreen: boolean, order: number };
+export type WindowContainer = { 
+    name: AvailableWindows, 
+    size?: WindowSize, 
+    pos?: WindowPos, 
+    open: boolean, 
+    minimize?: "enabled" | "disabled", 
+    fullscreen: boolean, 
+    order: number,
+};
 
 export interface IAvailableWindows {
     window: WindowContainer,
@@ -30,7 +38,7 @@ export interface IGeneralStore {
     updateWindowPos: (windowName: AvailableWindows, pos: WindowPos) => void;
 
     toggleWindow: (windowName: AvailableWindows, action: boolean) => void;
-    toggleWindowMinimize: (windowName: AvailableWindows, action: boolean) => void;
+    toggleWindowMinimize: (windowName: AvailableWindows, action: "enabled" | "disabled" | undefined) => void;
     toggleWindowFullScreen: (windowName: AvailableWindows, action: boolean) => void;
 }
 
@@ -40,7 +48,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
             window: {
                 name: 'projects',
                 open: false,
-                minimize: false,
+                minimize: undefined,
                 fullscreen: false,
                 order: 1,
             },
@@ -57,7 +65,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
             window: {
                 name: 'terminal',
                 open: false,
-                minimize: false,
+                minimize: undefined,
                 fullscreen: false,
                 order: 2,
             },

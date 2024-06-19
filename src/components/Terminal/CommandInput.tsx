@@ -14,7 +14,7 @@ function CommandInput() {
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'Tab' || event.keyCode === 9) {
+            if (event.key === 'Tab') {
                 event.preventDefault();
                 const allCommands = [...commands.map((command) => (command.command)), ...additionalCommands];
 

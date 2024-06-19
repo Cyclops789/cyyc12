@@ -14,6 +14,7 @@ function UserSelectionHandler({ children, selectAbleContainerRef }: Props) {
                     containerRef={selectAbleContainerRef}
                     frameClassName={`UserSelectionHandler`}
                     itemClassName={`UserSelectionItem`}
+                    saveSelectAfterFinish
                 />
             }
             {children}

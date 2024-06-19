@@ -1,4 +1,4 @@
-import React, { useEffect, type RefObject } from 'react'
+import React, { type RefObject } from 'react'
 import { useGeneralStore } from '@/stores/general'
 import StartButtons from '@/components/Global/StartButtons';
 import BootUp from '@/components/Terminal/BootUp';
@@ -19,7 +19,7 @@ function DesktopHandler({ children, selectAbleContainerRef }: Props) {
                 <UserSelectionHandler {...{ selectAbleContainerRef }}>
                     <div css={tw`z-[99]`}>
                         {windows?.map((fWindow, i) =>
-                            (fWindow.window.open && !fWindow.window.minimize) && (
+                            (fWindow.window.open) && (
                                 <React.Fragment key={`${i}-${fWindow.window.name}`}>
                                     <WindowContainer window={fWindow}>
                                         <fWindow.windowChildren />

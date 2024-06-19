@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { AvailableWindows } from '@/stores/windows';
 import { useWindowsStore } from '@/stores/windows';
 import { useCommandsStore } from '@/stores/commands';
@@ -28,11 +28,30 @@ const IconContainer = styled.div`
 type Props = { children: React.ReactNode, title: AvailableWindows, css?: CSSProp | undefined, className?: string };
 
 function DesktopIcon({ children, css, title, className }: Props) {
-    const { toggleWindow } = useWindowsStore();
+    const iconContainerRef = useRef<HTMLDivElement>(null);
+    const { toggleWindow, updateActiveWindow } = useWindowsStore();
     const { setCommands } = useCommandsStore();
 
+    const removeSelected = useCallback(() => {
+        if(iconContainerRef.current && iconContainerRef.current.classList.contains('selected')) {
+            iconContainerRef.current.classList.remove('selected')
+        }
+    }, [iconContainerRef.current]);
+
+    useEffect(() => {
+        document.addEventListener('mousedown', removeSelected);
+        return () => {
+            document.removeEventListener('mousedown', removeSelected);
+        }
+    }, []);
+
     return (
-        <IconContainer draggable className={`${className ?? ''} UserSelectionItem`}>
+        <IconContainer 
+             
+            className={`${className ?? ''} UserSelectionItem`}
+            onMouseDown={() => updateActiveWindow(title)}
+            ref={iconContainerRef} 
+        >
             <div css={tw`p-2`}>
                 <Button
                     {...{

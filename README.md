@@ -3,6 +3,7 @@ MouseSelectionEvent:
 - ~~Fix: switch between directions~~
 - ~~Fix: dont fire the selection when the user is pressing on a window (**X1**)~~
 - ~~Add: desktop icons selection~~
+- **X** ~~Fix: do not fire MouseSelectionEvent over a DesktopIcon~~ (the library doesnt support that atm)
 
 Windows:
 - ~~Add: fullscreen button~~
@@ -15,9 +16,9 @@ Windows:
 Desktop:
 - ~~Add: task bar~~
 - Add: start menu
-- Fix: add scale animation when you close / minimize window though TaskBar
+- Add: Context menu
+- ~~Fix: add scale animation when you close / minimize window though TaskBar~~
 - ~~Add: active windwos / opened windows (Using **X1**)~~
-- Fix: do not fire MouseSelectionEvent over a DesktopIcon
 - ~~Fix: DesktopHandler should use full screen size~~
 
 Desktop Icons:
