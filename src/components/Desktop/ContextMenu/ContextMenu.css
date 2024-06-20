@@ -1,0 +1,11 @@
+:root {
+    --contexify-menu-bgColor: rgb(42, 45, 50);
+    --contexify-separator-color: #4c4c4c;
+    --contexify-item-color: #fff;
+    --contexify-activeItem-color: #fff;
+    --contexify-activeItem-bgColor: #dd1b1b60;
+    --contexify-rightSlot-color: #6f6e77;
+    --contexify-activeRightSlot-color: #fff;
+    --contexify-arrow-color: #6f6e77;
+    --contexify-activeArrow-color: #fff;
+}

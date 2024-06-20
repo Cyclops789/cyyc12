@@ -5,6 +5,7 @@ import BootUp from '@/components/BootUp';
 import WindowContainer from '@/components/Desktop/Window/Window';
 import { useWindowsStore } from '@/stores/windows';
 import UserSelectionHandler from '@/components/Desktop/UserSelectionHandler';
+import ContextMenu from '@/components/Desktop/ContextMenu';
 import tw from 'twin.macro';
 
 type Props = { children: React.ReactNode, selectAbleContainerRef: RefObject<HTMLDivElement> };
@@ -17,18 +18,20 @@ function DesktopHandler({ children, selectAbleContainerRef }: Props) {
         case 'started':
             return (
                 <UserSelectionHandler {...{ selectAbleContainerRef }}>
-                    <div css={tw`z-[99]`}>
-                        {windows?.map((fWindow, i) =>
-                            (fWindow.window.open) && (
-                                <React.Fragment key={`${i}-${fWindow.window.name}`}>
-                                    <WindowContainer window={fWindow}>
-                                        <fWindow.windowChildren />
-                                    </WindowContainer>
-                                </React.Fragment>
-                            )
-                        )}
-                    </div>
-                    {children}
+                    <ContextMenu>
+                        <div css={tw`z-[99]`}>
+                            {windows?.map((fWindow, i) =>
+                                (fWindow.window.open) && (
+                                    <React.Fragment key={`${i}-${fWindow.window.name}`}>
+                                        <WindowContainer window={fWindow}>
+                                            <fWindow.windowChildren />
+                                        </WindowContainer>
+                                    </React.Fragment>
+                                )
+                            )}
+                        </div>
+                        {children}
+                    </ContextMenu>
                 </UserSelectionHandler>
             )
 

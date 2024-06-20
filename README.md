@@ -27,6 +27,9 @@
 **[CORE]** References:
 - ~~X1: add / use active windows state~~
 
+Desktop interface:
+- Add: Ability to change desktop background from **ContextMenu**
+
 Desktop applications:
 - Add: embedded browser (probably with iframe)
 - Add: [DOOM](https://js-dos.com/DOOM/)

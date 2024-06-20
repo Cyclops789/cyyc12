@@ -1,0 +1,1 @@
+export const DESKTOP_CONTEXT_ID = 'desktop';

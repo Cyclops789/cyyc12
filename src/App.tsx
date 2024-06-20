@@ -17,7 +17,7 @@ export default function App() {
     <DesktopHandler {...{ selectAbleContainerRef }}>
       <Desktop {...{ selectAbleContainerRef }} />
       <Helmet>
-        <title>Cyyc12{activeWindow && ` - ${activeWindow.charAt(0).toUpperCase()+activeWindow.slice(1)}`}</title>
+        <title>Cyyc12{activeWindow ? ` - ${activeWindow.charAt(0).toUpperCase()+activeWindow.slice(1)}` : ''}</title>
       </Helmet>
       <Container>
         <img css={tw`fixed z-[1] w-[100px]`} src={'/debian.png'} alt={"background-image"} width={3840} height={2160} />

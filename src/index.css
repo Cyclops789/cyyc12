@@ -25,9 +25,12 @@ body {
 }
 
 @keyframes blink {
-  0%, 100% {
+
+  0%,
+  100% {
     border-color: transparent;
   }
+
   50% {
     border-color: rgb(22 101 52 / var(--tw-text-opacity));
   }
@@ -36,6 +39,6 @@ body {
 .selected {
   border-radius: 5px;
   border-width: 1px;
-  border-color: #DC2626; 
+  border-color: #DC2626;
   background-color: #dc26264d;
 }

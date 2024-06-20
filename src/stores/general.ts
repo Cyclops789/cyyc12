@@ -2,6 +2,7 @@ import { create } from 'zustand'
 
 export type DesktopActions   = 'start' | 'restart' | 'stop' | null;
 export type DeskTopStatus    = 'started' | 'starting' | 'stopped' | 'stopping';
+export type AvailableBackgrounds = '' | '' | '' | '' | '' | '' | '' | '';
 
 export interface IGeneralStore {
     desktopStatus: DeskTopStatus;
