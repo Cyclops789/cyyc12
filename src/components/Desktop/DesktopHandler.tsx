@@ -45,7 +45,10 @@ function DesktopHandler({ children, selectAbleContainerRef }: Props) {
         case 'stopped':
             return (
                 <div css={tw`w-screen h-screen flex justify-center items-center`}>
-                    <StartButtons />
+                    <div>
+                        <div css={tw`sm:hidden text-center text-white mb-2`}>This website works better on desktop</div>
+                        <StartButtons />
+                    </div>
                 </div>
             );
     }
