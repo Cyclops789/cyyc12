@@ -64,7 +64,7 @@ function ContextMenu({ children }: Props) {
                                 disabled={activeBackground === bg}
                                 onClick={() => setActiveBackground(bg)}
                             >
-                                <span>{bg.split('.')[1]}</span>
+                                <span css={'text-transform:capitalize;'}>{bg.split('.')[1]}</span>
                             </Item>
                         ))}
                     </Submenu>

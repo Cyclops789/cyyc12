@@ -7,10 +7,10 @@ export const availableBackgrounds = [
     'cmatrix.white',
     'cmatrix.orange',
     'cmatrix.yellow',
-    'cmatrix.red'
+    'cmatrix.red',
 ] as const;
 
-type AvailableBackgrounds = (typeof availableBackgrounds)[number];
+export type AvailableBackgrounds = (typeof availableBackgrounds)[number];
 
 
 export interface IGeneralStore {
