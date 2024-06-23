@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { Suspense, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useRef } from 'react';
 import Tab from '@/components/Desktop/Window/Tab';
 // import { AvailableWindows, WindowSize } from '@/stores/windows';
@@ -110,7 +110,9 @@ function Window({ children, window: cWindow }: Props) {
             >
                 <Tab {...{ window: cWindow }} />
                 <WindowLayout>
-                    {children}
+                    <Suspense fallback={<p>Working on it ....</p>}>
+                        {children}
+                    </Suspense>
                 </WindowLayout>
             </div>
         </Rnd>

@@ -4,15 +4,18 @@ import { Menu, Item, Separator, Submenu, useContextMenu, RightSlot } from 'react
 import 'react-contexify/ReactContexify.css';
 import { DESKTOP_CONTEXT_ID } from '@/helpers/contextHelper';
 import tw from 'twin.macro';
+import { useGeneralStore } from '@/stores/general';
+import { availableBackgrounds } from '@/stores/general';
 import './ContextMenu.css';
 
 type Props = { children: React.ReactNode };
 
 function ContextMenu({ children }: Props) {
     const { activeWindow } = useWindowsStore();
+    const { setActiveBackground, activeBackground } = useGeneralStore();
     const { show } = useContextMenu({ id: DESKTOP_CONTEXT_ID });
 
-    const matchShortcutR = (e: KeyboardEvent): boolean => (e.key === 'r'); 
+    const matchShortcutR = (e: KeyboardEvent): boolean => (e.key === 'r');
 
     const showContextMenu = useCallback((event: MouseEvent) => {
         if (activeWindow === undefined) {
@@ -42,7 +45,7 @@ function ContextMenu({ children }: Props) {
                     <Item disabled id="sort.by.desc" onClick={() => { }}>Descending</Item>
                 </Submenu>
 
-                <Item 
+                <Item
                     id="reload"
                     onClick={() => window.location.reload()}
                     css={tw`text-white`}
@@ -54,8 +57,18 @@ function ContextMenu({ children }: Props) {
                 <Separator />
 
                 <Submenu label="Background">
-                    <Item disabled id="bg-1" onClick={() => { }}>Background 1 </Item>
-                    <Item disabled id="bg-2" onClick={() => { }}>Background 2</Item>
+                    <Submenu label="CMatrix">
+                        {availableBackgrounds.map(bg => (
+                            bg.startsWith('cmatrix') && 
+                            <Item
+                                disabled={activeBackground === bg}
+                                onClick={() => setActiveBackground(bg)}
+                            >
+                                <span>{bg.split('.')[1]}</span>
+                            </Item>
+                        ))}
+                    </Submenu>
+
                 </Submenu>
 
                 <Separator />

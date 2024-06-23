@@ -3,11 +3,12 @@ import DesktopHandler from "@/components/Desktop/DesktopHandler";
 import tw from 'twin.macro';
 import '@/App.css';
 import { useRef } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet as Meta } from "react-helmet";
 import TaskBar from "@/components/Desktop/TaskBar/TaskBar";
 import { useWindowsStore } from "./stores/windows";
+import Background from "@/components/Desktop/Backgrounds";
 
-const Container = tw.div`w-screen h-screen bg-black flex justify-center items-center`;
+const Container = tw.div`w-screen h-screen flex justify-center items-center`;
 
 export default function App() {
   const selectAbleContainerRef = useRef<HTMLDivElement>(null);
@@ -16,11 +17,11 @@ export default function App() {
   return (
     <DesktopHandler {...{ selectAbleContainerRef }}>
       <Desktop {...{ selectAbleContainerRef }} />
-      <Helmet>
-        <title>Cyyc12{activeWindow ? ` - ${activeWindow.charAt(0).toUpperCase()+activeWindow.slice(1)}` : ''}</title>
-      </Helmet>
+      <Meta>
+        <title>Cyyc12{activeWindow ? ` - ${activeWindow.charAt(0).toUpperCase() + activeWindow.slice(1)}` : ''}</title>
+      </Meta>
       <Container>
-        <img css={tw`fixed z-[1] w-[100px]`} src={'/debian.png'} alt={"background-image"} width={3840} height={2160} />
+        <Background />
       </Container>
       <TaskBar />
     </DesktopHandler>

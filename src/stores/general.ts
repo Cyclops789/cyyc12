@@ -2,11 +2,21 @@ import { create } from 'zustand'
 
 export type DesktopActions   = 'start' | 'restart' | 'stop' | null;
 export type DeskTopStatus    = 'started' | 'starting' | 'stopped' | 'stopping';
-export type AvailableBackgrounds = '' | '' | '' | '' | '' | '' | '' | '';
+export const availableBackgrounds = [
+    'cmatrix.green',
+    'cmatrix.white',
+    'cmatrix.orange',
+    'cmatrix.yellow',
+    'cmatrix.red'
+] as const;
+
+type AvailableBackgrounds = (typeof availableBackgrounds)[number];
+
 
 export interface IGeneralStore {
     desktopStatus: DeskTopStatus;
     desktopAction: DesktopActions;
+    activeBackground: AvailableBackgrounds;
     showBootUp: boolean;
     openTerminal: boolean;
     terminalTexts: string[];
@@ -14,6 +24,7 @@ export interface IGeneralStore {
 
     setDesktopAction: (desktopAction: DesktopActions) => void;
     setDesktopStatus: (desktopStatus: DeskTopStatus) => void;
+    setActiveBackground: (activeBackground: AvailableBackgrounds) => void;
     setShowBootUp: (showBootUp: boolean) => void;
     setOpenTerminal: (openTerminal: boolean) => void;
     setTerminalText: (terminalTexts: string[]) => void;
@@ -24,6 +35,7 @@ export interface IGeneralStore {
 export const useGeneralStore = create<IGeneralStore>((set) => ({
     desktopStatus: 'stopped',
     desktopAction: null,
+    activeBackground: 'cmatrix.red',
     showBootUp: false,
     openTerminal: false,
     terminalTexts: [],
@@ -67,6 +79,7 @@ export const useGeneralStore = create<IGeneralStore>((set) => ({
 
     setDesktopAction: (desktopAction) => set(() => ({ desktopAction })),
     setDesktopStatus: (desktopStatus) => set(() => ({ desktopStatus })),
+    setActiveBackground: (activeBackground) => set(() => ({ activeBackground })),
 
     setShowBootUp: (showBootUp) => set(() => ({ showBootUp })),
     setOpenTerminal: (openTerminal) => set(() => ({ openTerminal })),
