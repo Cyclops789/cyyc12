@@ -22,9 +22,10 @@ const renderMatrix = (ref: React.RefObject<HTMLCanvasElement>, color: string) =>
     canvas.height = window.innerHeight;
 
     const katakana = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン";
+    const alfavit  = "ЯШЕРТЫУИОПЮЩЁЪАСДФГЧЙКЛЬЖЗХЦВБНМ";
     const latin = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const nums = "0123456789";
-    const alphabet = katakana + latin + nums;
+    const alphabet = katakana + alfavit + latin + nums;
 
     const fontSize = 16;
     const columns = canvas.width / fontSize;
