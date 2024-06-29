@@ -6,9 +6,9 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { faSquareFull } from '@fortawesome/free-regular-svg-icons';
 import tw from 'twin.macro';
 
-type Props = { window: IAvailableWindows };
+type Props = { window: IAvailableWindows, handleWindowClose: () => void, handleWindowMinimize: () => void };
 
-function Tab({ window }: Props) {
+function Tab({ window, handleWindowClose, handleWindowMinimize }: Props) {
     const { toggleWindow, updateActiveWindow, toggleWindowMinimize, toggleWindowFullScreen } = useWindowsStore();
     const { setCommands } = useCommandsStore();
 
@@ -23,12 +23,7 @@ function Tab({ window }: Props) {
 
             <div css={tw`flex space-x-2 items-center mr-1`}>
                 <button
-                    onClick={() => {
-                        setTimeout(() => {
-                            toggleWindowMinimize(window.window.name, "enabled");
-                            updateActiveWindow(undefined);
-                        }, 200);
-                    }}
+                    onClick={handleWindowMinimize}
                     css={tw`hover:text-black hover:bg-white text-white bg-transparent w-[25px] h-[25px] rounded-full flex justify-center items-center`}
                 >
                     <FontAwesomeIcon css={tw`text-[13px] p-1 rounded-full`} icon={faChevronDown} />
@@ -41,13 +36,7 @@ function Tab({ window }: Props) {
                 </button>
 
                 <button
-                    onClick={() => {
-                        setTimeout(() => {
-                            toggleWindow(window.window.name, false);
-                            updateActiveWindow(undefined);
-                            if (window.window.name === 'konsole') setCommands([]);
-                        }, 200);
-                    }}
+                    onClick={handleWindowClose}
                     css={tw`hover:text-black hover:bg-white text-white bg-transparent w-[25px] h-[25px] rounded-full flex justify-center items-center`}
                 >
                     <FontAwesomeIcon css={tw`text-[13px] px-1.5 py-1 rounded-full`} icon={faX} />

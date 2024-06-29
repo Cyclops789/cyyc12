@@ -2,9 +2,25 @@ import { create } from 'zustand'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import Terminal from "@/components/Desktop/Window/Content/Terminal";
 import Projects from "@/components/Desktop/Window/Content/Projects";
-import { faTerminal, faDiagramProject } from '@fortawesome/free-solid-svg-icons';
+import { faTerminal, faDiagramProject, faGamepad, faGears, faUser } from '@fortawesome/free-solid-svg-icons';
 
-export type AvailableWindows = 'konsole' | 'portfolio' | 'projects' | 'socials';
+export const availableCategories = [
+    {
+        name: 'games',
+        icon: faGamepad,
+    },
+    {
+        name: 'development',
+        icon: faGears,
+    },
+    {
+        name: 'personal',
+        icon: faUser
+    }
+] as const;
+
+export type AvailableCategories = (typeof availableCategories)[number];
+export type AvailableWindows = 'konsole' | 'portfolio' | 'projects' | 'socials' | /* Just to track clicks */ 'startmenu';
 export type WindowSize = { width: number, height: number };
 export type WindowPos = { x: number, y: number };
 export type WindowContainer = { 

@@ -7,7 +7,8 @@ import WindowLayout from '@/components/Layouts/WindowLayout';
 import { Rnd } from 'react-rnd';
 import { IAvailableWindows } from '@/stores/windows';
 import tw from 'twin.macro';
-import { useLocalStorage } from 'react-localstorage-helper';
+import { usePersistedState } from '@/helpers/usePersistedState';
+import { useCommandsStore } from '@/stores/commands';
 
 type Props = { children: React.ReactNode, window: IAvailableWindows };
 
@@ -15,45 +16,65 @@ function Window({ children, window: cWindow }: Props) {
     const nodeRef = useRef<HTMLDivElement>(null);
     const [hideRnd, setHideRnd] = useState(false);
 
-    const { updateWindowSize, updateWindowPos, updateActiveWindow, toggleWindowMinimize } = useWindowsStore();
+    const { updateWindowSize, updateWindowPos, updateActiveWindow, toggleWindowMinimize, toggleWindow } = useWindowsStore();
+    const { setCommands } = useCommandsStore();
+
     const windowOrder = useMemo(() => cWindow.window.order, [cWindow.window.order]);
 
-
-    // TODO: Save initialWidth and Hight and only save / render them when window is closed / opened
-    
-    // const [initialWidth, saveInitialWidth] = useLocalStorage<string>(`${cWindow.window.name}.size.width`, `${cWindow.window.size?.width || 990}`);
-    // const [initialHeight, saveInitialHeight] = useLocalStorage<string>(`${cWindow.window.name}.size.height`, `${cWindow.window.size?.height || 490}`);
-    // const [initialXPos, saveInitialXPos] = useLocalStorage<string>(`${cWindow.window.name}.pos.x`, `${cWindow.window.pos?.x || 331}`);
-    // const [initialYPos, saveInitialYPos] = useLocalStorage<string>(`${cWindow.window.name}.pos.y`, `${cWindow.window.pos?.y || 205}`);
+    const [initialWidth, saveInitialWidth] = usePersistedState(`${cWindow.window.name}.size.width`, `${cWindow.window.size?.width ?? 990}`);
+    const [initialHeight, saveInitialHeight] = usePersistedState(`${cWindow.window.name}.size.height`, `${cWindow.window.size?.height ?? 490}`);
+    const [initialXPos, saveInitialXPos] = usePersistedState(`${cWindow.window.name}.pos.x`, `${cWindow.window.pos?.x ?? 331}`);
+    const [initialYPos, saveInitialYPos] = usePersistedState(`${cWindow.window.name}.pos.y`, `${cWindow.window.pos?.y ?? 205}`);
 
     const handleActiveWindow = () => updateActiveWindow(cWindow.window.name);
 
+    const handleResizeFade = useCallback(() => {
+        if (nodeRef.current) {
+            nodeRef.current.style.opacity = '0';
+            nodeRef.current.style.transform = 'scale(0.95)';
+
+            setTimeout(() => {
+                (nodeRef.current as any).style.transform = 'scale(1)';
+                (nodeRef.current as any).style.display = 'none';
+                setHideRnd(true);
+            }, 100);
+        }
+    }, [nodeRef.current, cWindow.window.name]);
+
     const handleWindowDrag = useCallback((p: { x: number, y: number }) => {
         updateWindowPos(cWindow.window.name, { x: p.x, y: p.y });
-        // saveInitialYPos(`${p.y}`);
-        // saveInitialXPos(`${p.x}`);
+        saveInitialYPos(`${p.y}`);
+        saveInitialXPos(`${p.x}`);
     }, []);
 
     const handleWindowResize = useCallback((ref: HTMLElement, p?: { x: number, y: number }) => {
         updateWindowSize(cWindow.window.name, { width: ref.offsetWidth, height: ref.offsetHeight });
 
-        // if (ref.offsetWidth && ref.offsetWidth != 0) saveInitialWidth(`${ref.offsetWidth}`);
-        // if (ref.offsetHeight && ref.offsetHeight != 0) saveInitialHeight(`${ref.offsetHeight}`);
+        if (ref.offsetWidth != 0) saveInitialWidth(`${ref.offsetWidth}`);
+        if (ref.offsetHeight != 0) saveInitialHeight(`${ref.offsetHeight}`);
         if (p) handleWindowDrag(p);
     }, []);
 
-    useEffect(() => {
-        if(nodeRef.current) {
-            if(cWindow.window.minimize === "enabled") {
-                nodeRef.current.style.opacity = '0';
-                nodeRef.current.style.transform = 'scale(0.95)';
+    const handleWindowClose = useCallback(() => {
+        handleResizeFade();
+        setTimeout(() => {
+            toggleWindow(cWindow.window.name, false);
+            updateActiveWindow(undefined);
+            if (window.window.name === 'konsole') setCommands([]);
+        }, 200);
+    }, [cWindow.window.name]);
 
-                setTimeout(() => {
-                    (nodeRef.current as any).style.transform = 'scale(1)';
-                    (nodeRef.current as any).style.display = 'none';
-                    setHideRnd(true);
-                }, 150);
-            } else if(cWindow.window.minimize === "disabled") {
+    const handleWindowMinimize = useCallback(() => {
+        handleResizeFade();
+        toggleWindowMinimize(cWindow.window.name, "enabled");
+        updateActiveWindow(undefined);
+
+    }, [cWindow.window.name]);
+
+    useEffect(() => {
+        if (nodeRef.current) {
+            if (cWindow.window.minimize === "enabled") {
+            } else if (cWindow.window.minimize === "disabled") {
                 nodeRef.current.style.opacity = '1';
                 nodeRef.current.style.transform = 'scale(1.05)';
 
@@ -70,21 +91,21 @@ function Window({ children, window: cWindow }: Props) {
 
     return (
         <Rnd
-            default={{ 
-                width: !cWindow.window.fullscreen ? cWindow.window.size?.width ?? 990 : window.innerWidth - 2,
-                height: !cWindow.window.fullscreen ? cWindow.window.size?.height ?? 490 : window.innerHeight - 50, 
-                x: !cWindow.window.fullscreen ? cWindow.window.pos?.x ?? 331 : 0, 
-                y: !cWindow.window.fullscreen ? cWindow.window.pos?.y ?? 205 : 0,
+            default={{
+                width: !cWindow.window.fullscreen ? initialWidth ?? 990 : window.innerWidth - 2,
+                height: !cWindow.window.fullscreen ? initialHeight ?? 490 : window.innerHeight - 50,
+                x: !cWindow.window.fullscreen ? Number(initialXPos) ?? 331 : 0,
+                y: !cWindow.window.fullscreen ? Number(initialYPos) ?? 205 : 0,
             }}
-            size={{ 
-                width: !cWindow.window.fullscreen ? cWindow.window.size?.width ?? 990 : window.innerWidth - 2, 
+            size={{
+                width: !cWindow.window.fullscreen ? cWindow.window.size?.width ?? 990 : window.innerWidth - 2,
                 height: !cWindow.window.fullscreen ? cWindow.window.size?.height ?? 490 : window.innerHeight - 50
             }}
-            position={{ 
+            position={{
                 x: !cWindow.window.fullscreen ? cWindow.window.pos?.x ?? 331 : 0,
                 y: !cWindow.window.fullscreen ? cWindow.window.pos?.y ?? 205 : 0,
             }}
-            
+
             enableResizing={!cWindow.window.fullscreen}
             disableDragging={cWindow.window.fullscreen}
             onMouseDown={handleActiveWindow}
@@ -100,7 +121,7 @@ function Window({ children, window: cWindow }: Props) {
             minWidth={208}
             minHeight={130}
 
-            css={[ tw`rounded-lg transition-all duration-[150ms] ease-out`, hideRnd && tw`!hidden` ]}
+            css={[tw`rounded-lg transition-all duration-[150ms] ease-out`, hideRnd && tw`!hidden`]}
             style={{ zIndex: 60 - windowOrder }}
             dragHandleClassName={'dragHandler'}
         >
@@ -111,7 +132,7 @@ function Window({ children, window: cWindow }: Props) {
                     cWindow.window.fullscreen ? tw`rounded-t-lg` : tw`rounded-lg`
                 ]}
             >
-                <Tab {...{ window: cWindow }} />
+                <Tab {...{ window: cWindow, handleWindowClose, handleWindowMinimize }} />
                 <WindowLayout>
                     <Suspense fallback={<p>Working on it ....</p>}>
                         {children}
