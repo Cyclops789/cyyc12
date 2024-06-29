@@ -81,7 +81,7 @@ function StartMenu({ isStartMenuSticky, setStartMenuSticky }: Props) {
             <div css={tw`p-2 w-full flex justify-between border-b border-b-white/25`}>
                 <div css={tw`flex space-x-2`}>
                     <img css={tw`rounded-full ring-[1px] ring-white/25 max-w-[30px]`} src={userProfile} srcSet={userProfile} loading={'lazy'} alt={"userProfile"} />
-                    <UserNameSpan title={'(Debian GNU/Linux 12 (bookworm))'}>hamza</UserNameSpan>
+                    <UserNameSpan title={'hamza@debian (Debian GNU/Linux 12 (bookworm))'}>hamza</UserNameSpan>
                 </div>
 
                 <div css={tw`flex space-x-2`}>

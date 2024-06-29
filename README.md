@@ -37,5 +37,6 @@ Desktop applications:
 - Add: [SUPER MARIO](https://github.com/meth-meth-method/super-mario)
 
 Terminal:
+- Add: Scroll to the bottom of the component **onCommandExecute**
 - ~~Add: fastfetch~~
 - ~~Add: insert last used command using arrow up / down~~

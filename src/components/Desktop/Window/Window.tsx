@@ -28,18 +28,37 @@ function Window({ children, window: cWindow }: Props) {
 
     const handleActiveWindow = () => updateActiveWindow(cWindow.window.name);
 
-    const handleResizeFade = useCallback(() => {
+    const handleResizeFade = useCallback((type: 'in' | 'out') => {
         if (nodeRef.current) {
-            nodeRef.current.style.opacity = '0';
-            nodeRef.current.style.transform = 'scale(0.95)';
+            switch (type) {
+                case 'in':
+                    nodeRef.current.style.opacity = '0';
+                    nodeRef.current.style.transform = `scale(0.95)`;
 
-            setTimeout(() => {
-                (nodeRef.current as any).style.transform = 'scale(1)';
-                (nodeRef.current as any).style.display = 'none';
-                setHideRnd(true);
-            }, 100);
+                    setTimeout(() => {
+                        (nodeRef.current as any).style.transform = `scale(1)`;
+                        (nodeRef.current as any).style.display = 'none';
+                        setHideRnd(true);
+                    }, 100);
+                    break;
+
+                case 'out':
+                    nodeRef.current.style.opacity = '1';
+                    nodeRef.current.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        (nodeRef.current as any).style.transform = 'scale(1)';
+                        (nodeRef.current as any).style.display = '';
+                        setHideRnd(false);
+                    }, 100);
+                    break;
+
+                default:
+                    toggleWindowMinimize(cWindow.window.name, undefined);
+                    break;
+            }
+
         }
-    }, [nodeRef.current, cWindow.window.name]);
+    }, [nodeRef.current, cWindow.window.minimize]);
 
     const handleWindowDrag = useCallback((p: { x: number, y: number }) => {
         updateWindowPos(cWindow.window.name, { x: p.x, y: p.y });
@@ -56,7 +75,7 @@ function Window({ children, window: cWindow }: Props) {
     }, []);
 
     const handleWindowClose = useCallback(() => {
-        handleResizeFade();
+        handleResizeFade('in');
         setTimeout(() => {
             toggleWindow(cWindow.window.name, false);
             updateActiveWindow(undefined);
@@ -65,29 +84,12 @@ function Window({ children, window: cWindow }: Props) {
     }, [cWindow.window.name]);
 
     const handleWindowMinimize = useCallback(() => {
-        handleResizeFade();
-        toggleWindowMinimize(cWindow.window.name, "enabled");
-        updateActiveWindow(undefined);
+        handleResizeFade((cWindow.window.minimize === 'enabled') ? 'out' : 'in');
+        toggleWindowMinimize(cWindow.window.name, (cWindow.window.minimize === 'enabled') ? 'disabled' : 'enabled');
+        updateActiveWindow((cWindow.window.minimize === 'enabled') ? cWindow.window.name : undefined);
+    }, [cWindow.window.minimize]);
 
-    }, [cWindow.window.name]);
-
-    useEffect(() => {
-        if (nodeRef.current) {
-            if (cWindow.window.minimize === "enabled") {
-            } else if (cWindow.window.minimize === "disabled") {
-                nodeRef.current.style.opacity = '1';
-                nodeRef.current.style.transform = 'scale(1.05)';
-
-                setTimeout(() => {
-                    (nodeRef.current as any).style.transform = 'scale(1)';
-                    (nodeRef.current as any).style.display = '';
-                    setHideRnd(false);
-                }, 150);
-            } else {
-                toggleWindowMinimize(cWindow.window.name, undefined);
-            }
-        }
-    }, [cWindow.window.minimize, nodeRef.current]);
+    cWindow.window.functions.minimize = handleWindowMinimize;
 
     return (
         <Rnd

@@ -31,6 +31,9 @@ export type WindowContainer = {
     minimize?: "enabled" | "disabled", 
     fullscreen: boolean, 
     order: number,
+    functions: {
+        minimize: () => void;
+    }
 };
 
 export interface IAvailableWindows {
@@ -67,6 +70,9 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 minimize: undefined,
                 fullscreen: false,
                 order: 1,
+                functions: {
+                    minimize: () => {},
+                },
             },
             windowChildren: Projects,
             desktop: {
@@ -84,6 +90,9 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 minimize: undefined,
                 fullscreen: false,
                 order: 2,
+                functions: {
+                    minimize: () => {},
+                },
             },
             windowChildren: Terminal,
             desktop: {

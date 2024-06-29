@@ -15,7 +15,7 @@ function Categories() {
     return (
         <div css={tw`w-[40%] p-2`}>
             {availableCategories.map(category => (
-                <CategoryContainer>
+                <CategoryContainer key={category.name}>
                     <div css={tw`w-[35px] mx-1`}>
                         <FontAwesomeIcon css={tw`text-[23px]`} icon={category.icon} /> 
                     </div>

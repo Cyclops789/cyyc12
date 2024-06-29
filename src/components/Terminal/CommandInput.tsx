@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useCommandsStore } from "@/stores/commands";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloud, faBolt } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +10,7 @@ const Input = styled.input`
 `;
 
 function CommandInput() {
+    const outputRef = useRef<HTMLDivElement>(null);
     const { addCommand, setCommandPlaceHolder, commandPlaceHolder, setCommands, commands: storeCommands } = useCommandsStore();
 
     useEffect(() => {
@@ -41,7 +42,10 @@ function CommandInput() {
 
     return (
         <>
-            <div css={tw`text-green-400`}>
+            <div 
+                ref={outputRef} 
+                css={tw`text-green-400`}
+            >
                 <FontAwesomeIcon css={tw`text-blue-500 w-4`} icon={faCloud} />
                 <span css={tw`text-red-500`}> hamza</span>
                 <span css={tw`text-white`}>@</span>debian <FontAwesomeIcon css={tw`text-red-500 w-4`} icon={faBolt} />
@@ -66,7 +70,7 @@ function CommandInput() {
                         }
                     }}
                     value={commandPlaceHolder || ''}
-                    onChange={(e) => setCommandPlaceHolder(e.target.value)}
+                    onChange={(e) => {setCommandPlaceHolder(e.target.value)}}
                     type="text"
                     name="terminal"
                     id="terminal"

@@ -48,12 +48,8 @@ function TaskBar() {
                                         setCommands(['help']);
                                     }
                                 } else {
-                                    if (gWindow.window.minimize === "enabled") {
-                                        toggleWindowMinimize(gWindow.window.name, "disabled");
-                                        updateActiveWindow(gWindow.window.name);
-                                    } else {
-                                        toggleWindowMinimize(gWindow.window.name, "enabled");
-                                        updateActiveWindow(undefined);
+                                    if(typeof gWindow.window.functions.minimize !== 'undefined') {
+                                        gWindow.window.functions.minimize();
                                     }
                                 }
                             }}
