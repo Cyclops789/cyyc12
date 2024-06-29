@@ -18,24 +18,27 @@ function Window({ children, window: cWindow }: Props) {
     const { updateWindowSize, updateWindowPos, updateActiveWindow, toggleWindowMinimize } = useWindowsStore();
     const windowOrder = useMemo(() => cWindow.window.order, [cWindow.window.order]);
 
-    const [initialWidth, saveInitialWidth] = useLocalStorage<string>(`${cWindow.window.name}.size.width`, `${cWindow.window.size?.width || 990}`);
-    const [initialHeight, saveInitialHeight] = useLocalStorage<string>(`${cWindow.window.name}.size.height`, `${cWindow.window.size?.height || 490}`);
-    const [initialXPos, saveInitialXPos] = useLocalStorage<string>(`${cWindow.window.name}.pos.x`, `${cWindow.window.pos?.x || 331}`);
-    const [initialYPos, saveInitialYPos] = useLocalStorage<string>(`${cWindow.window.name}.pos.y`, `${cWindow.window.pos?.y || 205}`);
+
+    // TODO: Save initialWidth and Hight and only save / render them when window is closed / opened
+    
+    // const [initialWidth, saveInitialWidth] = useLocalStorage<string>(`${cWindow.window.name}.size.width`, `${cWindow.window.size?.width || 990}`);
+    // const [initialHeight, saveInitialHeight] = useLocalStorage<string>(`${cWindow.window.name}.size.height`, `${cWindow.window.size?.height || 490}`);
+    // const [initialXPos, saveInitialXPos] = useLocalStorage<string>(`${cWindow.window.name}.pos.x`, `${cWindow.window.pos?.x || 331}`);
+    // const [initialYPos, saveInitialYPos] = useLocalStorage<string>(`${cWindow.window.name}.pos.y`, `${cWindow.window.pos?.y || 205}`);
 
     const handleActiveWindow = () => updateActiveWindow(cWindow.window.name);
 
     const handleWindowDrag = useCallback((p: { x: number, y: number }) => {
         updateWindowPos(cWindow.window.name, { x: p.x, y: p.y });
-        saveInitialYPos(`${p.y}`);
-        saveInitialXPos(`${p.x}`);
+        // saveInitialYPos(`${p.y}`);
+        // saveInitialXPos(`${p.x}`);
     }, []);
 
     const handleWindowResize = useCallback((ref: HTMLElement, p?: { x: number, y: number }) => {
         updateWindowSize(cWindow.window.name, { width: ref.offsetWidth, height: ref.offsetHeight });
 
-        if (ref.offsetWidth && ref.offsetWidth != 0) saveInitialWidth(`${ref.offsetWidth}`);
-        if (ref.offsetHeight && ref.offsetHeight != 0) saveInitialHeight(`${ref.offsetHeight}`);
+        // if (ref.offsetWidth && ref.offsetWidth != 0) saveInitialWidth(`${ref.offsetWidth}`);
+        // if (ref.offsetHeight && ref.offsetHeight != 0) saveInitialHeight(`${ref.offsetHeight}`);
         if (p) handleWindowDrag(p);
     }, []);
 
@@ -68,18 +71,18 @@ function Window({ children, window: cWindow }: Props) {
     return (
         <Rnd
             default={{ 
-                width: !cWindow.window.fullscreen ? initialWidth : window.innerWidth - 2,
-                height: !cWindow.window.fullscreen ? initialHeight : window.innerHeight - 50, 
-                x: !cWindow.window.fullscreen ? parseInt(initialXPos) : 0, 
-                y: !cWindow.window.fullscreen ? parseInt(initialYPos) : 0,
+                width: !cWindow.window.fullscreen ? cWindow.window.size?.width ?? 990 : window.innerWidth - 2,
+                height: !cWindow.window.fullscreen ? cWindow.window.size?.height ?? 490 : window.innerHeight - 50, 
+                x: !cWindow.window.fullscreen ? cWindow.window.pos?.x ?? 331 : 0, 
+                y: !cWindow.window.fullscreen ? cWindow.window.pos?.y ?? 205 : 0,
             }}
             size={{ 
-                width: !cWindow.window.fullscreen ? initialWidth : window.innerWidth - 2, 
-                height: !cWindow.window.fullscreen ? initialHeight : window.innerHeight - 50
+                width: !cWindow.window.fullscreen ? cWindow.window.size?.width ?? 990 : window.innerWidth - 2, 
+                height: !cWindow.window.fullscreen ? cWindow.window.size?.height ?? 490 : window.innerHeight - 50
             }}
             position={{ 
-                x: !cWindow.window.fullscreen ? parseInt(initialXPos) : 0,
-                y: !cWindow.window.fullscreen ? parseInt(initialYPos) : 0,
+                x: !cWindow.window.fullscreen ? cWindow.window.pos?.x ?? 331 : 0,
+                y: !cWindow.window.fullscreen ? cWindow.window.pos?.y ?? 205 : 0,
             }}
             
             enableResizing={!cWindow.window.fullscreen}
