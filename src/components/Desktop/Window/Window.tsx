@@ -58,7 +58,7 @@ function Window({ children, window: cWindow }: Props) {
             }
 
         }
-    }, [nodeRef.current, cWindow.window.minimize]);
+    }, [nodeRef.current]);
 
     const handleWindowDrag = useCallback((p: { x: number, y: number }) => {
         updateWindowPos(cWindow.window.name, { x: p.x, y: p.y });
