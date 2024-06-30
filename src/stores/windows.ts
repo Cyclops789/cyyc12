@@ -4,32 +4,36 @@ import Terminal from "@/components/Desktop/Window/Content/Terminal";
 import Projects from "@/components/Desktop/Window/Content/Projects";
 import { faTerminal, faDiagramProject, faGamepad, faGears, faUser } from '@fortawesome/free-solid-svg-icons';
 
-export const availableCategories = [
-    {
-        name: 'games',
-        icon: faGamepad,
-    },
-    {
-        name: 'development',
-        icon: faGears,
-    },
-    {
-        name: 'personal',
-        icon: faUser
-    }
-] as const;
+export const availableCategories = {
+    categories_simple: ['games', 'development', 'personal'],
+    categories_full: [
+        {
+            name: 'games',
+            icon: faGamepad,
+        },
+        {
+            name: 'development',
+            icon: faGears,
+        },
+        {
+            name: 'personal',
+            icon: faUser
+        }
+    ]
+} as const;
 
-export type AvailableCategories = (typeof availableCategories)[number];
+export type AvailableCategories = (typeof availableCategories.categories_simple)[number];
 export type AvailableWindows = 'konsole' | 'portfolio' | 'projects' | 'socials' | /* Just to track clicks */ 'startmenu';
 export type WindowSize = { width: number, height: number };
 export type WindowPos = { x: number, y: number };
-export type WindowContainer = { 
-    name: AvailableWindows, 
-    size?: WindowSize, 
-    pos?: WindowPos, 
-    open: boolean, 
-    minimize?: "enabled" | "disabled", 
-    fullscreen: boolean, 
+export type WindowContainer = {
+    name: AvailableWindows,
+    category: AvailableCategories,
+    size?: WindowSize,
+    pos?: WindowPos,
+    open: boolean,
+    minimize?: "enabled" | "disabled",
+    fullscreen: boolean,
     order: number,
     functions: {
         minimize: () => void;
@@ -66,12 +70,13 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
         {
             window: {
                 name: 'projects',
+                category: 'personal',
                 open: false,
                 minimize: undefined,
                 fullscreen: false,
                 order: 1,
                 functions: {
-                    minimize: () => {},
+                    minimize: () => { },
                 },
             },
             windowChildren: Projects,
@@ -86,12 +91,13 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
         {
             window: {
                 name: 'konsole',
+                category: 'development',
                 open: false,
                 minimize: undefined,
                 fullscreen: false,
                 order: 2,
                 functions: {
-                    minimize: () => {},
+                    minimize: () => { },
                 },
             },
             windowChildren: Terminal,

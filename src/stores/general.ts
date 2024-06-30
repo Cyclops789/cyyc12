@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { AvailableCategories } from './windows';
 
 export type DesktopActions   = 'start' | 'restart' | 'stop' | null;
 export type DeskTopStatus    = 'started' | 'starting' | 'stopped' | 'stopping';
@@ -9,7 +10,6 @@ export const availableBackgrounds = [
     'cmatrix.yellow',
     'cmatrix.red',
 ] as const;
-
 export type AvailableBackgrounds = (typeof availableBackgrounds)[number];
 
 
@@ -21,6 +21,9 @@ export interface IGeneralStore {
     openTerminal: boolean;
     terminalTexts: string[];
     dummyTerminalText: string[];
+
+    activeMenuCategory: AvailableCategories | null;
+    setActiveMenuCategory: (activeMenuCategory: AvailableCategories | null) => void;
 
     setDesktopAction: (desktopAction: DesktopActions) => void;
     setDesktopStatus: (desktopStatus: DeskTopStatus) => void;
@@ -76,6 +79,9 @@ export const useGeneralStore = create<IGeneralStore>((set) => ({
         "Listening on Load/Save RF Kill Switch Status /dev/rfkill Watch. Starting Network Manager Script Dispatcher Service...",
         "Started Network Manager Script Dispatcher Service.",
     ],
+    activeMenuCategory: null,
+
+    setActiveMenuCategory: (activeMenuCategory) => set(() => ({ activeMenuCategory })),
 
     setDesktopAction: (desktopAction) => set(() => ({ desktopAction })),
     setDesktopStatus: (desktopStatus) => set(() => ({ desktopStatus })),

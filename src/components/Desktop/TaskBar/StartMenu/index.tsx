@@ -1,18 +1,18 @@
 import { useWindowsStore } from '@/stores/windows';
-import React, { type Dispatch, type SetStateAction } from 'react';
+import React, { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
 import tw, { styled } from 'twin.macro';
 import userProfile from '@/assets/user-profile.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbtack, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faThumbtack, faMagnifyingGlass, faPowerOff, faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 import Categories from './Categories';
 import Programmes from './Programmes';
 
 type Props = { isStartMenuSticky: boolean, setStartMenuSticky: Dispatch<SetStateAction<boolean>> };
 
-const ThumbTackStick = styled.div<{ sticky: boolean }>`
+const ThumbTackStick = styled.div<{ $sticky: boolean }>`
     ${tw`rounded border border-transparent w-[35px] flex justify-center items-center`}
 
-    ${p => p.sticky && tw`bg-red-700/30 border-red-600`}
+    ${p => p.$sticky && tw`bg-red-700/30 border-red-600`}
 
     &:hover {
         ${tw`border-red-600`}
@@ -33,16 +33,13 @@ const InputSearch = styled.div`
     & input {
         ${tw`(outline-none focus:outline-none)! focus:ring-0 bg-transparent text-[15px] text-white`}
     }
-
-    &:focus-within {
-        ${tw`border-red-600`}
-    }
-
     & svg {
         ${tw`w-[15px] transition-all ease-in-out duration-200`}
     }
     
     &:focus-within {
+        ${tw`border-red-600`}
+
         & svg {
             ${tw`w-0 mx-0`}
         }
@@ -69,14 +66,35 @@ const UserNameSpan = styled.span`
     }
 `;
 
+const PowerButton = styled.div`
+    ${tw`flex items-center border border-transparent rounded p-1 space-x-2 cursor-pointer`}
+
+    & svg {
+        ${tw`text-white text-[25px]`}
+    }
+
+    & div {
+        ${tw`text-white`}
+    }
+
+    &:hover {
+        ${tw`border-red-600`}
+    }
+
+    &:active {
+        ${tw`bg-red-700/30 border-red-600`}
+    }
+`;
+
 function StartMenu({ isStartMenuSticky, setStartMenuSticky }: Props) {
     const { activeWindow, updateActiveWindow } = useWindowsStore();
+    const [applicationsSearchQuery, setApplicationSearchQuery] = useState('');
 
     return (
         <div
             css={[
                 tw`fixed z-[99] border-b border-b-white/25 bottom-[50px] left-0 h-0 w-[656px] rounded-tr opacity-0 bg-[rgba(42,45,50)] transition-all ease-in-out duration-200`,
-                (activeWindow === 'startmenu' || isStartMenuSticky) && tw`!h-[450px] !opacity-100`
+                (activeWindow === 'startmenu' || isStartMenuSticky) && tw`!h-[461px] !opacity-100`
             ]}>
             <div css={tw`p-2 w-full flex justify-between border-b border-b-white/25`}>
                 <div css={tw`flex space-x-2`}>
@@ -86,24 +104,55 @@ function StartMenu({ isStartMenuSticky, setStartMenuSticky }: Props) {
 
                 <div css={tw`flex space-x-2`}>
                     <InputSearch>
-                        <FontAwesomeIcon css={tw`text-blue-600 mx-2`} icon={faMagnifyingGlass} />
-                        <input type={"text"} placeholder={'Search...'} />
+                        <FontAwesomeIcon css={tw`text-red-600 mx-2`} icon={faMagnifyingGlass} />
+                        <input
+                            type={"text"}
+                            placeholder={'Search...'}
+                            onChange={(e) => setApplicationSearchQuery(e.target.value)} value={applicationsSearchQuery}
+                        />
                     </InputSearch>
-                    <ThumbTackStick 
+                    <ThumbTackStick
                         onClick={() => {
                             updateActiveWindow('startmenu');
                             setStartMenuSticky((e) => !e);
-                        }} 
-                        sticky={isStartMenuSticky}
+                        }}
+                        $sticky={isStartMenuSticky}
                     >
                         <FontAwesomeIcon icon={faThumbtack} />
                     </ThumbTackStick>
                 </div>
             </div>
-            <div css={tw`flex`}>
+            <div css={tw`flex h-[351px]`}>
                 <Categories />
-            <div css={tw`h-[400px] bg-white/25 w-[1px]`} />
-                <Programmes />
+                <div css={tw`h-[351px] bg-white/25 w-[1px]`} />
+                <Programmes {...{ applicationsSearchQuery }} />
+            </div>
+            <div css={tw`border-t border-t-white/25 h-[50px]`}>
+                <div css={tw`p-3 flex justify-between`}>
+                    <div css={tw`flex space-x-2`}>
+
+                    </div>
+
+                    <div css={tw`flex space-x-2`}>
+                        <PowerButton
+                            onClick={() => {
+                                window.location.reload();
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faArrowsRotate} />
+                            <div>Restart</div>
+                        </PowerButton>
+
+                        <PowerButton
+                            onClick={() => {
+                                window.close();
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faPowerOff} />
+                            <div>Shut Down</div>
+                        </PowerButton>
+                    </div>
+                </div>
             </div>
         </div>
     )
