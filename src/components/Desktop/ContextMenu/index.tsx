@@ -78,7 +78,12 @@ function ContextMenu({ children }: Props) {
                     <Item disabled id="new.folder" onClick={() => { }}>Folder</Item>
                     <Item disabled id="new.text" onClick={() => { }}>Text file</Item>
                 </Submenu>
-                <Item disabled id="add.file" onClick={() => { }}>Add file</Item>
+                <Submenu label="Add file">
+                    <Item id="add.file" onClick={() => { }}>
+                        <label css={tw`w-full h-full cursor-pointer`} htmlFor={"add.file.image"}>Image</label>
+                        <input hidden id={"add.file.image"} type={"file"} accept={'image/*'} />
+                    </Item>
+                </Submenu>
             </Menu>
             {children}
         </>

@@ -1,9 +1,12 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AvailableWindows } from '@/stores/windows';
 import { useWindowsStore } from '@/stores/windows';
 import { useCommandsStore } from '@/stores/commands';
 import tw, { styled } from 'twin.macro';
 import { CSSProp } from 'styled-components';
+import { useGeneralStore } from '@/stores/general';
+import { usePersistedState } from '@/helpers/usePersistedState';
+import Draggable from 'react-draggable';
 
 const Button = styled.button`
     ${tw`w-[60px] h-[60px] rounded-lg`} 
@@ -29,12 +32,19 @@ type Props = { children: React.ReactNode, title: AvailableWindows, css?: CSSProp
 
 function DesktopIcon({ children, css, title, className }: Props) {
     const iconContainerRef = useRef<HTMLDivElement>(null);
-    const { toggleWindow, updateActiveWindow } = useWindowsStore();
+    const { activeWindow, toggleWindow, updateActiveWindow } = useWindowsStore();
     const { setCommands } = useCommandsStore();
+    const { isUserSelectionActive } = useGeneralStore();
+
+    const [initialXDragPosition, setInitialXDragPosition] = usePersistedState(`${title}.drag.pos.x`, 0);
+    const [initialYDragPosition, setInitialYDragPosition] = usePersistedState(`${title}.drag.pos.y`, 0);
+
+    const [isCurrentlyDragging, setIsCurrentlyDragging] = useState(false);
 
     const removeSelected = useCallback(() => {
-        if(iconContainerRef.current && iconContainerRef.current.classList.contains('selected')) {
-            iconContainerRef.current.classList.remove('selected')
+        if (iconContainerRef.current && iconContainerRef.current.classList.contains('selected')) {
+            iconContainerRef.current.classList.remove('selected');
+            setIsCurrentlyDragging(false);
         }
     }, [iconContainerRef.current]);
 
@@ -46,29 +56,50 @@ function DesktopIcon({ children, css, title, className }: Props) {
     }, []);
 
     return (
-        <IconContainer
-            className={`${className ?? ''} UserSelectionItem`}
-            onMouseDown={() => updateActiveWindow(title)}
-            ref={iconContainerRef} 
+        <Draggable
+            // grid={[50, 50]}
+            defaultPosition={{
+                x: Number(initialXDragPosition), 
+                y: Number(initialYDragPosition),
+            }}
+            scale={1}
+            bounds={'body'}
+            onStart={() => setIsCurrentlyDragging(false)}
+            onDrag={() => setIsCurrentlyDragging(true)}
+            onStop={(_, data) => {
+                setInitialXDragPosition(data.lastX);
+                setInitialYDragPosition(data.lastY);
+            }}
         >
-            <div css={tw`p-2`}>
-                <Button
-                    {...{
-                        onClick: () => {
-                            toggleWindow(title, true);
-                            updateActiveWindow(title);
-                            if (title === 'konsole') {
-                                setCommands(['help']);
-                            }
-                        },
-                        css
-                    }}
-                >
-                    {children}
-                </Button>
-                <div css={tw`text-center capitalize text-white text-xs mt-3`}>{title}</div>
-            </div>
-        </IconContainer>
+            <IconContainer
+                className={`${className ?? ''} UserSelectionItem`}
+                onMouseDown={() => updateActiveWindow(title)}
+                onMouseEnter={() => {
+                    if (!isUserSelectionActive) updateActiveWindow(title);
+                }}
+                ref={iconContainerRef}
+            >
+                <div css={tw`p-2`}>
+                    <Button
+                        {...{
+                            onClick: () => {
+                                if (!isCurrentlyDragging) {
+                                    toggleWindow(title, true);
+                                    updateActiveWindow(title);
+                                    if (title === 'konsole') {
+                                        setCommands(['help']);
+                                    }
+                                }
+                            },
+                            css
+                        }}
+                    >
+                        {children}
+                    </Button>
+                    <div css={tw`text-center capitalize text-white text-xs mt-3`}>{title}</div>
+                </div>
+            </IconContainer>
+        </Draggable>
     )
 }
 

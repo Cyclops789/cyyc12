@@ -21,10 +21,11 @@ export interface IGeneralStore {
     openTerminal: boolean;
     terminalTexts: string[];
     dummyTerminalText: string[];
-
+    isUserSelectionActive: boolean;
     activeMenuCategory: AvailableCategories | null;
+    
     setActiveMenuCategory: (activeMenuCategory: AvailableCategories | null) => void;
-
+    setIsUserSelectionActive: (isUserSelectionActive: boolean) => void;
     setDesktopAction: (desktopAction: DesktopActions) => void;
     setDesktopStatus: (desktopStatus: DeskTopStatus) => void;
     setActiveBackground: (activeBackground: AvailableBackgrounds) => void;
@@ -80,7 +81,9 @@ export const useGeneralStore = create<IGeneralStore>((set) => ({
         "Started Network Manager Script Dispatcher Service.",
     ],
     activeMenuCategory: null,
+    isUserSelectionActive: false,
 
+    setIsUserSelectionActive: (isUserSelectionActive) => set(() => ({ isUserSelectionActive })),
     setActiveMenuCategory: (activeMenuCategory) => set(() => ({ activeMenuCategory })),
 
     setDesktopAction: (desktopAction) => set(() => ({ desktopAction })),

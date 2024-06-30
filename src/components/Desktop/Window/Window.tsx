@@ -74,7 +74,7 @@ function Window({ children, window: cWindow }: Props) {
         if (p) handleWindowDrag(p);
     }, []);
 
-    const handleWindowClose = useCallback(() => {
+    const handleWindowClose = cWindow.window.functions.close = useCallback(() => {
         handleResizeFade('in');
         setTimeout(() => {
             toggleWindow(cWindow.window.name, false);
@@ -83,13 +83,11 @@ function Window({ children, window: cWindow }: Props) {
         }, 200);
     }, [cWindow.window.name]);
 
-    const handleWindowMinimize = useCallback(() => {
+    const handleWindowMinimize = cWindow.window.functions.minimize = useCallback(() => {
         handleResizeFade((cWindow.window.minimize === 'enabled') ? 'out' : 'in');
         toggleWindowMinimize(cWindow.window.name, (cWindow.window.minimize === 'enabled') ? 'disabled' : 'enabled');
         updateActiveWindow((cWindow.window.minimize === 'enabled') ? cWindow.window.name : undefined);
     }, [cWindow.window.minimize]);
-
-    cWindow.window.functions.minimize = handleWindowMinimize;
 
     return (
         <Rnd
@@ -123,7 +121,7 @@ function Window({ children, window: cWindow }: Props) {
             minWidth={208}
             minHeight={130}
 
-            css={[tw`rounded-lg transition-all duration-[150ms] ease-out`, hideRnd && tw`!hidden`]}
+            css={[tw`shadow-md shadow-black rounded-lg transition-all duration-[150ms] ease-out`, hideRnd && tw`!hidden`]}
             style={{ zIndex: 60 - windowOrder }}
             dragHandleClassName={'dragHandler'}
         >

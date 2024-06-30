@@ -9,14 +9,14 @@
 - ~~Add: fullscreen button~~
 - ~~Add: minimize button~~
 - ~~Add: motion effect when minimizing / closing a window~~
-- ~~Fix: windows size when you reopen them~~ 90% (still glitching sometimes)
+- ~~Fix: windows size when you reopen them~~ 95% (need to save the initial position and size in the localStorage)
 - ~~Fix: z-index (update when clicking on a window, probably using **X1**)~~
 - ~~Fix: limit width resizing when it reaches the tab text~~
 
 **[CORE]** Desktop:
 - ~~Add: task bar~~
-- Add: Start menu
-- Add: Context menu
+- ~~Add: Start menu~~
+- Add: Context menu [50%] (working on file uploads)
 - ~~Fix: add scale animation when you close / minimize window though TaskBar~~
 - ~~Add: active windwos / opened windows (Using **X1**)~~
 - ~~Fix: DesktopHandler should use full screen size~~

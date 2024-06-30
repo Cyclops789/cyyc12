@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:test": "yarn build && python3 -m http.server -d dist/",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --quiet",
     "preview": "vite preview"
   },
@@ -24,6 +25,7 @@
     "react": "^18.3.1",
     "react-contexify": "^6.0.0",
     "react-dom": "^18.3.1",
+    "react-draggable": "^4.4.6",
     "react-helmet": "^6.1.0",
     "react-mouse-select": "^1.1.2",
     "react-rnd": "^10.4.11",

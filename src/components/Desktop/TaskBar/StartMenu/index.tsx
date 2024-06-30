@@ -93,7 +93,7 @@ function StartMenu({ isStartMenuSticky, setStartMenuSticky }: Props) {
     return (
         <div
             css={[
-                tw`fixed z-[99] border-b border-b-white/25 bottom-[50px] left-0 h-0 w-[656px] rounded-tr opacity-0 bg-[rgba(42,45,50)] transition-all ease-in-out duration-200`,
+                tw`fixed z-[99] border-b border-b-white/25 bottom-[50px] left-0 h-0 w-[656px] rounded-tr opacity-0 bg-[rgba(42,45,50)] transition-all ease-in-out duration-200 shadow-md shadow-black`,
                 (activeWindow === 'startmenu' || isStartMenuSticky) && tw`!h-[461px] !opacity-100`
             ]}>
             <div css={tw`p-2 w-full flex justify-between border-b border-b-white/25`}>

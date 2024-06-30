@@ -17,7 +17,7 @@ function Desktop({ selectAbleContainerRef }: Props) {
           onMouseDown={() => updateActiveWindow(undefined)} 
           css={tw`z-[9] fixed w-screen h-screen`}
         >
-            <div ref={selectAbleContainerRef} css={tw`space-y-[25px] h-screen`}>
+            <div ref={selectAbleContainerRef} css={tw`h-screen`}>
                 {windows.map((fWindow, index) => (
                     <DesktopIcon key={`${index}-${fWindow.window.name}`} title={fWindow.window.name} css={tw`${fWindow.desktop.className || ''}`}>
                         <FontAwesomeIcon css={`${fWindow.desktop.child.css || ''}`} icon={fWindow.desktop.child.icon} />

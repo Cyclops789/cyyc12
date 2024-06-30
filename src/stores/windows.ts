@@ -37,7 +37,10 @@ export type WindowContainer = {
     order: number,
     functions: {
         minimize: () => void;
-    }
+        close: () => void;
+    },
+    smallTask: boolean;
+    hoverSmallTask: boolean;
 };
 
 export interface IAvailableWindows {
@@ -60,6 +63,8 @@ export interface IGeneralStore {
     updateWindowSize: (windowName: AvailableWindows, size: WindowSize) => void;
     updateWindowPos: (windowName: AvailableWindows, pos: WindowPos) => void;
 
+    toggleWindowHoverSmallTask: (windowName: AvailableWindows, action: boolean) => void;
+    toggleWindowSmallTask: (windowName: AvailableWindows, action: boolean) => void;
     toggleWindow: (windowName: AvailableWindows, action: boolean) => void;
     toggleWindowMinimize: (windowName: AvailableWindows, action: "enabled" | "disabled" | undefined) => void;
     toggleWindowFullScreen: (windowName: AvailableWindows, action: boolean) => void;
@@ -77,7 +82,10 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 order: 1,
                 functions: {
                     minimize: () => { },
+                    close: () => { },
                 },
+                smallTask: false,
+                hoverSmallTask: false,
             },
             windowChildren: Projects,
             desktop: {
@@ -98,7 +106,10 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 order: 2,
                 functions: {
                     minimize: () => { },
+                    close: () => { },
                 },
+                smallTask: false,
+                hoverSmallTask: false,
             },
             windowChildren: Terminal,
             desktop: {
@@ -196,6 +207,34 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
             const updatedWindows = [
                 ...state.windows.slice(0, index),
                 { ...state.windows[index], window: { ...state.windows[index].window, fullscreen: action } },
+                ...state.windows.slice(index + 1),
+            ];
+
+            return { windows: updatedWindows };
+        }
+
+        return state;
+    }),
+    toggleWindowSmallTask: (windowName, action) => set((state) => {
+        const index = state.windows.findIndex((window) => window.window.name === windowName);
+        if (index !== -1) {
+            const updatedWindows = [
+                ...state.windows.slice(0, index),
+                { ...state.windows[index], window: { ...state.windows[index].window, smallTask: action } },
+                ...state.windows.slice(index + 1),
+            ];
+
+            return { windows: updatedWindows };
+        }
+
+        return state;
+    }),
+    toggleWindowHoverSmallTask: (windowName, action) => set((state) => {
+        const index = state.windows.findIndex((window) => window.window.name === windowName);
+        if (index !== -1) {
+            const updatedWindows = [
+                ...state.windows.slice(0, index),
+                { ...state.windows[index], window: { ...state.windows[index].window, hoverSmallTask: action } },
                 ...state.windows.slice(index + 1),
             ];
 
