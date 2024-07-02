@@ -31,7 +31,7 @@ const WindowSmallTaskManager = styled.div`
 `;
 
 function TaskBar() {
-    const { windows, activeWindow, updateActiveWindow, toggleWindow, toggleWindowSmallTask, toggleWindowHoverSmallTask } = useWindowsStore();
+    const { windows, activeWindow, updateActiveWindow, toggleWindow, toggleWindowMinimize, toggleWindowSmallTask, toggleWindowHoverSmallTask } = useWindowsStore();
     const [isStartMenuSticky, setStartMenuSticky] = useState<boolean>(false);
     const { setCommands } = useCommandsStore();
 
@@ -76,7 +76,9 @@ function TaskBar() {
                                             {gWindow.window.name}
                                         </div>
 
-                                        <SmallTaskCloseButton>
+                                        <SmallTaskCloseButton
+                                            onClick={() => gWindow.window.functions.close()}
+                                        >
                                             <div css={tw`px-1`}>
                                                 <FontAwesomeIcon css={tw`text-red-700`} icon={faXmark} />
                                             </div>
@@ -85,7 +87,10 @@ function TaskBar() {
 
                                     <WindowSmallTaskManager
                                         onClick={() => {
-                                            updateActiveWindow(gWindow.window.name)
+                                            if(gWindow.window.minimize === 'enabled') {
+                                                gWindow.window.functions.minimize();
+                                            }
+                                            updateActiveWindow(gWindow.window.name);
                                             toggleWindowHoverSmallTask(gWindow.window.name, false);
                                             toggleWindowSmallTask(gWindow.window.name, false);
                                         }}

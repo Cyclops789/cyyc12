@@ -28,7 +28,7 @@
 - ~~X1: add / use active windows state~~
 
 Desktop interface:
-- Add: Ability to change desktop background from **ContextMenu**
+- ~~Add: Ability to change desktop background from **ContextMenu**~~ [80%] (need to add more canvas backgrounds)
 
 Desktop applications:
 - Add: embedded browser (probably with iframe)
