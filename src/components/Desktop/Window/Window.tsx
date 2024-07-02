@@ -9,6 +9,7 @@ import { IAvailableWindows } from '@/stores/windows';
 import tw from 'twin.macro';
 import { usePersistedState } from '@/helpers/usePersistedState';
 import { useCommandsStore } from '@/stores/commands';
+import { useBrowserHistoryStore } from '@/stores/browserHistory';
 
 type Props = { children: React.ReactNode, window: IAvailableWindows };
 
@@ -18,6 +19,7 @@ function Window({ children, window: cWindow }: Props) {
 
     const { updateWindowSize, updateWindowPos, updateActiveWindow, toggleWindowMinimize, toggleWindow } = useWindowsStore();
     const { setCommands } = useCommandsStore();
+    const { setLinksHistory, setSearchPlaceHolder } = useBrowserHistoryStore();
 
     const windowOrder = useMemo(() => cWindow.window.order, [cWindow.window.order]);
 
@@ -79,7 +81,11 @@ function Window({ children, window: cWindow }: Props) {
         setTimeout(() => {
             toggleWindow(cWindow.window.name, false);
             updateActiveWindow(undefined);
-            if (window.window.name === 'konsole') setCommands([]);
+            if (cWindow.window.name === 'konsole') setCommands([]);
+            if (cWindow.window.name === 'icefox') {
+                setLinksHistory([]);
+                setSearchPlaceHolder('');
+            };
         }, 200);
     }, [cWindow.window.name]);
 
@@ -128,7 +134,7 @@ function Window({ children, window: cWindow }: Props) {
             <div
                 ref={nodeRef}
                 css={[
-                    tw`border-2 cursor-none border-red-600 h-full w-full transform-gpu transition-all duration-[200ms] ease-out`,
+                    tw`border-2 cursor-none border-red-700 h-full w-full transform-gpu transition-all duration-[200ms] ease-out`,
                     cWindow.window.fullscreen ? tw`rounded-t-lg` : tw`rounded-lg`
                 ]}
             >

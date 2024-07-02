@@ -15,9 +15,9 @@ function Tab({ window, handleWindowClose, handleWindowMinimize }: Props) {
     return (
         <div
             onDoubleClick={() => toggleWindowFullScreen(window.window.name, !window.window.fullscreen)} 
-            css={tw`flex justify-between cursor-default bg-red-600`} className={'dragHandler'}
+            css={tw`flex justify-between cursor-default bg-red-700`} className={'dragHandler'}
         >
-            <div css={tw`bg-red-600 w-full h-[30px] flex justify-center items-center`}>
+            <div css={tw`bg-red-700 w-full h-[30px] flex justify-center items-center`}>
                 <span css={tw`capitalize text-white`}>{window.window.name}</span>
             </div>
 

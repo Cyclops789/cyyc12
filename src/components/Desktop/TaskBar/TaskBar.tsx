@@ -33,7 +33,7 @@ const WindowSmallTaskManager = styled.div`
 function TaskBar() {
     const { windows, activeWindow, updateActiveWindow, toggleWindow, toggleWindowMinimize, toggleWindowSmallTask, toggleWindowHoverSmallTask } = useWindowsStore();
     const [isStartMenuSticky, setStartMenuSticky] = useState<boolean>(false);
-    const { setCommands } = useCommandsStore();
+    const { setCommands, commands } = useCommandsStore();
 
     return (
         <>
@@ -61,6 +61,7 @@ function TaskBar() {
                                 toggleWindowSmallTask(gWindow.window.name, false);
                             }}
                             css={tw`relative`}
+                            key={gWindow.window.name}
                         >
 
                             {gWindow.window.open && (
@@ -72,8 +73,14 @@ function TaskBar() {
                                     ]}
                                 >
                                     <div css={tw`p-3 flex justify-between items-center`}>
-                                        <div css={tw`text-white capitalize`}>
-                                            {gWindow.window.name}
+                                        <div>
+                                            <div css={tw`text-white text-sm capitalize`}>
+                                                {gWindow.window.name}
+                                            </div>
+
+                                            <div css={tw`text-white text-sm font-extralight`}>
+                                                {gWindow.window.name === "konsole" && commands?.[(commands?.length || 1) - 1]}
+                                            </div>
                                         </div>
 
                                         <SmallTaskCloseButton
@@ -87,7 +94,7 @@ function TaskBar() {
 
                                     <WindowSmallTaskManager
                                         onClick={() => {
-                                            if(gWindow.window.minimize === 'enabled') {
+                                            if (gWindow.window.minimize === 'enabled') {
                                                 gWindow.window.functions.minimize();
                                             }
                                             updateActiveWindow(gWindow.window.name);

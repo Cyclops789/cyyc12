@@ -2,10 +2,11 @@ import { create } from 'zustand'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import Terminal from "@/components/Desktop/Window/Content/Terminal";
 import Projects from "@/components/Desktop/Window/Content/Projects";
-import { faTerminal, faDiagramProject, faGamepad, faGears, faUser } from '@fortawesome/free-solid-svg-icons';
+import IceFox from "@/components/Desktop/Window/Content/IceFox";
+import { faTerminal, faDiagramProject, faGamepad, faGears, faUser, faGlobe, faDiceD6 } from '@fortawesome/free-solid-svg-icons';
 
 export const availableCategories = {
-    categories_simple: ['games', 'development', 'personal'],
+    categories_simple: ['games', 'development', 'personal' , 'internet'],
     categories_full: [
         {
             name: 'games',
@@ -18,12 +19,16 @@ export const availableCategories = {
         {
             name: 'personal',
             icon: faUser
-        }
+        },
+        {
+            name: 'internet',
+            icon: faGlobe
+        },
     ]
 } as const;
 
 export type AvailableCategories = (typeof availableCategories.categories_simple)[number];
-export type AvailableWindows = 'konsole' | 'portfolio' | 'projects' | 'socials' | /* Just to track clicks */ 'startmenu';
+export type AvailableWindows = 'konsole' | 'portfolio' | 'projects' | 'socials' | 'icefox' | /* Just to track clicks */ 'startmenu';
 export type WindowSize = { width: number, height: number };
 export type WindowPos = { x: number, y: number };
 export type WindowContainer = {
@@ -116,6 +121,30 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 className: 'h-[65px] w-[65px]',
                 child: {
                     icon: faTerminal,
+                    css: 'font-size:40px;',
+                },
+            }
+        },
+        {
+            window: {
+                name: 'icefox',
+                category: 'internet',
+                open: false,
+                minimize: undefined,
+                fullscreen: false,
+                order: 3,
+                functions: {
+                    minimize: () => { },
+                    close: () => { },
+                },
+                smallTask: false,
+                hoverSmallTask: false,
+            },
+            windowChildren: IceFox,
+            desktop: {
+                className: 'h-[65px] w-[65px]',
+                child: {
+                    icon: faDiceD6,
                     css: 'font-size:40px;',
                 },
             }
