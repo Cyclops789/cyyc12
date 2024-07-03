@@ -33,7 +33,7 @@ Desktop interface:
 Desktop applications:
 - ~~Add: embedded browser (probably with iframe)~~
 - Add: [DOOM](https://js-dos.com/DOOM/)
-- Add: [PACMAN](https://github.com/daleharvey/pacman)
+- ~~Add: [PACMAN](https://github.com/daleharvey/pacman)~~
 - Add: [SUPER MARIO](https://github.com/meth-meth-method/super-mario)
 
 Terminal:
