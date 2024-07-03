@@ -1,0 +1,1 @@
+export const DEFAULT_HISTORY_URL = 'https://www.google.com/webhp?igu=1';

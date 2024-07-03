@@ -1,32 +1,41 @@
-import { link } from 'fs';
 import { create } from 'zustand'
+import { DEFAULT_HISTORY_URL } from '@/helpers/historyHelper';
 
-export type CurrentLink = {
-    index: number;
-    link: string;
-};
+export const bookMarks = [
+    {
+        link: 'https://cyyc.lol',
+        image: ''
+    },
+    {
+        link: DEFAULT_HISTORY_URL,
+        image: ''
+    },
+    {
+        link: 'https://www.wikipedia.org/',
+        image: ''
+    },
+    {
+        link: 'https://www.wikipedia.org/',
+        image: ''
+    },
+];
+
+export type BookMarks = (typeof bookMarks)[number][];
 
 export interface IBrowserHistoryStore {
-    currentLink: CurrentLink;
-    searchPlaceHolder: string;
+    currentLink: string;
     searchLinksHistory: string[];
 
-    setCurrentLink: (currentLink: CurrentLink) => void;
-    setSearchPlaceHolder: (searchPlaceHolder: string) => void;
+    setCurrentLink: (currentLink: string) => void;
     setLinksHistory: (searchLinksHistory: string[]) => void;
     addLinkHistory: (searchLinkHistory: string) => void;
 }
 
 export const useBrowserHistoryStore = create<IBrowserHistoryStore>((set) => ({
-    currentLink: {
-        index: 0,
-        link: 'https://www.google.com/webhp?igu=1',
-    },
-    searchPlaceHolder: '',
-    searchLinksHistory: ['https://www.google.com/webhp?igu=1'],
+    currentLink: DEFAULT_HISTORY_URL,
+    searchLinksHistory: [DEFAULT_HISTORY_URL],
 
     setCurrentLink: (currentLink) => set(() => ({ currentLink })),
-    setSearchPlaceHolder: (searchPlaceHolder) => set(() => ({ searchPlaceHolder })),
     setLinksHistory: (searchLinksHistory) => set(() => ({ searchLinksHistory })),
-    addLinkHistory: (searchLinkHistory) => set(({ searchLinksHistory }) => ({ searchLinksHistory: [searchLinkHistory, ...searchLinksHistory || []] })),
+    addLinkHistory: (searchLinkHistory) => set(({ searchLinksHistory }) => ({ searchLinksHistory: [...searchLinksHistory || [], searchLinkHistory] })),
 }));

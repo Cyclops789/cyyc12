@@ -2,7 +2,7 @@ import tw, { styled } from 'twin.macro';
 import { useBrowserHistoryStore } from '@/stores/browserHistory';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft, faArrowRotateRight, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { IframeHTMLAttributes, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 const HeaderSearch = styled.div`
     ${tw`w-full h-[45px] bg-white/10 border-b border-b-white/10 flex items-center gap-x-4`}
@@ -37,17 +37,24 @@ const InputSearchContainer = styled.div`
     }
 
     & input {
-        ${tw`focus:ring-0 outline-none bg-transparent text-white/80 w-full`}
+        ${tw`(focus:ring-0 outline-none)! bg-transparent text-white/80 w-full`}
     }
 `;
 
 function Projects() {
-    const iframeRef = useRef<HTMLIFrameElement>(null);
     const reloadRef = useRef<SVGSVGElement>(null);
-    const [iframeLoading, setIframeLoading] = useState(false);
-    const { searchLinksHistory, currentLink, setCurrentLink, addLinkHistory, setSearchPlaceHolder, searchPlaceHolder } = useBrowserHistoryStore();
+    const iframeRef = useRef<HTMLIFrameElement>(null);
+    const [iframeLoading, setIframeLoading] = useState<boolean>(false);
+    const [searchPlaceHolder, setSearchPlaceHolder] = useState<string>('');
+    const { searchLinksHistory, currentLink, setCurrentLink, addLinkHistory } = useBrowserHistoryStore();
 
-    const reloadOrCancelIframe = () => {
+    const currentLinkIndex = useMemo(
+        (): number => searchLinksHistory.findIndex(
+            (searchLinkHistory) => (searchLinkHistory === currentLink) 
+                && searchLinkHistory
+    ), [currentLink, searchLinksHistory]);
+
+    const reloadOrCancelIframe = useCallback(() => {
         if(iframeRef.current && reloadRef.current) {
             if(iframeLoading) {
                 reloadRef.current.style.rotate = '';
@@ -59,42 +66,38 @@ function Projects() {
                     reloadRef.current!.style.rotate = '';
                     setIframeLoading(true);
                     iframeRef.current!.removeAttribute('src');
-                    iframeRef.current!.setAttribute('src', currentLink.link);
+                    iframeRef.current!.setAttribute('src', currentLink);
                 }, 150);
             }
         }
-    };
+    }, []);
 
-    const changeIframeLink = () => {
+    const changeIframeLink = useCallback(() => {
         if(iframeRef.current) {
             addLinkHistory(searchPlaceHolder);
             iframeRef.current.setAttribute('src', searchPlaceHolder);
         }
-    }
+    }, [iframeRef.current, searchPlaceHolder]);
 
-    const goForward = () => {
+    const goForward = useCallback(() => {
         if(iframeRef.current) {
-            const tIndex = (searchLinksHistory.length - 1) - currentLink.index;
-            setCurrentLink({
-                index: tIndex,
-                link: searchLinksHistory[tIndex],
-            });
-            setSearchPlaceHolder(searchLinksHistory[tIndex]);
-            iframeRef.current.setAttribute('src', searchLinksHistory[tIndex]);
-        }
-    };
+            const newLink = searchLinksHistory[(currentLinkIndex + 1) >= searchLinksHistory.length ? currentLinkIndex : (currentLinkIndex + 1)] || currentLink;
 
-    const goBack = () => {
-        if(iframeRef.current) {
-            const tIndex = (searchLinksHistory.length - 1) + currentLink.index;
-            setCurrentLink({
-                index: tIndex,
-                link: searchLinksHistory[tIndex],
-            });
-            setSearchPlaceHolder(searchLinksHistory[tIndex]);
-            iframeRef.current.setAttribute('src', searchLinksHistory[tIndex]);
+            setCurrentLink(newLink);
+            setSearchPlaceHolder(newLink);
+            iframeRef.current.setAttribute('src', newLink);
         }
-    };
+    }, [iframeRef.current, searchLinksHistory, currentLink]);
+
+    const goBack = useCallback(() => {
+        if(iframeRef.current) {
+            const newLink = searchLinksHistory[(currentLinkIndex - 1) === -1 ? 0 : (currentLinkIndex - 1)] || currentLink;
+
+            setCurrentLink(newLink);
+            setSearchPlaceHolder(newLink);
+            iframeRef.current.setAttribute('src', newLink);
+        }
+    }, [iframeRef.current, searchLinksHistory, currentLink]);
 
     useEffect(() => {
         const handleLoadStart = () => setIframeLoading(true);
@@ -107,14 +110,13 @@ function Projects() {
     
         return () => {
             if (iframeRef.current) {
-                iframeRef.current.removeEventListener('loadstart', handleLoadStart);
-                iframeRef.current.removeEventListener('load', handleLoad);
+                iframeRef.current?.removeEventListener('loadstart', handleLoadStart);
+                iframeRef.current?.removeEventListener('load', handleLoad);
             }
         };
     }, [iframeRef]);
 
-    useEffect(() => setSearchPlaceHolder(currentLink.link), [currentLink.link]);
-    useEffect(() => console.log('searchLinksHistory', searchLinksHistory), [searchLinksHistory])
+    useEffect(() => setSearchPlaceHolder(currentLink), [currentLink]);
 
     return (
         <div css={tw`bg-[rgb(21,29,36)] w-full h-full cursor-auto overflow-hidden rounded-b-lg`}>
@@ -124,7 +126,7 @@ function Projects() {
                 >
                     <ActionButton
                         onClick={goBack}
-                        disabled={searchLinksHistory.length === 1}
+                        disabled={currentLinkIndex !== (searchLinksHistory.length-1) || searchLinksHistory.length === 1}
                     >
                         <div>
                             <FontAwesomeIcon icon={faArrowLeft} />
@@ -133,7 +135,7 @@ function Projects() {
 
                     <ActionButton
                         onClick={goForward}
-                        disabled={!(currentLink.index > (searchLinksHistory.length-1))}
+                        disabled={currentLinkIndex === ( searchLinksHistory.length-1 )}
                     >
                         <div>
                             <FontAwesomeIcon icon={faArrowRight} />
@@ -162,7 +164,7 @@ function Projects() {
             </HeaderSearch>
             <iframe
                 ref={iframeRef}
-                src={searchLinksHistory[0]}
+                src={currentLink}
                 referrerPolicy={"no-referrer"}
                 css={tw`w-full h-full`}
                 sandbox={"allow-downloads allow-forms allow-modals allow-pointer-lock allow-popups allow-presentation allow-same-origin allow-scripts"}

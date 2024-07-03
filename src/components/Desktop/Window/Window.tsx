@@ -1,7 +1,6 @@
 import React, { Suspense, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { useRef } from 'react';
 import Tab from '@/components/Desktop/Window/Tab';
-// import { AvailableWindows, WindowSize } from '@/stores/windows';
 import { useWindowsStore } from '@/stores/windows';
 import WindowLayout from '@/components/Layouts/WindowLayout';
 import { Rnd } from 'react-rnd';
@@ -10,6 +9,7 @@ import tw from 'twin.macro';
 import { usePersistedState } from '@/helpers/usePersistedState';
 import { useCommandsStore } from '@/stores/commands';
 import { useBrowserHistoryStore } from '@/stores/browserHistory';
+import { DEFAULT_HISTORY_URL } from '@/helpers/historyHelper';
 
 type Props = { children: React.ReactNode, window: IAvailableWindows };
 
@@ -19,7 +19,7 @@ function Window({ children, window: cWindow }: Props) {
 
     const { updateWindowSize, updateWindowPos, updateActiveWindow, toggleWindowMinimize, toggleWindow } = useWindowsStore();
     const { setCommands } = useCommandsStore();
-    const { setLinksHistory, setSearchPlaceHolder } = useBrowserHistoryStore();
+    const { setLinksHistory, setCurrentLink } = useBrowserHistoryStore();
 
     const windowOrder = useMemo(() => cWindow.window.order, [cWindow.window.order]);
 
@@ -83,8 +83,8 @@ function Window({ children, window: cWindow }: Props) {
             updateActiveWindow(undefined);
             if (cWindow.window.name === 'konsole') setCommands([]);
             if (cWindow.window.name === 'icefox') {
-                setLinksHistory([]);
-                setSearchPlaceHolder('');
+                setLinksHistory([DEFAULT_HISTORY_URL]);
+                setCurrentLink(DEFAULT_HISTORY_URL);
             };
         }, 200);
     }, [cWindow.window.name]);
