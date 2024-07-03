@@ -194,7 +194,7 @@ function Projects() {
                 </InputSearchContainer>
             </HeaderSearch>
             <HeaderSearch
-                css={tw`h-[30px] pl-2`}
+                css={tw`h-[35px] pl-2 items-start`}
             >
                 {bookMarks.map((bookMark) => (
                     <BookMarkButton 
