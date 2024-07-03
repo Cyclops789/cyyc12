@@ -2,25 +2,12 @@ import { create } from 'zustand'
 import { DEFAULT_HISTORY_URL } from '@/helpers/historyHelper';
 
 export const bookMarks = [
-    {
-        link: 'https://cyyc.lol',
-        image: ''
-    },
-    {
-        link: DEFAULT_HISTORY_URL,
-        image: ''
-    },
-    {
-        link: 'https://www.wikipedia.org/',
-        image: ''
-    },
-    {
-        link: 'https://www.wikipedia.org/',
-        image: ''
-    },
-];
+    DEFAULT_HISTORY_URL,
+    'https://cyyc.lol',
+    'https://www.wikipedia.org/',
+] as const;
 
-export type BookMarks = (typeof bookMarks)[number][];
+export type BookMarks = (typeof bookMarks)[number];
 
 export interface IBrowserHistoryStore {
     currentLink: string;

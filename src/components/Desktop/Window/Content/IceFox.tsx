@@ -1,8 +1,9 @@
 import tw, { styled } from 'twin.macro';
 import { useBrowserHistoryStore } from '@/stores/browserHistory';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faArrowLeft, faArrowRotateRight, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faArrowLeft, faArrowRotateRight, faXmark, faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { bookMarks } from '@/stores/browserHistory';
 
 const HeaderSearch = styled.div`
     ${tw`w-full h-[45px] bg-white/10 border-b border-b-white/10 flex items-center gap-x-4`}
@@ -21,11 +22,36 @@ const ActionButton = styled.button`
         ${tw`bg-white/10`}
     }
     & div {
-        ${tw`flex justify-center items-center  w-[30px] h-[30px]`}
+        ${tw`flex justify-center items-center w-[30px] h-[30px]`}
     }
 
     & svg {
         ${tw`text-white transition-all ease-in-out duration-150`}
+    }
+`;
+
+const BookMarkButton = styled.button`
+    ${tw`rounded`}
+
+    &:disabled {
+        & svg {
+            ${tw`text-white/30`}
+        }
+    }
+
+    &:hover:enabled {
+        ${tw`bg-white/10`}
+    }
+    & div:first-child {
+        ${tw`text-white flex gap-x-1 items-center w-full h-[30px]`}
+
+        & div {
+            ${tw`mr-1`}
+        }
+    }
+
+    & svg {
+        ${tw`ml-1 text-white transition-all ease-in-out duration-150`}
     }
 `;
 
@@ -72,10 +98,15 @@ function Projects() {
         }
     }, []);
 
-    const changeIframeLink = useCallback(() => {
+    const changeIframeLink = useCallback((link?: string) => {
         if(iframeRef.current) {
-            addLinkHistory(searchPlaceHolder);
-            iframeRef.current.setAttribute('src', searchPlaceHolder);
+            const newLink = link || searchPlaceHolder;
+            iframeRef.current.setAttribute('src', newLink);
+
+            if(!searchLinksHistory.includes(newLink)) {
+                addLinkHistory(newLink);
+                setCurrentLink(newLink);
+            }
         }
     }, [iframeRef.current, searchPlaceHolder]);
 
@@ -120,13 +151,13 @@ function Projects() {
 
     return (
         <div css={tw`bg-[rgb(21,29,36)] w-full h-full cursor-auto overflow-hidden rounded-b-lg`}>
-            <HeaderSearch>
+            <HeaderSearch css={tw`border-b-transparent`}>
                 <div
                     css={tw`mx-3 flex items-center gap-x-1`}
                 >
                     <ActionButton
                         onClick={goBack}
-                        disabled={currentLinkIndex !== (searchLinksHistory.length-1) || searchLinksHistory.length === 1}
+                        disabled={currentLinkIndex === 0 || searchLinksHistory.length === 1}
                     >
                         <div>
                             <FontAwesomeIcon icon={faArrowLeft} />
@@ -135,7 +166,7 @@ function Projects() {
 
                     <ActionButton
                         onClick={goForward}
-                        disabled={currentLinkIndex === ( searchLinksHistory.length-1 )}
+                        disabled={currentLinkIndex === (searchLinksHistory.length-1)}
                     >
                         <div>
                             <FontAwesomeIcon icon={faArrowRight} />
@@ -161,6 +192,22 @@ function Projects() {
                         }}
                     />
                 </InputSearchContainer>
+            </HeaderSearch>
+            <HeaderSearch
+                css={tw`h-[30px] pl-2`}
+            >
+                {bookMarks.map((bookMark) => (
+                    <BookMarkButton 
+                        onClick={() => changeIframeLink(bookMark)}
+                    >
+                        <div>
+                            <FontAwesomeIcon icon={faGlobe} />
+
+                            <div css={tw`text-xs`}>{bookMark}</div>
+                        </div>
+                    </BookMarkButton>
+                ))}
+
             </HeaderSearch>
             <iframe
                 ref={iframeRef}

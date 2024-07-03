@@ -38,8 +38,9 @@ function Window({ children, window: cWindow }: Props) {
                     nodeRef.current.style.transform = `scale(0.95)`;
 
                     setTimeout(() => {
-                        (nodeRef.current as any).style.transform = `scale(1)`;
-                        (nodeRef.current as any).style.display = 'none';
+                        if(!nodeRef.current) return;
+                        nodeRef.current.style.transform = `scale(1)`;
+                        nodeRef.current.style.display = 'none';
                         setHideRnd(true);
                     }, 100);
                     break;
@@ -48,8 +49,9 @@ function Window({ children, window: cWindow }: Props) {
                     nodeRef.current.style.opacity = '1';
                     nodeRef.current.style.transform = 'scale(1.05)';
                     setTimeout(() => {
-                        (nodeRef.current as any).style.transform = 'scale(1)';
-                        (nodeRef.current as any).style.display = '';
+                        if(!nodeRef.current) return;
+                        nodeRef.current.style.transform = 'scale(1)';
+                        nodeRef.current.style.display = '';
                         setHideRnd(false);
                     }, 100);
                     break;
