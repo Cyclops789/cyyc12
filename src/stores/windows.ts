@@ -3,7 +3,8 @@ import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import Terminal from "@/components/Desktop/Window/Content/Terminal";
 import Projects from "@/components/Desktop/Window/Content/Projects";
 import IceFox from "@/components/Desktop/Window/Content/IceFox";
-import { faTerminal, faDiagramProject, faGamepad, faGears, faUser, faGlobe, faDiceD6 } from '@fortawesome/free-solid-svg-icons';
+import PacMan from "@/components/Desktop/Window/Content/PacMan";
+import { faTerminal, faDiagramProject, faGamepad, faGears, faUser, faGlobe, faDiceD6, faD } from '@fortawesome/free-solid-svg-icons';
 
 export const availableCategories = {
     categories_simple: ['games', 'development', 'personal' , 'internet'],
@@ -28,7 +29,7 @@ export const availableCategories = {
 } as const;
 
 export type AvailableCategories = (typeof availableCategories.categories_simple)[number];
-export type AvailableWindows = 'konsole' | 'portfolio' | 'projects' | 'socials' | 'icefox' | /* Just to track clicks */ 'startmenu';
+export type AvailableWindows = 'konsole' | 'portfolio' | 'projects' | 'socials' | 'icefox' | 'pacman' | /* Just to track clicks */ 'startmenu';
 export type WindowSize = { width: number, height: number };
 export type WindowPos = { x: number, y: number };
 export type WindowContainer = {
@@ -145,6 +146,34 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 className: 'h-[65px] w-[65px]',
                 child: {
                     icon: faDiceD6,
+                    css: 'font-size:40px;',
+                },
+            }
+        },
+        {
+            window: {
+                name: 'pacman',
+                category: 'games',
+                open: false,
+                minimize: undefined,
+                fullscreen: false,
+                order: 3,
+                size: {
+                    width: 345,
+                    height: 453,
+                },
+                functions: {
+                    minimize: () => { },
+                    close: () => { },
+                },
+                smallTask: false,
+                hoverSmallTask: false,
+            },
+            windowChildren: PacMan,
+            desktop: {
+                className: 'h-[65px] w-[65px]',
+                child: {
+                    icon: faD,
                     css: 'font-size:40px;',
                 },
             }

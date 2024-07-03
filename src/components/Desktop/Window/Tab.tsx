@@ -29,7 +29,7 @@ function Tab({ window, handleWindowClose, handleWindowMinimize }: Props) {
                     <FontAwesomeIcon css={tw`text-[13px] p-1 rounded-full`} icon={faChevronDown} />
                 </button>
                 <button
-                    onClick={() => toggleWindowFullScreen(window.window.name, !window.window.fullscreen)}
+                    onClick={() => window.window.name !== 'pacman' && toggleWindowFullScreen(window.window.name, !window.window.fullscreen)}
                     css={tw`hover:text-black hover:bg-white text-white bg-transparent w-[25px] h-[25px] rounded-full flex justify-center items-center`}
                 >
                     <FontAwesomeIcon css={[ tw`text-[13px] p-1 rounded-full`, window.window.fullscreen && tw`rotate-45 p-1.5 text-[10px]` ]} icon={!window.window.fullscreen ? faChevronUp : faSquareFull} />

@@ -114,7 +114,7 @@ function Window({ children, window: cWindow }: Props) {
                 y: !cWindow.window.fullscreen ? cWindow.window.pos?.y ?? 205 : 0,
             }}
 
-            enableResizing={!cWindow.window.fullscreen}
+            enableResizing={!cWindow.window.fullscreen || cWindow.window.name !== 'pacman'}
             disableDragging={cWindow.window.fullscreen}
             onMouseDown={handleActiveWindow}
 
