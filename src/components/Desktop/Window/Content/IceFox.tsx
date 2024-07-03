@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft, faArrowRotateRight, faXmark, faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { bookMarks } from '@/stores/browserHistory';
+import { isValidURL } from '@/helpers/historyHelper';
 
 const HeaderSearch = styled.div`
     ${tw`w-full h-[45px] bg-white/10 border-b border-b-white/10 flex items-center gap-x-4`}
@@ -101,12 +102,14 @@ function Projects() {
     const changeIframeLink = useCallback((link?: string) => {
         if(iframeRef.current) {
             const newLink = link || searchPlaceHolder;
+            
+            if(!isValidURL(newLink)) return;
+            if(searchLinksHistory.includes(newLink)) return;
+            
+            addLinkHistory(newLink);
+            setCurrentLink(newLink);
+            
             iframeRef.current.setAttribute('src', newLink);
-
-            if(!searchLinksHistory.includes(newLink)) {
-                addLinkHistory(newLink);
-                setCurrentLink(newLink);
-            }
         }
     }, [iframeRef.current, searchPlaceHolder]);
 
@@ -198,6 +201,7 @@ function Projects() {
             >
                 {bookMarks.map((bookMark) => (
                     <BookMarkButton 
+                        key={bookMark}
                         onClick={() => changeIframeLink(bookMark)}
                     >
                         <div>
