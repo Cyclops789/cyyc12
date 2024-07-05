@@ -4,7 +4,8 @@ import Terminal from "@/components/Desktop/Window/Content/Terminal";
 import Projects from "@/components/Desktop/Window/Content/Projects";
 import IceFox from "@/components/Desktop/Window/Content/IceFox";
 import PacMan from "@/components/Desktop/Window/Content/PacMan";
-import { faTerminal, faDiagramProject, faGamepad, faGears, faUser, faGlobe, faDiceD6, faD, faGhost } from '@fortawesome/free-solid-svg-icons';
+import Mario from "@/components/Desktop/Window/Content/Mario";
+import { faTerminal, faDiagramProject, faGamepad, faGears, faUser, faGlobe, faDiceD6, faDiceFive, faGhost } from '@fortawesome/free-solid-svg-icons';
 
 export const availableCategories = {
     categories_simple: ['games', 'development', 'personal' , 'internet'],
@@ -29,7 +30,7 @@ export const availableCategories = {
 } as const;
 
 export type AvailableCategories = (typeof availableCategories.categories_simple)[number];
-export type AvailableWindows = 'konsole' | 'portfolio' | 'projects' | 'socials' | 'icefox' | 'pacman' | /* Just to track clicks */ 'startmenu';
+export type AvailableWindows = 'konsole' | 'portfolio' | 'projects' | 'socials' | 'icefox' | 'pacman' | 'mario' | /* Just to track clicks */ 'startmenu';
 export type WindowSize = { width: number, height: number };
 export type WindowPos = { x: number, y: number };
 export type WindowContainer = {
@@ -157,7 +158,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 open: false,
                 minimize: undefined,
                 fullscreen: false,
-                order: 3,
+                order: 4,
                 size: {
                     width: 352,
                     height: 460,
@@ -174,6 +175,30 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 className: 'h-[65px] w-[65px]',
                 child: {
                     icon: faGhost,
+                    css: 'font-size:40px;',
+                },
+            }
+        },
+        {
+            window: {
+                name: 'mario',
+                category: 'games',
+                open: false,
+                minimize: undefined,
+                fullscreen: false,
+                order: 5,
+                functions: {
+                    minimize: () => { },
+                    close: () => { },
+                },
+                smallTask: false,
+                hoverSmallTask: false,
+            },
+            windowChildren: Mario,
+            desktop: {
+                className: 'h-[65px] w-[65px]',
+                child: {
+                    icon: faDiceFive,
                     css: 'font-size:40px;',
                 },
             }
