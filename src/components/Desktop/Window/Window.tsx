@@ -1,4 +1,4 @@
-import React, { Suspense, memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { Suspense, memo, useCallback, useMemo, useState } from 'react'
 import { useRef } from 'react';
 import Tab from '@/components/Desktop/Window/Tab';
 import { useWindowsStore } from '@/stores/windows';
@@ -64,7 +64,7 @@ function Window({ children, window: cWindow }: Props) {
         }
     }, [nodeRef.current]);
 
-    const handleWindowDrag = useCallback((p: { x: number, y: number }) => {
+    const handleWindowDrag = useCallback((_: any, p: { x: number, y: number }) => {
         updateWindowPos(cWindow.window.name, { x: p.x, y: p.y });
         saveInitialYPos(`${p.y}`);
         saveInitialXPos(`${p.x}`);
@@ -75,7 +75,7 @@ function Window({ children, window: cWindow }: Props) {
 
         if (ref.offsetWidth != 0) saveInitialWidth(`${ref.offsetWidth}`);
         if (ref.offsetHeight != 0) saveInitialHeight(`${ref.offsetHeight}`);
-        if (p) handleWindowDrag(p);
+        if (p) handleWindowDrag(null, p);
     }, []);
 
     const handleWindowClose = cWindow.window.functions.close = useCallback(() => {
@@ -83,11 +83,21 @@ function Window({ children, window: cWindow }: Props) {
         setTimeout(() => {
             toggleWindow(cWindow.window.name, false);
             updateActiveWindow(undefined);
-            if (cWindow.window.name === 'konsole') setCommands([]);
-            if (cWindow.window.name === 'icefox') {
-                setLinksHistory([DEFAULT_HISTORY_URL]);
-                setCurrentLink(DEFAULT_HISTORY_URL);
-            };
+
+            switch (cWindow.window.name) {
+                case 'konsole':
+                    setCommands([]);
+                    break;
+
+                case 'icefox':
+                    setLinksHistory([DEFAULT_HISTORY_URL]);
+                    setCurrentLink(DEFAULT_HISTORY_URL);
+                    break;
+
+                case 'pacman':
+                    window.PACMAN?.destroy();
+                    break;
+            }
         }, 200);
     }, [cWindow.window.name]);
 
@@ -114,13 +124,13 @@ function Window({ children, window: cWindow }: Props) {
                 y: !cWindow.window.fullscreen ? cWindow.window.pos?.y ?? 205 : 0,
             }}
 
-            enableResizing={!cWindow.window.fullscreen || cWindow.window.name !== 'pacman'}
+            enableResizing={!cWindow.window.fullscreen && cWindow.window.name !== 'pacman'}
             disableDragging={cWindow.window.fullscreen}
             onMouseDown={handleActiveWindow}
 
-            onDragStart={(_e, d) => handleWindowDrag(d)}
-            onDragStop={(_e, d) => handleWindowDrag(d)}
-            onDrag={(_e, d) => handleWindowDrag(d)}
+            onDragStart={handleWindowDrag}
+            onDragStop={handleWindowDrag}
+            onDrag={handleWindowDrag}
 
             onResizeStart={(_e, _direction, ref) => handleWindowResize(ref)}
             onResizeStop={(_e, _direction, ref, _delta, position) => handleWindowResize(ref, position)}

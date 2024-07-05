@@ -1,4 +1,4 @@
-import React, { useEffect, type RefObject } from 'react';
+import React, { type RefObject } from 'react';
 import { useWindowsStore } from '@/stores/windows';
 import { ReactMouseSelect } from 'react-mouse-select';
 import './UserSelectionHandler.css'

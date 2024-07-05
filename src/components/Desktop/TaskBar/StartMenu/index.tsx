@@ -1,5 +1,5 @@
 import { useWindowsStore } from '@/stores/windows';
-import React, { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 import tw, { styled } from 'twin.macro';
 import userProfile from '@/assets/user-profile.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

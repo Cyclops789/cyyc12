@@ -31,7 +31,7 @@ const WindowSmallTaskManager = styled.div`
 `;
 
 function TaskBar() {
-    const { windows, activeWindow, updateActiveWindow, toggleWindow, toggleWindowMinimize, toggleWindowSmallTask, toggleWindowHoverSmallTask } = useWindowsStore();
+    const { windows, activeWindow, updateActiveWindow, toggleWindow, toggleWindowSmallTask, toggleWindowHoverSmallTask } = useWindowsStore();
     const [isStartMenuSticky, setStartMenuSticky] = useState<boolean>(false);
     const { setCommands, commands } = useCommandsStore();
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useWindowsStore } from '@/stores/windows';
 import { Menu, Item, Separator, Submenu, useContextMenu, RightSlot } from 'react-contexify';
 import 'react-contexify/ReactContexify.css';

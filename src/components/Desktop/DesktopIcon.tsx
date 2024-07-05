@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { AvailableWindows } from '@/stores/windows';
 import { useWindowsStore } from '@/stores/windows';
 import { useCommandsStore } from '@/stores/commands';
@@ -32,7 +32,7 @@ type Props = { children: React.ReactNode, title: AvailableWindows, css?: CSSProp
 
 function DesktopIcon({ children, css, title, className }: Props) {
     const iconContainerRef = useRef<HTMLDivElement>(null);
-    const { activeWindow, toggleWindow, updateActiveWindow } = useWindowsStore();
+    const { toggleWindow, updateActiveWindow } = useWindowsStore();
     const { setCommands } = useCommandsStore();
     const { isUserSelectionActive } = useGeneralStore();
 

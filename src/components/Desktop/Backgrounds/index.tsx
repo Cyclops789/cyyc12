@@ -1,5 +1,4 @@
 import { useGeneralStore } from '@/stores/general';
-import React from 'react';
 import CMatrix from './CMatrix';
 
 function index() {

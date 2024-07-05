@@ -1,7 +1,6 @@
 import { IAvailableWindows, useWindowsStore } from '@/stores/windows';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
-import { useCommandsStore } from '@/stores/commands';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { faSquareFull } from '@fortawesome/free-regular-svg-icons';
 import tw from 'twin.macro';
@@ -9,12 +8,11 @@ import tw from 'twin.macro';
 type Props = { window: IAvailableWindows, handleWindowClose: () => void, handleWindowMinimize: () => void };
 
 function Tab({ window, handleWindowClose, handleWindowMinimize }: Props) {
-    const { toggleWindow, updateActiveWindow, toggleWindowMinimize, toggleWindowFullScreen } = useWindowsStore();
-    const { setCommands } = useCommandsStore();
+    const { toggleWindowFullScreen } = useWindowsStore();
 
     return (
         <div
-            onDoubleClick={() => toggleWindowFullScreen(window.window.name, !window.window.fullscreen)} 
+            onDoubleClick={() => window.window.name !== 'pacman' && toggleWindowFullScreen(window.window.name, !window.window.fullscreen)} 
             css={tw`flex justify-between cursor-default bg-red-700`} className={'dragHandler'}
         >
             <div css={tw`bg-red-700 w-full h-[30px] flex justify-center items-center`}>

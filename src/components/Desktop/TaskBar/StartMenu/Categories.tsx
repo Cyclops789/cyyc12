@@ -1,5 +1,5 @@
 import { useGeneralStore } from '@/stores/general';
-import { AvailableCategories, availableCategories } from '@/stores/windows';
+import { availableCategories } from '@/stores/windows';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import tw, { styled } from 'twin.macro';
 import { faLayerGroup } from '@fortawesome/free-solid-svg-icons';

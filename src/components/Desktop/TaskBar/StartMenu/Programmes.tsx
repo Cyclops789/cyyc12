@@ -2,7 +2,7 @@ import { useCommandsStore } from '@/stores/commands';
 import { useGeneralStore } from '@/stores/general';
 import { AvailableWindows, useWindowsStore } from '@/stores/windows';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { memo, useCallback, useEffect, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import tw, { styled } from 'twin.macro';
 
 type Props = { applicationsSearchQuery: string };

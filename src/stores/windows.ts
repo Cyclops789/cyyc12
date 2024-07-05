@@ -4,7 +4,7 @@ import Terminal from "@/components/Desktop/Window/Content/Terminal";
 import Projects from "@/components/Desktop/Window/Content/Projects";
 import IceFox from "@/components/Desktop/Window/Content/IceFox";
 import PacMan from "@/components/Desktop/Window/Content/PacMan";
-import { faTerminal, faDiagramProject, faGamepad, faGears, faUser, faGlobe, faDiceD6, faD } from '@fortawesome/free-solid-svg-icons';
+import { faTerminal, faDiagramProject, faGamepad, faGears, faUser, faGlobe, faDiceD6, faD, faGhost } from '@fortawesome/free-solid-svg-icons';
 
 export const availableCategories = {
     categories_simple: ['games', 'development', 'personal' , 'internet'],
@@ -159,8 +159,8 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 fullscreen: false,
                 order: 3,
                 size: {
-                    width: 345,
-                    height: 453,
+                    width: 352,
+                    height: 460,
                 },
                 functions: {
                     minimize: () => { },
@@ -173,7 +173,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
             desktop: {
                 className: 'h-[65px] w-[65px]',
                 child: {
-                    icon: faD,
+                    icon: faGhost,
                     css: 'font-size:40px;',
                 },
             }
