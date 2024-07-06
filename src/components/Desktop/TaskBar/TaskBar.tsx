@@ -73,14 +73,20 @@ function TaskBar() {
                                     ]}
                                 >
                                     <div css={tw`p-3 flex justify-between items-center`}>
-                                        <div>
+                                        <div css={tw`flex items-center space-x-1`}>
                                             <div css={tw`text-white text-sm capitalize`}>
                                                 {gWindow.window.name}
                                             </div>
-
-                                            <div css={tw`text-white text-sm font-extralight`}>
-                                                {gWindow.window.name === "konsole" && commands?.[(commands?.length || 1) - 1]}
-                                            </div>
+                                            {gWindow.window.name === "konsole" && (
+                                                <>
+                                                    <div css={tw`text-white text-sm font-extralight`}>
+                                                        -
+                                                    </div>
+                                                    <div css={tw`text-slate-400 text-xs font-extralight`}>
+                                                        {commands?.[(commands?.length || 1) - 1]}
+                                                    </div>
+                                                </>
+                                            )}
                                         </div>
 
                                         <SmallTaskCloseButton

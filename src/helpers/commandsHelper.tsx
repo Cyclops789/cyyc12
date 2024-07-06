@@ -11,6 +11,8 @@ const HelpContainer = styled.div`
 
 const GreenSpan = tw.span`text-green-500`;
 const RedSpan = tw.span`text-red-500`;
+const ListDirs = tw.div`flex items-center space-x-2`
+
 
 // Commands that doesnt have any output or uses js actions
 export const additionalCommands = ["clear", "reload"]
@@ -26,8 +28,6 @@ export const commands: { command: string, outputs: React.ReactNode[] }[] = [
                     <div>socials</div>
                     <div>github</div>
                     <div>email</div>
-                    <div>desktop</div>
-                    <div>reload</div>
                     <div>info</div>
                     <div>fastfetch</div>
                     <br />
@@ -43,8 +43,6 @@ export const commands: { command: string, outputs: React.ReactNode[] }[] = [
                     <div> - view my socials accounts</div>
                     <div> - link to my github account</div>
                     <div> - send me an email</div>
-                    <div> - switch to desktop mode</div>
-                    <div> - reload the page</div>
                     <div> - show some informations about this website</div>
                     <div> - display my system information</div>
                     <br />
@@ -98,19 +96,32 @@ export const commands: { command: string, outputs: React.ReactNode[] }[] = [
     {
         command: "info",
         outputs: [
-            <pre></pre>
+            <div>
+                <div>Source-Code: <a href="https://github.com/Cyclops789/cyyc12" target="_blank"><GreenSpan css={tw`hover:underline`} >https://github.com/Cyclops789/cyyc12</GreenSpan></a></div>
+                <div></div>
+                <div></div>
+            </div>
         ]
     },
     {
         command: "pwd",
         outputs: [
-            <pre></pre>
+            <div>/home/hamza</div>
         ]
     },
     {
         command: "ls",
         outputs: [
-            <pre></pre>
+            <ListDirs>
+                <div><GreenSpan>Desktop</GreenSpan>/</div>  
+                <div><GreenSpan>Documents</GreenSpan>/</div>
+                <div><GreenSpan>Downloads</GreenSpan>/</div>  
+                <div><GreenSpan>Music</GreenSpan>/</div>  
+                <div><GreenSpan>Pictures</GreenSpan>/</div>  
+                <div><GreenSpan>Public</GreenSpan>/</div>  
+                <div><GreenSpan>Templates</GreenSpan>/</div>   
+                <div><GreenSpan>Videos</GreenSpan>/</div>
+            </ListDirs>
         ]
     },
     {

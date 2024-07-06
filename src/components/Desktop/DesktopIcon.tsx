@@ -75,7 +75,7 @@ function DesktopIcon({ children, css, title, className }: Props) {
                 className={`${className ?? ''} UserSelectionItem`}
                 onMouseDown={() => updateActiveWindow(title)}
                 onMouseEnter={() => {
-                    if (!isUserSelectionActive) updateActiveWindow(title);
+                    if (!isUserSelectionActive) updateActiveWindow('icons');
                 }}
                 ref={iconContainerRef}
             >
