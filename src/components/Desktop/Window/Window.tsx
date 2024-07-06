@@ -97,6 +97,10 @@ function Window({ children, window: cWindow }: Props) {
                 case 'pacman':
                     window.PACMAN?.destroy();
                     break;
+
+                case 'mario':
+                    window.Mario?.exit();
+                    break;
             }
         }, 200);
     }, [cWindow.window.name]);

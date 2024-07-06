@@ -19,7 +19,7 @@ export const loadPacManAssets = async () => {
     }
 };
 
-function Doom() {
+function Pacman() {
     const pacmanRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -48,4 +48,4 @@ function Doom() {
     )
 }
 
-export default Doom;
+export default Pacman;

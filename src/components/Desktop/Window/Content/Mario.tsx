@@ -1,15 +1,45 @@
-import React from 'react'
+import { CanvasHTMLAttributes, useEffect, useRef, useState } from 'react'
 import tw from 'twin.macro';
 
+declare global {
+    interface Window {
+        Mario: any | undefined;
+        isSm64Loaded: boolean;
+        rMario: () => void;
+    }
+}
+
+export const loadMarioAssets = async () => {
+    try {
+        await import(/* @vite-ignore */ '@/assets/js/mario.js');
+    } catch (error) {
+        throw error;
+    }
+};
+
 function Mario() {
-    // https://github.com/SevenworksDev/SM64-JS/blob/main/game/sm64.js
+    const marioRef = useRef<HTMLCanvasElement>(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            await loadMarioAssets();
+        })();
+
+        return () => {
+            window.Mario.exit();
+        }
+    }, [marioRef]);
+
+    useEffect(() => {
+        if (window.isSm64Loaded) {
+            setIsLoaded(true);
+        }
+    }, [window.isSm64Loaded]);
+
     return (
-        <div css={tw`bg-[rgb(21,29,36)] w-full h-full cursor-auto overflow-hidden rounded-b-lg`}>
-            <iframe
-                src={'https://sevenworksdev.github.io/SM64-JS/start.html'}
-                css={tw`w-full h-full`}
-                sandbox={"allow-downloads allow-forms allow-modals allow-pointer-lock allow-popups allow-presentation allow-same-origin allow-scripts"}
-            />
+        <div css={tw`bg-[rgb(21,29,36)] w-full h-full cursor-auto overflow-hidden`}>
+            <canvas id={"mario"}></canvas>
         </div>
     )
 }
