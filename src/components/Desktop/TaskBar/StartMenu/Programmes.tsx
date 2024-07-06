@@ -35,7 +35,7 @@ function Programmes({ applicationsSearchQuery }: Props) {
                 (activeMenuCategory === gWindow.window.category || activeMenuCategory === null) &&
                 (
                     (targetedApplication !== '' && gWindow.window.name.toLowerCase().substring(0, targetedApplication.length) === targetedApplication.toLowerCase()) ? (
-                        <ApplicationContainer 
+                        <ApplicationContainer
                             onClick={() => openWindow(gWindow.window.name)}
                             key={gWindow.window.name}
                             draggable
@@ -44,11 +44,11 @@ function Programmes({ applicationsSearchQuery }: Props) {
                                 <div css={tw`flex justify-center`}>
                                     <FontAwesomeIcon css={tw`text-red-600 text-[40px]`} icon={gWindow.desktop.child.icon} />
                                 </div>
-                                <div css={tw`capitalize`}>{gWindow.window.name}</div>
+                                <div css={tw`capitalize text-sm`}>{gWindow.window.name}</div>
                             </div>
                         </ApplicationContainer>
                     ) : (targetedApplication === '') && (
-                        <ApplicationContainer 
+                        <ApplicationContainer
                             onClick={() => openWindow(gWindow.window.name)}
                             key={gWindow.window.name}
                             draggable
@@ -57,7 +57,7 @@ function Programmes({ applicationsSearchQuery }: Props) {
                                 <div css={tw`flex justify-center`}>
                                     <FontAwesomeIcon css={tw`text-red-600 text-[40px]`} icon={gWindow.desktop.child.icon} />
                                 </div>
-                                <div css={tw`capitalize`}>{gWindow.window.name}</div>
+                                <div css={tw`capitalize text-sm`}>{gWindow.window.name}</div>
                             </div>
                         </ApplicationContainer>
                     )

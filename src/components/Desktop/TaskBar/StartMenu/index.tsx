@@ -1,4 +1,5 @@
 import { useWindowsStore } from '@/stores/windows';
+import { useGeneralStore } from '@/stores/general';
 import { useState, type Dispatch, type SetStateAction } from 'react';
 import tw, { styled } from 'twin.macro';
 import userProfile from '@/assets/user-profile.webp';
@@ -88,6 +89,7 @@ const PowerButton = styled.div`
 
 function StartMenu({ isStartMenuSticky, setStartMenuSticky }: Props) {
     const { activeWindow, updateActiveWindow } = useWindowsStore();
+    const { setDesktopStatus } = useGeneralStore();
     const [applicationsSearchQuery, setApplicationSearchQuery] = useState('');
 
     return (
@@ -145,7 +147,7 @@ function StartMenu({ isStartMenuSticky, setStartMenuSticky }: Props) {
 
                         <PowerButton
                             onClick={() => {
-                                window.close();
+                                setDesktopStatus('stopping');
                             }}
                         >
                             <FontAwesomeIcon icon={faPowerOff} />

@@ -1,10 +1,10 @@
 import { create } from 'zustand'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import Terminal from "@/components/Desktop/Window/Content/Terminal";
-import Projects from "@/components/Desktop/Window/Content/Projects";
+import Portfolio from "@/components/Desktop/Window/Content/Portfolio";
 import IceFox from "@/components/Desktop/Window/Content/IceFox";
 import PacMan from "@/components/Desktop/Window/Content/PacMan";
-import { faTerminal, faDiagramProject, faGamepad, faGears, faUser, faGlobe, faDiceD6, faDiceFive, faGhost } from '@fortawesome/free-solid-svg-icons';
+import { faTerminal, faGamepad, faGears, faUser, faGlobe, faDiceD6, faUserAlt, faGhost } from '@fortawesome/free-solid-svg-icons';
 
 export const availableCategories = {
     categories_simple: ['games', 'development', 'personal' , 'internet'],
@@ -29,10 +29,9 @@ export const availableCategories = {
 } as const;
 
 export type AvailableCategories = (typeof availableCategories.categories_simple)[number];
-export type AvailableWindows = 'konsole' | 'portfolio' | 'projects' | 'socials' | 'icefox' | 'pacman' | 
+export type AvailableWindows = 'konsole' | 'portfolio' | 'socials' | 'icefox' | 'pacman' | 
     /* Just to track clicks */ 'startmenu' |
-    /* Just to prevent UserSelection from starting inside an icon */ 'icons'
-    ;
+    /* Just to prevent UserSelection from starting inside an icon */ 'icons';
 export type WindowSize = { width: number, height: number };
 export type WindowPos = { x: number, y: number };
 export type WindowContainer = {
@@ -67,6 +66,7 @@ export interface IAvailableWindows {
 export interface IGeneralStore {
     windows: IAvailableWindows[];
     activeWindow: AvailableWindows | undefined;
+    activeWindowIcon: IconDefinition | string | undefined;
 
     updateActiveWindow: (activeWindow: AvailableWindows | undefined) => void;
     updateWindowSize: (windowName: AvailableWindows, size: WindowSize) => void;
@@ -83,7 +83,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
     windows: [
         {
             window: {
-                name: 'projects',
+                name: 'portfolio',
                 category: 'personal',
                 open: false,
                 minimize: undefined,
@@ -96,11 +96,11 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 smallTask: false,
                 hoverSmallTask: false,
             },
-            windowChildren: Projects,
+            windowChildren: Portfolio,
             desktop: {
                 className: '',
                 child: {
-                    icon: faDiagramProject,
+                    icon: faUserAlt,
                     css: 'font-size:40px;',
                 },
             }
@@ -183,13 +183,16 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
         },
     ],
     activeWindow: undefined,
+    activeWindowIcon: undefined,
 
     updateActiveWindow: (activeWindow) => set((state) => {
         if (activeWindow !== undefined) {
+            let activeWindowIcon;
             const newWindows = state.windows.map((nWindow) => {
                 if (nWindow.window.name === activeWindow) {
                     return { ...nWindow, window: { ...nWindow.window, order: 0 } };
                 } else {
+                    activeWindowIcon = nWindow.desktop.child.icon.icon;
                     return { ...nWindow, window: { ...nWindow.window, order: nWindow.window.order + 1 } };
                 }
             });
@@ -198,6 +201,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 ...state,
                 windows: newWindows,
                 activeWindow: activeWindow,
+                activeWindowIcon: activeWindowIcon,
             };
         } else {
             return {

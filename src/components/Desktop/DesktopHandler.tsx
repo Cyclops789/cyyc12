@@ -2,6 +2,7 @@ import React, { type RefObject } from 'react'
 import { useGeneralStore } from '@/stores/general'
 import StartButtons from '@/components/Global/StartButtons';
 import BootUp from '@/components/BootUp';
+import ShutDown from '@/components/ShutDown';
 import WindowContainer from '@/components/Desktop/Window/Window';
 import { useWindowsStore } from '@/stores/windows';
 import UserSelectionHandler from '@/components/Desktop/UserSelectionHandler';
@@ -42,11 +43,18 @@ function DesktopHandler({ children, selectAbleContainerRef }: Props) {
                 </div>
             );
 
+        case 'stopping':
+            return (
+                <div css={tw`p-3`}>
+                    <ShutDown />
+                </div>
+            );
+
         case 'stopped':
             return (
                 <div css={tw`w-screen h-screen flex justify-center items-center`}>
                     <div>
-                        <div css={tw`sm:hidden text-center text-white mb-2`}>This website works better on desktop</div>
+                        <div css={tw`sm:hidden text-center text-white mb-4`}>This website works better on desktop</div>
                         <StartButtons />
                     </div>
                 </div>

@@ -68,7 +68,7 @@ const InputSearchContainer = styled.div`
     }
 `;
 
-function Projects() {
+function IceFox() {
     const reloadRef = useRef<SVGSVGElement>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const [iframeLoading, setIframeLoading] = useState<boolean>(false);
@@ -224,4 +224,4 @@ function Projects() {
     )
 }
 
-export default Projects
+export default IceFox;

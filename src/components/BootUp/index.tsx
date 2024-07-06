@@ -3,20 +3,21 @@ import { useGeneralStore } from '@/stores/general';
 import tw from 'twin.macro';
 
 function BootUp() {
-    const { dummyTerminalText, addTerminalText, terminalTexts, setDesktopStatus, desktopStatus } = useGeneralStore();
+    const { dummyTerminalTextBootUp, addBootUpTerminalText, BootUpTerminalTexts, setDesktopStatus, desktopStatus, setBootUpTerminalText } = useGeneralStore();
     let i = 0;
 
     const onStart = () => {
         setTimeout(() => {
-            const currentDummyText = dummyTerminalText[i];
-            addTerminalText(currentDummyText);
+            const currentDummyText = dummyTerminalTextBootUp[i];
+            addBootUpTerminalText(currentDummyText);
             i++;
-            if (i < dummyTerminalText.length) {
+            if (i < dummyTerminalTextBootUp.length) {
                 onStart()
             } else {
                 setDesktopStatus('started');
+                setBootUpTerminalText([]);
             }
-        }, i % 4 ? 200 : 140);
+        }, 200);
     }
 
     useEffect(() => {
@@ -24,15 +25,15 @@ function BootUp() {
     }, [desktopStatus]);
 
     useEffect(() => {
-        if (terminalTexts?.length > 0) {
+        if (BootUpTerminalTexts?.length > 0) {
             window.scrollTo(0, document.body.scrollHeight);
         }
-    }, [terminalTexts]);
+    }, [BootUpTerminalTexts]);
 
     return (
-        terminalTexts && (
+        BootUpTerminalTexts && (
             <div>
-                {terminalTexts.map((t, i) => <div key={`${t}-${i}`} css={tw`text-white`}>{'['} <span css={tw`text-green-600`}>OK</span>  {']'} <span>{t}</span></div>)}
+                {BootUpTerminalTexts.map((t, i) => <div key={`${t}-${i}`} css={tw`text-white`}>{'['} <span css={tw`text-green-600`}>OK</span>  {']'} <span>{t}</span></div>)}
             </div>
         )
     )

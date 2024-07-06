@@ -2,11 +2,12 @@ import Desktop from "@/components/Desktop/Desktop";
 import DesktopHandler from "@/components/Desktop/DesktopHandler";
 import tw from 'twin.macro';
 import '@/App.css';
-import { useRef } from "react";
+import { LinkHTMLAttributes, useEffect, useRef } from "react";
 import { Helmet as Meta } from "react-helmet";
 import TaskBar from "@/components/Desktop/TaskBar/TaskBar";
 import { useWindowsStore } from "./stores/windows";
 import Background from "@/components/Desktop/Backgrounds";
+import icon from '@/assets/vite.svg';
 
 const Container = tw.div`w-screen h-screen flex justify-center items-center`;
 

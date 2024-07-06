@@ -10,7 +10,9 @@ const HelpContainer = styled.div`
 `;
 
 const GreenSpan = tw.span`text-green-500`;
+const BlueSpan = tw.span`text-blue-500`;
 const RedSpan = tw.span`text-red-500`;
+const Link = tw.a`hover:underline`;
 const ListDirs = tw.div`flex items-center space-x-2`
 
 
@@ -24,11 +26,8 @@ export const commands: { command: string, outputs: React.ReactNode[] }[] = [
                 <div className={"help-menu"}>
                     <div>help</div>
                     <div>about</div>
-                    <div>projects</div>
                     <div>socials</div>
-                    <div>github</div>
-                    <div>email</div>
-                    <div>info</div>
+                    <div>source-code</div>
                     <div>fastfetch</div>
                     <br />
                     <div>clear</div>
@@ -37,18 +36,15 @@ export const commands: { command: string, outputs: React.ReactNode[] }[] = [
                 </div>
 
                 <div>
-                    <div> - display this help menu</div>
-                    <div> - about me</div>
-                    <div> - display my projects</div>
-                    <div> - view my socials accounts</div>
-                    <div> - link to my github account</div>
-                    <div> - send me an email</div>
-                    <div> - show some informations about this website</div>
-                    <div> - display my system information</div>
+                    <div> - Display this help menu</div>
+                    <div> - About me</div>
+                    <div> - Display my socials</div>
+                    <div> - Source code of the website</div>
+                    <div> - Display my system information</div>
                     <br />
-                    <div> - clear the terminal outputs</div>
-                    <div> - display the current working directory</div>
-                    <div> - display the current files and folders in this directory</div>
+                    <div> - Clear the terminal outputs</div>
+                    <div> - Display the current working directory</div>
+                    <div> - Display the current files and folders in this directory</div>
                 </div>
             </HelpContainer>
         ]
@@ -61,45 +57,20 @@ export const commands: { command: string, outputs: React.ReactNode[] }[] = [
         ]
     },
     {
-        command: 'projects',
-        outputs: [
-            <div><a target="_blank" href="https://github.com/Cyclops789/walkincity-nextjs">WalkIncity <GreenSpan>{'>'}</GreenSpan></a></div>,
-            <div><a target="_blank" href="https://github.com/Cyclops789/cyyc12">Cyyc12 <GreenSpan>{'>'}</GreenSpan></a></div>,
-            <div>GreyWeb <RedSpan>{'>'}</RedSpan></div>,
-            <div><a target="_blank" href="https://github.com/Cyclops789/rumble-notifier">Rumble Notifier <GreenSpan>{'>'}</GreenSpan></a></div>,
-        ]
-    },
-    {
         command: "socials",
         outputs: [
-            <pre></pre>
+            <div>
+                <div><Link href="https://www.linkedin.com/in/hamza-jarane-b05511264/" target="_blank"><GreenSpan css={tw`hover:underline`}>Linkedin</GreenSpan></Link></div>
+                <div><Link href="https://github.com/Cyclops789/" target="_blank"><GreenSpan css={tw`hover:underline`}>Github</GreenSpan></Link></div>
+                <div><Link href="mailto:hi@cyyc.lol" target="_blank"><GreenSpan css={tw`hover:underline`}>Email</GreenSpan></Link></div>
+            </div>
         ]
     },
     {
-        command: "github",
-        outputs: [
-            <pre></pre>
-        ]
-    },
-    {
-        command: "email",
-        outputs: [
-            <pre></pre>
-        ]
-    },
-    {
-        command: "desktop",
-        outputs: [
-            <pre></pre>
-        ]
-    },
-    {
-        command: "info",
+        command: "source-code",
         outputs: [
             <div>
-                <div>Source-Code: <a href="https://github.com/Cyclops789/cyyc12" target="_blank"><GreenSpan css={tw`hover:underline`} >https://github.com/Cyclops789/cyyc12</GreenSpan></a></div>
-                <div></div>
-                <div></div>
+                <div><Link href="https://github.com/Cyclops789/cyyc12" target="_blank"><GreenSpan css={tw`hover:underline`} >https://github.com/Cyclops789/cyyc12</GreenSpan></Link></div>
             </div>
         ]
     },
@@ -113,14 +84,14 @@ export const commands: { command: string, outputs: React.ReactNode[] }[] = [
         command: "ls",
         outputs: [
             <ListDirs>
-                <div><GreenSpan>Desktop</GreenSpan>/</div>  
-                <div><GreenSpan>Documents</GreenSpan>/</div>
-                <div><GreenSpan>Downloads</GreenSpan>/</div>  
-                <div><GreenSpan>Music</GreenSpan>/</div>  
-                <div><GreenSpan>Pictures</GreenSpan>/</div>  
-                <div><GreenSpan>Public</GreenSpan>/</div>  
-                <div><GreenSpan>Templates</GreenSpan>/</div>   
-                <div><GreenSpan>Videos</GreenSpan>/</div>
+                <div><BlueSpan>Desktop</BlueSpan>/</div>  
+                <div><BlueSpan>Documents</BlueSpan>/</div>
+                <div><BlueSpan>Downloads</BlueSpan>/</div>  
+                <div><BlueSpan>Music</BlueSpan>/</div>  
+                <div><BlueSpan>Pictures</BlueSpan>/</div>  
+                <div><BlueSpan>Public</BlueSpan>/</div>  
+                <div><BlueSpan>Templates</BlueSpan>/</div>   
+                <div><BlueSpan>Videos</BlueSpan>/</div>
             </ListDirs>
         ]
     },

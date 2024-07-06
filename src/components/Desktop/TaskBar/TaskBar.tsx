@@ -119,7 +119,7 @@ function TaskBar() {
                                 onMouseEnter={() => gWindow.window.open && toggleWindowSmallTask(gWindow.window.name, true)}
                                 onMouseLeave={() => gWindow.window.open && setTimeout(() => !gWindow.window.hoverSmallTask && toggleWindowSmallTask(gWindow.window.name, false), 100)}
                                 key={`${index}-${gWindow.window.name}`}
-                                title={gWindow.window.name}
+                                title={gWindow.window.name.charAt(0).toUpperCase()+gWindow.window.name.slice(1)}
                                 css={[
                                     tw`relative w-[50px] h-[50px] flex justify-center items-center hover:brightness-125`,
                                     gWindow.window.open && tw`bg-[#494c51]`,
