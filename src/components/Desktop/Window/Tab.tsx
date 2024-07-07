@@ -8,11 +8,22 @@ import tw from 'twin.macro';
 type Props = { window: IAvailableWindows, handleWindowClose: () => void, handleWindowMinimize: () => void };
 
 function Tab({ window, handleWindowClose, handleWindowMinimize }: Props) {
-    const { toggleWindowFullScreen } = useWindowsStore();
+    const { toggleWindowFullScreen, updateWindowPos } = useWindowsStore();
 
     return (
         <div
+            draggable
             onDoubleClick={() => window.window.name !== 'pacman' && toggleWindowFullScreen(window.window.name, !window.window.fullscreen)} 
+            onDragStartCapture={(e) => {
+                if(window.window.fullscreen) {
+                    toggleWindowFullScreen(window.window.name, false);
+                    updateWindowPos(window.window.name, {
+                        x: window.window.pos!.x,
+                        y: e.clientY,
+                    })
+                }
+                e.preventDefault();
+            }}
             css={tw`flex justify-between cursor-default bg-red-700`} className={'dragHandler'}
         >
             <div css={tw`bg-red-700 w-full h-[30px] flex justify-center items-center`}>
