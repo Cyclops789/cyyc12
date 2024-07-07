@@ -17,7 +17,7 @@ function BootUp() {
                 setDesktopStatus('started');
                 setBootUpTerminalText([]);
             }
-        }, 200);
+        }, 140);
     }
 
     useEffect(() => {

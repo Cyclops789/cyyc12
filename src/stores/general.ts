@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { AvailableCategories } from './windows';
 
 export type DesktopActions   = 'start' | 'restart' | 'stop' | null;
-export type DeskTopStatus    = 'started' | 'starting' | 'stopped' | 'stopping';
+export type DeskTopStatus    = 'started' | 'starting' | 'loading' | 'stopping'  | 'stopped';
 export const availableBackgrounds = [
     'cmatrix.green',
     'cmatrix.white',

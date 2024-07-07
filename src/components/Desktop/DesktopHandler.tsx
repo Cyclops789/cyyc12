@@ -2,6 +2,7 @@ import React, { type RefObject } from 'react'
 import { useGeneralStore } from '@/stores/general'
 import StartButtons from '@/components/Global/StartButtons';
 import BootUp from '@/components/BootUp';
+import Loading from '@/components/Loading';
 import ShutDown from '@/components/ShutDown';
 import WindowContainer from '@/components/Desktop/Window/Window';
 import { useWindowsStore } from '@/stores/windows';
@@ -18,22 +19,25 @@ function DesktopHandler({ children, selectAbleContainerRef }: Props) {
     switch (desktopStatus) {
         case 'started':
             return (
-                <UserSelectionHandler {...{ selectAbleContainerRef }}>
-                    <ContextMenu>
-                        <div css={tw`z-[99]`}>
-                            {windows?.map((fWindow, i) =>
-                                (fWindow.window.open) && (
-                                    <React.Fragment key={`${i}-${fWindow.window.name}`}>
-                                        <WindowContainer window={fWindow}>
-                                            <fWindow.windowChildren />
-                                        </WindowContainer>
-                                    </React.Fragment>
-                                )
-                            )}
-                        </div>
-                        {children}
-                    </ContextMenu>
-                </UserSelectionHandler>
+                <Loading>
+                    <UserSelectionHandler {...{ selectAbleContainerRef }}>
+                        <ContextMenu>
+                            <div css={tw`z-[99]`}>
+                                {windows?.map((fWindow, i) =>
+                                    (fWindow.window.open) && (
+                                        <React.Fragment key={`${i}-${fWindow.window.name}`}>
+                                            <WindowContainer window={fWindow}>
+                                                <fWindow.windowChildren />
+                                            </WindowContainer>
+                                        </React.Fragment>
+                                    )
+                                )}
+                            </div>
+                            {children}
+                        </ContextMenu>
+                    </UserSelectionHandler>
+                </Loading>
+
             )
 
         case 'starting':

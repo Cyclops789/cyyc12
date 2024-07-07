@@ -3,7 +3,7 @@ import { useWindowsStore } from '@/stores/windows'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useCommandsStore } from '@/stores/commands';
 import StartMenu from '@/components/Desktop/TaskBar/StartMenu';
-import debianLogo from '@/assets/debian.png';
+import Cat from '@/assets/cat.svg?react';
 import { useState } from 'react';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
@@ -42,13 +42,13 @@ function TaskBar() {
                 <div css={tw`pl-[7px] flex space-x-3`}>
                     <div
                         onClick={() => updateActiveWindow(activeWindow !== 'startmenu' ? 'startmenu' : undefined)}
-                        css={tw`overflow-hidden relative w-[40px] h-[50px] flex justify-center items-center hover:cursor-pointer hover:brightness-125`}
+                        css={tw`overflow-hidden relative w-[40px] h-[50px] flex justify-center items-center hover:cursor-pointer`}
                     >
                         <div css={[
                             tw`absolute -top-1 w-full h-[3px] bg-red-700`,
                             (activeWindow === 'startmenu' || isStartMenuSticky) && tw`!top-0`
                         ]} />
-                        <img css={tw`w-[33px]`} src={debianLogo} srcSet={debianLogo} alt={"start-button-image"} />
+                        <Cat css={tw`w-[33px]`} />
                     </div>
 
                     {windows?.map((gWindow, index) => (
@@ -129,7 +129,7 @@ function TaskBar() {
                                         toggleWindow(gWindow.window.name, true);
                                         updateActiveWindow(gWindow.window.name);
                                         if (gWindow.window.name === 'konsole') {
-                                            setCommands(['help']);
+                                            setCommands(['cat', 'help']);
                                         }
                                     } else {
                                         gWindow.window.functions.minimize();

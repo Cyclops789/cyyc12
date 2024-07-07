@@ -23,7 +23,7 @@ function ShutDown() {
 
                 windows.map((cWindow) => cWindow.window.open && cWindow.window.functions?.close());
             }
-        }, 300);
+        }, 90);
     }
 
     useEffect(() => {

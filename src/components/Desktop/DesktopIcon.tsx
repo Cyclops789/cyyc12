@@ -87,7 +87,7 @@ function DesktopIcon({ children, css, title, className }: Props) {
                                     toggleWindow(title, true);
                                     updateActiveWindow(title);
                                     if (title === 'konsole') {
-                                        setCommands(['help']);
+                                        setCommands(['cat', 'help']);
                                     }
                                 }
                             },

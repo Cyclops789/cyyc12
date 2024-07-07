@@ -25,7 +25,7 @@ function Programmes({ applicationsSearchQuery }: Props) {
         toggleWindow(windowName, true);
         updateActiveWindow(windowName);
         if (windowName === 'konsole') {
-            setCommands(['help']);
+            setCommands(['cat', 'help']);
         }
     }, []);
 

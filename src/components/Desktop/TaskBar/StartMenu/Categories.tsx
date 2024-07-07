@@ -39,6 +39,7 @@ function Categories() {
                     key={category.name}
                     $active={activeMenuCategory === category.name}
                     css={index === 0 && tw`mt-2`}
+                    draggable
                 >
                     <div css={tw`w-[35px] mx-1`}>
                         <FontAwesomeIcon css={tw`text-[23px]`} icon={category.icon} />

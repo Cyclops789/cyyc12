@@ -183,6 +183,17 @@ export const commands: { command: string, outputs: React.ReactNode[] }[] = [
             </div>
         ]
     },
+    {
+        command: 'cat',
+        outputs: [
+            <div style={{ whiteSpace: 'pre-wrap' }}>
+                <div>  ／l、</div>             
+                <div>（ﾟ､ ｡ ７</div>         
+                <div>  l  ~ヽ</div>       
+                <div>  じしf_,)ノ</div>
+            </div>
+        ]
+    }
 ]
 
 export const getCommandOutputs = (commandName: string) => {
