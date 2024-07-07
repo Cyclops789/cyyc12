@@ -19,6 +19,7 @@ function ShutDown() {
             } else {
                 if(isRestarting) {
                     setTimeout(() => setDesktopStatus('starting'), 2000);
+                    setIsRestarting(false);
                 } else {
                     setDesktopStatus('stopped');
                 }
