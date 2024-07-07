@@ -5,6 +5,10 @@ export default {
     extend: {
       scale: {
         '95': '0.95',
+      },
+      colors: {
+        primary: 'rgba(42,45,50)',
+        secondary: 'rgba(42,45,50,0.92)'
       }
     },
   },

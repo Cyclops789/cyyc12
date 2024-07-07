@@ -29,7 +29,6 @@ function Window({ children, window: cWindow }: Props) {
     const [initialYPos, saveInitialYPos] = usePersistedState(`${cWindow.window.name}.pos.y`, `${cWindow.window.pos?.y ?? 205}`);
 
     const handleActiveWindow = () => updateActiveWindow(cWindow.window.name);
-
     const handleResizeFade = useCallback((type: 'in' | 'out') => {
         if (nodeRef.current) {
             switch (type) {
@@ -60,7 +59,6 @@ function Window({ children, window: cWindow }: Props) {
                     toggleWindowMinimize(cWindow.window.name, undefined);
                     break;
             }
-
         }
     }, [nodeRef.current]);
 

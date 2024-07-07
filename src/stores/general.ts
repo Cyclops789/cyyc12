@@ -16,6 +16,7 @@ export type AvailableBackgrounds = (typeof availableBackgrounds)[number];
 export interface IGeneralStore {
     desktopStatus: DeskTopStatus;
     desktopAction: DesktopActions;
+    currentWorkingDirectory: string;
     activeBackground: AvailableBackgrounds;
     showBootUp: boolean;
     openTerminal: boolean;
@@ -31,6 +32,8 @@ export interface IGeneralStore {
     activeMenuCategory: AvailableCategories | null;
     
     setActiveMenuCategory: (activeMenuCategory: AvailableCategories | null) => void;
+    setCurrentWorkingDirectory: (currentWorkingDirectory: string) => void;
+
     setIsUserSelectionActive: (isUserSelectionActive: boolean) => void;
     setIsRestarting: (isRestarting: boolean) => void;
 
@@ -50,6 +53,7 @@ export const useGeneralStore = create<IGeneralStore>((set) => ({
     desktopStatus: 'stopped',
     desktopAction: null,
     activeBackground: 'cmatrix.red',
+    currentWorkingDirectory: '/home/hamza',
     showBootUp: false,
     openTerminal: false,
     isRestarting: false,
@@ -137,6 +141,9 @@ export const useGeneralStore = create<IGeneralStore>((set) => ({
     setIsUserSelectionActive: (isUserSelectionActive) => set(() => ({ isUserSelectionActive })),
     setActiveMenuCategory: (activeMenuCategory) => set(() => ({ activeMenuCategory })),
     setIsRestarting: (isRestarting) => set(() => ({ isRestarting })),
+
+    setCurrentWorkingDirectory: (currentWorkingDirectory) => set(() => ({ currentWorkingDirectory })),
+
     setDesktopAction: (desktopAction) => set(() => ({ desktopAction })),
     setDesktopStatus: (desktopStatus) => set(() => ({ desktopStatus })),
     setActiveBackground: (activeBackground) => set(() => ({ activeBackground })),

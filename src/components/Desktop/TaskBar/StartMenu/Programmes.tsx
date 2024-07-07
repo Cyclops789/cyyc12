@@ -31,7 +31,7 @@ function Programmes({ applicationsSearchQuery }: Props) {
 
     return (
         <div css={tw`w-[60%] grid grid-cols-4 gap-x-2 p-2 h-full`}>
-            {gWindows.map((gWindow) => (
+            {gWindows.filter(gWindow => !gWindow.window.name.startsWith('folder')).map((gWindow) => (
                 (activeMenuCategory === gWindow.window.category || activeMenuCategory === null) &&
                 (
                     (targetedApplication !== '' && gWindow.window.name.toLowerCase().substring(0, targetedApplication.length) === targetedApplication.toLowerCase()) ? (

@@ -11,7 +11,7 @@ import './ContextMenu.css';
 type Props = { children: React.ReactNode };
 
 function ContextMenu({ children }: Props) {
-    const { activeWindow } = useWindowsStore();
+    const { activeWindow, } = useWindowsStore();
     const { setActiveBackground, activeBackground } = useGeneralStore();
     const { show } = useContextMenu({ id: DESKTOP_CONTEXT_ID });
 
@@ -59,7 +59,7 @@ function ContextMenu({ children }: Props) {
                 <Submenu label="Background">
                     <Submenu label="CMatrix">
                         {availableBackgrounds.map(bg => (
-                            bg.startsWith('cmatrix') && 
+                            bg.startsWith('cmatrix') &&
                             <Item
                                 disabled={activeBackground === bg}
                                 onClick={() => setActiveBackground(bg)}
@@ -74,10 +74,6 @@ function ContextMenu({ children }: Props) {
 
                 <Separator />
 
-                <Submenu label="New">
-                    <Item disabled id="new.folder" onClick={() => { }}>Folder</Item>
-                    <Item disabled id="new.text" onClick={() => { }}>Text file</Item>
-                </Submenu>
                 <Submenu label="Add file">
                     <Item id="add.file" onClick={() => { }}>
                         <label css={tw`w-full h-full cursor-pointer`} htmlFor={"add.file.image"}>Image</label>

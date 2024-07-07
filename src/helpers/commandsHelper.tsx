@@ -2,10 +2,24 @@ import React from "react";
 import tw, { styled } from "twin.macro";
 
 const HelpContainer = styled.div`
-    ${tw`flex items-center w-full`}
+    ${tw`flex w-full`}
 
-    & .help-menu{
-        ${tw`text-green-400 w-[114px] pr-2`}
+    & .help-menu {
+        ${tw`text-green-400 w-[114px]`}
+
+        & .shortCut {
+            ${tw`text-white font-semibold`}
+        }
+
+        & .title {
+            ${tw`text-white underline`}
+        }
+    }
+
+    & .commands-desc {
+            & div {
+            ${tw`h-[24px]`}
+        }
     }
 `;
 
@@ -24,27 +38,41 @@ export const commands: { command: string, outputs: React.ReactNode[] }[] = [
         outputs: [
             <HelpContainer>
                 <div className={"help-menu"}>
+                    <div className={"title"}>Commands</div>
                     <div>help</div>
                     <div>about</div>
                     <div>socials</div>
                     <div>source-code</div>
                     <div>fastfetch</div>
                     <br />
+                    
                     <div>clear</div>
                     <div>pwd</div>
                     <div>ls</div>
+                    <br />
+                    
+                    <div className={"title"}>ShortCuts</div>
+                    <div className={"shortCut"}>Tab</div>
+                    <div className={"shortCut"}>Up Arrow</div>
                 </div>
 
-                <div>
+                <div className={"commands-desc"}>
+                    <div></div>
                     <div> - Display this help menu</div>
                     <div> - About me</div>
                     <div> - Display my socials</div>
                     <div> - Source code of the website</div>
                     <div> - Display my system information</div>
                     <br />
+
                     <div> - Clear the terminal outputs</div>
                     <div> - Display the current working directory</div>
                     <div> - Display the current files and folders in this directory</div>
+                    <br />
+
+                    <div></div>
+                    <div> {'=>'} Auto-completes command</div>
+                    <div> {'=>'} Go back to previous executed command</div>
                 </div>
             </HelpContainer>
         ]

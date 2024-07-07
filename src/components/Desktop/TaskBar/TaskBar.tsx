@@ -38,7 +38,7 @@ function TaskBar() {
     return (
         <>
             <StartMenu {...{ isStartMenuSticky, setStartMenuSticky }} />
-            <div css={tw`fixed z-[99] bottom-0 left-0 h-[50px] w-screen bg-[rgba(42,45,50,0.92)]`}>
+            <div css={tw`fixed z-[99] bottom-0 left-0 h-[50px] w-screen bg-secondary`}>
                 <div css={tw`pl-[7px] flex space-x-3`}>
                     <div
                         onClick={() => updateActiveWindow(activeWindow !== 'startmenu' ? 'startmenu' : undefined)}
@@ -67,7 +67,7 @@ function TaskBar() {
                             {gWindow.window.open && (
                                 <div
                                     css={[
-                                        tw`absolute rounded bottom-[50px] right-[-60px] bg-[rgba(42,45,50)] h-0 overflow-hidden transition-all ease-in-out duration-150 opacity-0 w-[170px]`,
+                                        tw`absolute rounded bottom-[50px] right-[-60px] bg-primary h-0 overflow-hidden transition-all ease-in-out duration-150 opacity-0 w-[170px]`,
                                         `box-shadow:0px 0px 0px rgba(0, 0, 0, 0.5),0px -1px 8px rgba(0, 0, 0, 0.5);`,
                                         gWindow.window.smallTask && tw`h-[140px] opacity-100`,
                                     ]}
