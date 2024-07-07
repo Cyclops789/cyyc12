@@ -28,8 +28,8 @@
 - ~~X1: add / use active windows state~~
 
 **[CORE]** Desktop:
-- Add: a boot image that displayes before [ starting / stopping ] status
-- Fix: restart button should display shutdown component > boot image > bootup component then desktop
+- ~~Add: a boot image that displayes before [ starting / stopping ] status~~
+- ~~Fix: restart button should display shutdown component > boot image > bootup component then desktop~~
 
 Desktop interface:
 - ~~Add: Ability to change desktop background from **ContextMenu**~~ [80%] (need to add more canvas backgrounds)

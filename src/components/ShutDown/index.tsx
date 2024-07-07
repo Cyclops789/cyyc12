@@ -4,7 +4,7 @@ import { useWindowsStore } from '@/stores/windows';
 import tw from 'twin.macro';
 
 function ShutDown() {
-    const { dummyTerminalTextShutDown, addShutDownTerminalText, ShutDownTerminalTexts, setDesktopStatus, desktopStatus, setShutDownTerminalText } = useGeneralStore();
+    const { dummyTerminalTextShutDown, addShutDownTerminalText, ShutDownTerminalTexts, setDesktopStatus, desktopStatus, setShutDownTerminalText, setIsRestarting, isRestarting } = useGeneralStore();
     const { updateActiveWindow, windows } = useWindowsStore();
 
     let i = 0;
@@ -17,7 +17,11 @@ function ShutDown() {
             if (i < dummyTerminalTextShutDown.length) {
                 onStop();
             } else {
-                setDesktopStatus('stopped');
+                if(isRestarting) {
+                    setTimeout(() => setDesktopStatus('starting'), 2000);
+                } else {
+                    setDesktopStatus('stopped');
+                }
                 updateActiveWindow(undefined);
                 setShutDownTerminalText([]);
 

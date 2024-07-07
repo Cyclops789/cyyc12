@@ -89,7 +89,7 @@ const PowerButton = styled.div`
 
 function StartMenu({ isStartMenuSticky, setStartMenuSticky }: Props) {
     const { activeWindow, updateActiveWindow } = useWindowsStore();
-    const { setDesktopStatus } = useGeneralStore();
+    const { setDesktopStatus, setIsRestarting } = useGeneralStore();
     const [applicationsSearchQuery, setApplicationSearchQuery] = useState('');
 
     return (
@@ -138,7 +138,8 @@ function StartMenu({ isStartMenuSticky, setStartMenuSticky }: Props) {
                     <div css={tw`flex space-x-2`}>
                         <PowerButton
                             onClick={() => {
-                                window.location.reload();
+                                setIsRestarting(true);
+                                setDesktopStatus('stopping');
                             }}
                         >
                             <FontAwesomeIcon icon={faArrowsRotate} />
