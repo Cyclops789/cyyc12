@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "yarn build:pre && tsc && vite build",
-    "build:test": "yarn build && python3 -m http.server -d dist/",
     "build:pre": "node scripts/browserIndex.cjs",
+    "build:test": "yarn build && python3 -m http.server -d dist/",
+    "build:vercel": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --quiet",
     "preview": "vite preview"
   },
