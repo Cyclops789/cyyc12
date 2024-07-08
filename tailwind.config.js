@@ -8,7 +8,8 @@ export default {
       },
       colors: {
         primary: 'rgba(42,45,50)',
-        secondary: 'rgba(42,45,50,0.92)'
+        secondary: 'rgba(42,45,50,0.92)',
+        custom1: 'rgb(21,29,36)',
       }
     },
   },

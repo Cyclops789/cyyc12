@@ -1,33 +1,30 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faHome, faDownload, faMusic, faVideo, faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faMusic, faVideo, faCamera } from '@fortawesome/free-solid-svg-icons';
 
-interface IFoldersPlaces {
+interface Folder {
     name: string;
     icon: IconProp;
 }
 
-export const foldersPlaces: IFoldersPlaces[] = [
-    {
-        name: 'Home',
+type FoldersStructure = {
+    [path: string]: Folder;
+};
+
+export const foldersStructure: FoldersStructure = {
+    "/home/hamza": {
+        name: "home",
         icon: faHome,
     },
-    {
-        name: 'Music',
+    "/home/hamza/music": {
+        name: "music",
         icon: faMusic,
     },
-    {
-        name: 'Pictures',
+    "/home/hamza/pictures": {
+        name: "pictures",
         icon: faCamera,
     },
-    {
-        name: 'Videos',
+    "/home/hamza/videos": {
+        name: "videos",
         icon: faVideo,
     },
-];
-
-export const foldersStructure = {
-    "/home/hamza" : {
-        name: "home",
-
-    }
-}
+} as const;

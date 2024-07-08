@@ -153,7 +153,7 @@ function IceFox() {
     useEffect(() => setSearchPlaceHolder(currentLink), [currentLink]);
 
     return (
-        <div css={tw`bg-[rgb(21,29,36)] w-full h-full cursor-auto overflow-hidden rounded-b-lg`}>
+        <div css={tw`bg-custom1 w-full h-full cursor-auto overflow-hidden rounded-b-lg`}>
             <HeaderSearch css={tw`border-b-transparent`}>
                 <div
                     css={tw`mx-3 flex items-center gap-x-1`}

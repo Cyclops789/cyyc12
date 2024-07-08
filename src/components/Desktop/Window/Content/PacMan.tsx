@@ -41,7 +41,7 @@ function Pacman() {
     }, [pacmanRef]);
     
     return (
-        <div css={tw`bg-[rgb(21,29,36)] w-full h-full cursor-auto overflow-hidden`}>
+        <div css={tw`bg-custom1 w-full h-full cursor-auto overflow-hidden`}>
             {/* Currently there is a bug where the sounds are getting played twice when you close / open pacman window */}
             <div ref={pacmanRef}></div>
         </div>
