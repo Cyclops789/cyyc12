@@ -8,7 +8,7 @@ import tw from 'twin.macro';
 type Props = { window: IAvailableWindows, handleWindowClose: () => void, handleWindowMinimize: () => void };
 
 function Tab({ window, handleWindowClose, handleWindowMinimize }: Props) {
-    const { toggleWindowFullScreen, updateWindowPos } = useWindowsStore();
+    const { activeWindow, toggleWindowFullScreen, updateWindowPos } = useWindowsStore();
 
     return (
         <div
@@ -24,9 +24,9 @@ function Tab({ window, handleWindowClose, handleWindowMinimize }: Props) {
                 }
                 e.preventDefault();
             }}
-            css={tw`flex justify-between cursor-default bg-red-700`} className={'dragHandler'}
+            css={[tw`flex justify-between cursor-default bg-red-700`, (activeWindow !== window.window.name) && tw`bg-red-800`]} className={'dragHandler'}
         >
-            <div css={tw`bg-red-700 w-full h-[30px] flex justify-center items-center`}>
+            <div css={[tw`bg-red-700 w-full h-[30px] flex justify-center items-center`, (activeWindow !== window.window.name) && tw`bg-red-800`]}>
                 <span css={tw`capitalize text-white`}>{window.window.name}</span>
             </div>
 

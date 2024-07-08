@@ -6,7 +6,7 @@ import WindowLayout from '@/components/Layouts/WindowLayout';
 import { Rnd } from 'react-rnd';
 import { IAvailableWindows } from '@/stores/windows';
 import tw from 'twin.macro';
-import { usePersistedState } from '@/helpers/usePersistedState';
+import { usePersistedState } from '@/helpers/hooks/usePersistedState';
 import { useCommandsStore } from '@/stores/commands';
 import { useBrowserHistoryStore } from '@/stores/browserHistory';
 import { DEFAULT_HISTORY_URL } from '@/helpers/historyHelper';
@@ -17,7 +17,7 @@ function Window({ children, window: cWindow }: Props) {
     const nodeRef = useRef<HTMLDivElement>(null);
     const [hideRnd, setHideRnd] = useState(false);
 
-    const { updateWindowSize, updateWindowPos, updateActiveWindow, toggleWindowMinimize, toggleWindow } = useWindowsStore();
+    const { activeWindow, updateWindowSize, updateWindowPos, updateActiveWindow, toggleWindowMinimize, toggleWindow } = useWindowsStore();
     const { setCommands } = useCommandsStore();
     const { setLinksHistory, setCurrentLink } = useBrowserHistoryStore();
 
@@ -144,8 +144,9 @@ function Window({ children, window: cWindow }: Props) {
             <div
                 ref={nodeRef}
                 css={[
-                    tw`border-2 cursor-none border-red-700 h-full w-full transform-gpu transition-all duration-[200ms] ease-out`,
-                    cWindow.window.fullscreen ? tw`rounded-t-lg` : tw`rounded-lg`
+                    tw`border-2 cursor-none border-red-700 h-full w-full transform-gpu transition-[width,height,opacity] duration-[200ms] ease-out`,
+                    cWindow.window.fullscreen ? tw`rounded-t-lg` : tw`rounded-lg`,
+                    (activeWindow !== cWindow.window.name) && tw`bg-red-800 border-red-800`,
                 ]}
             >
                 <Tab {...{ window: cWindow, handleWindowClose, handleWindowMinimize }} />

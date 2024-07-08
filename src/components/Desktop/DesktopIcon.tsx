@@ -5,7 +5,7 @@ import { useCommandsStore } from '@/stores/commands';
 import tw, { styled } from 'twin.macro';
 import { CSSProp } from 'styled-components';
 import { useGeneralStore } from '@/stores/general';
-import { usePersistedState } from '@/helpers/usePersistedState';
+import { usePersistedState } from '@/helpers/hooks/usePersistedState';
 import Draggable from 'react-draggable';
 
 const Button = styled.button`
