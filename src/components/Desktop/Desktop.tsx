@@ -12,10 +12,10 @@ function Desktop({ selectAbleContainerRef }: Props) {
     const { updateActiveWindow } = useWindowsStore();
 
     return (
-        <div 
-          ref={desktopRef}
-          onMouseDown={() => updateActiveWindow(undefined)} 
-          css={tw`z-[9] fixed w-screen h-screen`}
+        <div
+            ref={desktopRef}
+            onMouseDown={() => updateActiveWindow(undefined)}
+            css={tw`z-[9] fixed w-screen h-screen`}
         >
             <div ref={selectAbleContainerRef} css={tw`h-screen`}>
                 {windows.map((fWindow, index) => (

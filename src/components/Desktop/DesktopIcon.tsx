@@ -5,7 +5,7 @@ import { useCommandsStore } from '@/stores/commands';
 import tw, { styled } from 'twin.macro';
 import { CSSProp } from 'styled-components';
 import { useGeneralStore } from '@/stores/general';
-import { usePersistedState } from '@/helpers/hooks/usePersistedState';
+import { usePersistedLocatedState } from '@/helpers/hooks/usePersistedLocatedState';
 import Draggable from 'react-draggable';
 
 const Button = styled.button`
@@ -36,8 +36,8 @@ function DesktopIcon({ children, css, title, className }: Props) {
     const { setCommands } = useCommandsStore();
     const { isUserSelectionActive } = useGeneralStore();
 
-    const [initialXDragPosition, setInitialXDragPosition] = usePersistedState(`${title}.drag.pos.x`, 0);
-    const [initialYDragPosition, setInitialYDragPosition] = usePersistedState(`${title}.drag.pos.y`, 0);
+    const [initialXDragPosition, setInitialXDragPosition] = usePersistedLocatedState(`${title}.drag.pos.x`, 0);
+    const [initialYDragPosition, setInitialYDragPosition] = usePersistedLocatedState(`${title}.drag.pos.y`, 0);
 
     const [isCurrentlyDragging, setIsCurrentlyDragging] = useState(false);
 

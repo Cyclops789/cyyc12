@@ -6,7 +6,7 @@ import WindowLayout from '@/components/Layouts/WindowLayout';
 import { Rnd } from 'react-rnd';
 import { IAvailableWindows } from '@/stores/windows';
 import tw from 'twin.macro';
-import { usePersistedState } from '@/helpers/hooks/usePersistedState';
+import { usePersistedLocatedState } from '@/helpers/hooks/usePersistedLocatedState';
 import { useCommandsStore } from '@/stores/commands';
 import { useBrowserHistoryStore } from '@/stores/browserHistory';
 import { DEFAULT_HISTORY_URL } from '@/helpers/historyHelper';
@@ -23,10 +23,10 @@ function Window({ children, window: cWindow }: Props) {
 
     const windowOrder = useMemo(() => cWindow.window.order, [cWindow.window.order]);
 
-    const [initialWidth, saveInitialWidth] = usePersistedState(`${cWindow.window.name}.size.width`, `${cWindow.window.size?.width ?? 990}`);
-    const [initialHeight, saveInitialHeight] = usePersistedState(`${cWindow.window.name}.size.height`, `${cWindow.window.size?.height ?? 490}`);
-    const [initialXPos, saveInitialXPos] = usePersistedState(`${cWindow.window.name}.pos.x`, `${cWindow.window.pos?.x ?? 331}`);
-    const [initialYPos, saveInitialYPos] = usePersistedState(`${cWindow.window.name}.pos.y`, `${cWindow.window.pos?.y ?? 205}`);
+    const [initialWidth, saveInitialWidth] = usePersistedLocatedState(`${cWindow.window.name}.size.width`, `${cWindow.window.size?.width ?? 990}`);
+    const [initialHeight, saveInitialHeight] = usePersistedLocatedState(`${cWindow.window.name}.size.height`, `${cWindow.window.size?.height ?? 490}`);
+    const [initialXPos, saveInitialXPos] = usePersistedLocatedState(`${cWindow.window.name}.pos.x`, `${cWindow.window.pos?.x ?? 331}`);
+    const [initialYPos, saveInitialYPos] = usePersistedLocatedState(`${cWindow.window.name}.pos.y`, `${cWindow.window.pos?.y ?? 205}`);
 
     const handleActiveWindow = () => updateActiveWindow(cWindow.window.name);
     const handleResizeFade = useCallback((type: 'in' | 'out') => {
@@ -37,7 +37,7 @@ function Window({ children, window: cWindow }: Props) {
                     nodeRef.current.style.transform = `scale(0.95)`;
 
                     setTimeout(() => {
-                        if(!nodeRef.current) return;
+                        if (!nodeRef.current) return;
                         nodeRef.current.style.transform = `scale(1)`;
                         nodeRef.current.style.display = 'none';
                         setHideRnd(true);
@@ -48,7 +48,7 @@ function Window({ children, window: cWindow }: Props) {
                     nodeRef.current.style.opacity = '1';
                     nodeRef.current.style.transform = 'scale(1.05)';
                     setTimeout(() => {
-                        if(!nodeRef.current) return;
+                        if (!nodeRef.current) return;
                         nodeRef.current.style.transform = 'scale(1)';
                         nodeRef.current.style.display = '';
                         setHideRnd(false);

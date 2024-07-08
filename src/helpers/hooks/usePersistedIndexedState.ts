@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-export function usePersistedState<S = undefined>(
+export function usePersistedLocatedState<S = undefined>(
     key: string,
     defaultValue: S
 ): [S | undefined, Dispatch<SetStateAction<S | undefined>>] {
