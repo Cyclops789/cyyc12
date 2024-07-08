@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "yarn build:pre && tsc && vite build",
     "build:test": "yarn build && python3 -m http.server -d dist/",
+    "build:pre": "node scripts/browserIndex.cjs",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --quiet",
     "preview": "vite preview"
   },
@@ -21,6 +22,7 @@
     "@types/react-helmet": "^6.1.11",
     "@vitejs/plugin-react": "^4.3.0",
     "axios": "^1.7.2",
+    "browserfs": "^1.4.3",
     "path": "^0.12.7",
     "react": "^18.3.1",
     "react-contexify": "^6.0.0",

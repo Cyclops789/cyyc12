@@ -1,9 +1,13 @@
 import tw, { styled } from 'twin.macro';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { foldersStructure } from '@/helpers/foldersHelper';
+import { foldersStructure, foldersContent } from '@/helpers/foldersHelper';
+import { useFoldersStore, type allowedFolders } from '@/stores/folders';
+import { useEffect } from 'react';
 
-const PlaceRow = styled.div`
+const PlaceRow = styled.div<{ $selected: boolean }>`
     ${tw`flex space-x-2 cursor-pointer items-center bg-transparent p-1 rounded`}
+
+    ${(p) => p.$selected && tw`bg-red-500/10`}
 
     &:hover {
         ${tw`bg-red-500/10`}
@@ -19,6 +23,17 @@ const PlaceRow = styled.div`
 `;
 
 function Folder() {
+    const { currentFolder, currentFolderBrowseIndex, setCurrentFolder, setCurrentFolderBrowserIndex } = useFoldersStore();
+
+    useEffect(
+        () => setCurrentFolderBrowserIndex(
+            foldersContent.find(
+                folderContent => (
+                    currentFolder === folderContent.name
+                )
+            ) || null
+        ), [currentFolder]
+    );
 
     return (
         <div css={tw`bg-custom1 w-full h-full select-none cursor-default overflow-hidden rounded-b-lg flex`}>
@@ -33,12 +48,16 @@ function Folder() {
                 <div css={tw`p-2 space-y-2 grid`}>
                     <div css={tw`text-white/50`}>Places</div>
                     {Object.keys(foldersStructure).map((key) => (
-                        <PlaceRow>
+                        <PlaceRow
+                            key={key}
+                            $selected={key === currentFolder}
+                            onClick={() => setCurrentFolder(key as allowedFolders)}
+                        >
                             <FontAwesomeIcon
                                 icon={foldersStructure[key].icon}
                             />
                             <div css={tw`capitalize`}>
-                                {foldersStructure[key].name}
+                                {key}
                             </div>
                         </PlaceRow>
                     ))}
@@ -52,10 +71,12 @@ function Folder() {
                     css={tw`bg-primary border-b border-b-red-500 h-[50px] w-full`}
                 >
                     <div
-                        css={tw` p-2 gap-2`}
+                        css={tw`p-2 gap-2`}
                     >
-                        {["folder 1", "folder 2", "folder 3"].map((folder) => (
-                            <div>
+                        {currentFolderBrowseIndex?.files.map((file) => (
+                            <div
+                                key={file.name}
+                            >
 
                             </div>
                         ))}

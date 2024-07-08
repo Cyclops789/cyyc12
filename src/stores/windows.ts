@@ -8,7 +8,7 @@ import Folder from "@/components/Desktop/Window/Content/Folder";
 import { faTerminal, faGamepad, faGears, faUser, faGlobe, faDiceD6, faUserAlt, faGhost, faFolder } from '@fortawesome/free-solid-svg-icons';
 
 export const availableCategories = {
-    categories_simple: ['games', 'development', 'personal' , 'internet', 'folder'],
+    categories_simple: ['games', 'development', 'personal', 'internet', 'folder'],
     categories_full: [
         {
             name: 'games',
@@ -30,16 +30,16 @@ export const availableCategories = {
 } as const;
 
 export type AvailableCategories = (typeof availableCategories.categories_simple)[number];
-export type AvailableWindows = 
-    | 'konsole' 
-    | 'portfolio' 
-    | 'socials' 
-    | 'icefox' 
-    | 'pacman' 
+export type AvailableWindows =
+    | 'konsole'
+    | 'portfolio'
+    | 'socials'
+    | 'icefox'
+    | 'pacman'
     | `folder`
     | 'startmenu'  // Just to track clicks
     | 'icons'      // Just to prevent UserSelection from starting inside an icon
-;
+    ;
 
 export type WindowSize = { width: number, height: number };
 export type WindowPos = { x: number, y: number };

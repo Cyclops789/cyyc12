@@ -45,4 +45,7 @@ Terminal:
 - ~~Add: fastfetch~~
 - ~~Add: insert last used command using arrow up / down~~
 
-
+Folder:
+- Add: content to public/static folders
+- Add: show the static generated browse files in folder components
+- Add: Show file content in a window component based on mime type [image / video / text]
