@@ -47,8 +47,8 @@ export type AvailableWindows =
 export type WindowSize = { width: number, height: number };
 export type WindowPos = { x: number, y: number };
 export type WindowContainer = {
-    name: AvailableWindows,
-    category: AvailableCategories,
+    readonly name: AvailableWindows,
+    readonly category: AvailableCategories,
     size?: WindowSize,
     pos?: WindowPos,
     open: boolean,

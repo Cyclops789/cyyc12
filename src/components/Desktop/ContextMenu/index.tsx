@@ -71,14 +71,13 @@ function ContextMenu({ children }: Props) {
                     </Submenu>
 
                 </Submenu>
-
-                <Separator />
-
-                <Submenu label="Add file">
-                    <Item id="add.file" onClick={() => { }}>
-                        <label css={tw`w-full h-full cursor-pointer`} htmlFor={"add.file.image"}>Image</label>
-                        <input hidden id={"add.file.image"} type={"file"} accept={'image/*'} />
+                <Submenu label="Theme">
+                    <Item
+                        onClick={() => { }}
+                    >
+                        <span css={'text-transform:capitalize;'}>Red</span>
                     </Item>
+
                 </Submenu>
             </Menu>
             {children}

@@ -2,10 +2,12 @@ import tw, { styled } from 'twin.macro'
 import { useWindowsStore } from '@/stores/windows'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useCommandsStore } from '@/stores/commands';
+import { useFoldersStore } from '@/stores/folders';
 import StartMenu from '@/components/Desktop/TaskBar/StartMenu';
 import Cat from '@/assets/cat.svg?react';
 import { useState } from 'react';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { getExtentionIcon } from '@/helpers/foldersHelper';
 
 const TaskBarButton = styled.div`
     ${tw`w-[35px] h-[35px] rounded flex justify-center items-center bg-red-900/90`} 
@@ -34,6 +36,7 @@ function TaskBar() {
     const { windows, activeWindow, updateActiveWindow, toggleWindow, toggleWindowSmallTask, toggleWindowHoverSmallTask } = useWindowsStore();
     const [isStartMenuSticky, setStartMenuSticky] = useState<boolean>(false);
     const { setCommands, commands } = useCommandsStore();
+    const { currentSelectedFile } = useFoldersStore();
 
     return (
         <>
@@ -173,8 +176,8 @@ function TaskBar() {
                                 >
                                     <div css={tw`p-3 flex justify-between items-center`}>
                                         <div css={tw`flex items-center space-x-1`}>
-                                            <div css={tw`text-white text-sm capitalize`}>
-                                                {gWindow.window.name}
+                                            <div css={tw`text-white text-xs capitalize`}>
+                                                {currentSelectedFile?.name ?? gWindow.window.name}
                                             </div>
                                             {gWindow.window.name === "konsole" && (
                                                 <>
@@ -208,7 +211,7 @@ function TaskBar() {
                                         }}
                                     >
                                         <div css={tw`bg-red-700/30 rounded-full w-[50px] h-[50px] flex justify-center items-center`}>
-                                            <FontAwesomeIcon css={tw`text-white text-[25px]`} icon={gWindow.desktop.child.icon} />
+                                            <FontAwesomeIcon css={tw`text-white text-[25px]`} icon={getExtentionIcon(currentSelectedFile!.ext)} />
                                         </div>
                                     </WindowSmallTaskManager>
                                 </div>
@@ -242,7 +245,7 @@ function TaskBar() {
 
                                 </div>
                                 <TaskBarButton>
-                                    <FontAwesomeIcon icon={gWindow.desktop.child.icon} />
+                                    <FontAwesomeIcon icon={getExtentionIcon(currentSelectedFile!.ext)} />
                                 </TaskBarButton>
                             </div>
                         </div>

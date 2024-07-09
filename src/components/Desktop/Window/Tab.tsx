@@ -29,7 +29,9 @@ function Tab({ window, handleWindowClose, handleWindowMinimize }: Props) {
             css={[tw`flex justify-between cursor-default bg-red-700`, (activeWindow !== window.window.name) && tw`bg-red-800`]} className={'dragHandler'}
         >
             <div css={[tw`bg-red-700 w-full h-[30px] flex justify-center items-center`, (activeWindow !== window.window.name) && tw`bg-red-800`]}>
-                <span css={tw`capitalize text-white`}>{window.window.name === 'file' ? `File manager${currentSelectedFile && ` - ${currentSelectedFile.name}`}` : window.window.name}</span>
+                <span css={[tw`text-white`, window.window.name !== 'file' && tw`capitalize`]}>
+                    {window.window.name === 'file' ? currentSelectedFile?.name ?? window.window.name : window.window.name}
+                </span>
             </div>
 
             <div css={tw`flex space-x-2 items-center mr-1`}>

@@ -47,5 +47,5 @@ Terminal:
 
 Folder:
 - ~~Add: content to public/static folders~~
-- Add: show the static generated browse files in folder components [30%] (It should fetch the text files for monaco editor and display videos / audios)
+- ~~Add: show the static generated browse files in folder components~~ [90%] (~~It should fetch the text files for monaco editor and display videos~~ / audios)
 - ~~Add: Show file content in a window component based on mime type [image / video / text]~~

@@ -1,3 +1,6 @@
+const { createThemes } = require('tw-colors');
+const colors = require('tailwindcss/colors')
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [],
@@ -13,6 +16,24 @@ export default {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    createThemes({
+      red: {
+        'base': colors.red
+      },
+      yellow: {
+        'base': colors.yellow
+      },
+      orange: {
+        'base': colors.orange
+      },
+      white: {
+        'base': colors.white
+      },
+      green: {
+        'base': colors.green
+      },
+    })
+  ],
 }
 

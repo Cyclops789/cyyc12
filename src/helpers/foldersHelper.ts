@@ -24,18 +24,18 @@ type FoldersStructure = {
     [path: string]: Folder;
 };
 
-export type allowedExtensions = 
-// Images
-'.png' | '.jpg' | '.jpeg' | '.webp' | 
+export type allowedExtensions =
+    // Images
+    '.png' | '.jpg' | '.jpeg' | '.webp' |
 
-// Videos
-'.mp4' |
+    // Videos
+    '.mp4' |
 
-// Sounds
-'.mp3' |
+    // Sounds
+    '.mp3' |
 
-// Text or ReadAble files
-'.json' | '.pdf' | '.txt';
+    // Text or ReadAble files
+    '.json' | '.pdf' | '.txt';
 
 export const foldersStructure: FoldersStructure = {
     "desktop": {
@@ -58,33 +58,33 @@ export const foldersStructure: FoldersStructure = {
 export const foldersContent = browser as IBrowserIndex[];
 
 export const getExtentionIcon = (ext: allowedExtensions | string, type?: 'file' | 'folder'): IconProp => {
-    if(type && type === 'folder') {
+    if (type && type === 'folder') {
         return faFolder;
     }
 
-    if(ext === '.jpeg' || ext === '.jpg' || ext === '.png' || ext === '.webp') {
-        return faImage;
-    }
+    switch (ext) {
+        case '.jpg':
+        case '.jpeg':
+        case '.png':
+        case '.webp':
+            return faImage;
 
-    if(ext === '.json') {
-        return faCode;
-    }
+        case '.txt':
+            return faFileText;
+            
+        case '.json':
+            return faCode;
 
-    if(ext === '.pdf') {
-        return faFilePdf;
-    }
+        case '.pdf':
+            return faFilePdf;
 
-    if(ext === '.txt') {
-        return faFileText;
-    }
+        case '.mp4':
+            return faFilm;
 
-    if(ext === '.mp4') {
-        return faFilm;
-    }
+        case '.mp3':
+            return faMusic;
 
-    if(ext === '.mp3') {
-        return faMusic;
+        default:
+            return faFile;
     }
-
-    return faFile;
 }
