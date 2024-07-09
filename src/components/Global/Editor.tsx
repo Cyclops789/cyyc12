@@ -21,7 +21,7 @@ export const Editor = ({ data: value, language }: Props) => {
             setEditor((editor) => {
                 if (editor) return editor;
 
-                // We dont need to give it type since vite already 
+                // We dont need to give it a type since vite already 
                 // converts json format into javascript object
                 monaco.editor.defineTheme('dracula', EditorJson as any);
                 monaco.editor.setTheme('dracula');
