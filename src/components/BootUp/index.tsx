@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useGeneralStore } from '@/stores/general';
 import tw from 'twin.macro';
 
@@ -6,7 +6,7 @@ function BootUp() {
     const { dummyTerminalTextBootUp, addBootUpTerminalText, BootUpTerminalTexts, setDesktopStatus, desktopStatus, setBootUpTerminalText } = useGeneralStore();
     let i = 0;
 
-    const onStart = () => {
+    const onStart = useCallback(() => {
         setTimeout(() => {
             const currentDummyText = dummyTerminalTextBootUp[i];
             addBootUpTerminalText(currentDummyText);
@@ -18,7 +18,7 @@ function BootUp() {
                 setBootUpTerminalText([]);
             }
         }, 140);
-    }
+    }, [])
 
     useEffect(() => {
         if (desktopStatus === 'starting') onStart();

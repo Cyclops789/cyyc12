@@ -6,9 +6,7 @@
 
 
 */
-import React from "react";
-import { useRef } from "react";
-import { useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 
 import "./CMatrix.css";
 

@@ -1,11 +1,13 @@
 import { create } from 'zustand'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { faTerminal, faGamepad, faGears, faUser, faGlobe, faDiceD6, faUserAlt, faGhost, faFolder, faFile } from '@fortawesome/free-solid-svg-icons';
+
 import Terminal from "@/components/Desktop/Window/Content/Terminal";
 import Portfolio from "@/components/Desktop/Window/Content/Portfolio";
 import IceFox from "@/components/Desktop/Window/Content/IceFox";
 import PacMan from "@/components/Desktop/Window/Content/PacMan";
 import Folder from "@/components/Desktop/Window/Content/Folder";
-import { faTerminal, faGamepad, faGears, faUser, faGlobe, faDiceD6, faUserAlt, faGhost, faFolder } from '@fortawesome/free-solid-svg-icons';
+import File from "@/components/Desktop/Window/Content/File";
 
 export const availableCategories = {
     categories_simple: ['games', 'development', 'personal', 'internet', 'folder'],
@@ -36,7 +38,8 @@ export type AvailableWindows =
     | 'socials'
     | 'icefox'
     | 'pacman'
-    | `folder`
+    | `explorer`
+    | 'file'
     | 'startmenu'  // Just to track clicks
     | 'icons'      // Just to prevent UserSelection from starting inside an icon
     ;
@@ -55,6 +58,11 @@ export type WindowContainer = {
     functions: {
         minimize: () => void;
         close: () => void;
+    },
+    hidden: {
+        desktop: boolean,
+        startMenu: boolean,
+        taskBar: boolean,
     },
     smallTask: boolean;
     hoverSmallTask: boolean;
@@ -102,6 +110,11 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                     minimize: () => { },
                     close: () => { },
                 },
+                hidden: {
+                    desktop: false,
+                    startMenu: false,
+                    taskBar: false,
+                },
                 smallTask: false,
                 hoverSmallTask: false,
             },
@@ -126,6 +139,11 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                     minimize: () => { },
                     close: () => { },
                 },
+                hidden: {
+                    desktop: false,
+                    startMenu: false,
+                    taskBar: false,
+                },
                 smallTask: false,
                 hoverSmallTask: false,
             },
@@ -149,6 +167,11 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 functions: {
                     minimize: () => { },
                     close: () => { },
+                },
+                hidden: {
+                    desktop: false,
+                    startMenu: false,
+                    taskBar: false,
                 },
                 smallTask: false,
                 hoverSmallTask: false,
@@ -178,6 +201,11 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                     minimize: () => { },
                     close: () => { },
                 },
+                hidden: {
+                    desktop: false,
+                    startMenu: false,
+                    taskBar: false,
+                },
                 smallTask: false,
                 hoverSmallTask: false,
             },
@@ -192,7 +220,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
         },
         {
             window: {
-                name: 'folder',
+                name: 'explorer',
                 category: 'folder',
                 open: false,
                 minimize: undefined,
@@ -202,6 +230,11 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                     minimize: () => { },
                     close: () => { },
                 },
+                hidden: {
+                    desktop: false,
+                    startMenu: true,
+                    taskBar: false,
+                },
                 smallTask: false,
                 hoverSmallTask: false,
             },
@@ -210,6 +243,35 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 className: 'h-[65px] w-[65px]',
                 child: {
                     icon: faFolder,
+                    css: 'font-size:40px;',
+                },
+            }
+        },
+        {
+            window: {
+                name: 'file',
+                category: 'folder',
+                open: false,
+                minimize: undefined,
+                fullscreen: false,
+                order: 4,
+                functions: {
+                    minimize: () => { },
+                    close: () => { },
+                },
+                hidden: {
+                    desktop: true,
+                    startMenu: true,
+                    taskBar: true,
+                },
+                smallTask: false,
+                hoverSmallTask: false,
+            },
+            windowChildren: File,
+            desktop: {
+                className: 'h-[65px] w-[65px]',
+                child: {
+                    icon: faFile,
                     css: 'font-size:40px;',
                 },
             }

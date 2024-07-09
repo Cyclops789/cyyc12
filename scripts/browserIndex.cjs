@@ -18,6 +18,10 @@ const allowedFolders = [
         name: "videos",
         files: []
     },
+    {
+        name: "documents",
+        files: []
+    }
 ];
 
 try {

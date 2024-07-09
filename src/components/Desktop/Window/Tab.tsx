@@ -1,4 +1,5 @@
 import { IAvailableWindows, useWindowsStore } from '@/stores/windows';
+import { useFoldersStore } from '@/stores/folders';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +10,7 @@ type Props = { window: IAvailableWindows, handleWindowClose: () => void, handleW
 
 function Tab({ window, handleWindowClose, handleWindowMinimize }: Props) {
     const { activeWindow, toggleWindowFullScreen, updateWindowPos } = useWindowsStore();
+    const { currentSelectedFile } = useFoldersStore();
 
     return (
         <div
@@ -27,7 +29,7 @@ function Tab({ window, handleWindowClose, handleWindowMinimize }: Props) {
             css={[tw`flex justify-between cursor-default bg-red-700`, (activeWindow !== window.window.name) && tw`bg-red-800`]} className={'dragHandler'}
         >
             <div css={[tw`bg-red-700 w-full h-[30px] flex justify-center items-center`, (activeWindow !== window.window.name) && tw`bg-red-800`]}>
-                <span css={tw`capitalize text-white`}>{window.window.name}</span>
+                <span css={tw`capitalize text-white`}>{window.window.name === 'file' ? `File manager${currentSelectedFile && ` - ${currentSelectedFile.name}`}` : window.window.name}</span>
             </div>
 
             <div css={tw`flex space-x-2 items-center mr-1`}>

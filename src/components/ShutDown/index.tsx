@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useGeneralStore } from '@/stores/general';
 import { useWindowsStore } from '@/stores/windows';
 import tw from 'twin.macro';
@@ -9,7 +9,7 @@ function ShutDown() {
 
     let i = 0;
 
-    const onStop = () => {
+    const onStop = useCallback(() => {
         setTimeout(() => {
             const currentDummyText = dummyTerminalTextShutDown[i];
             addShutDownTerminalText(currentDummyText);
@@ -29,7 +29,7 @@ function ShutDown() {
                 windows.map((cWindow) => cWindow.window.open && cWindow.window.functions?.close());
             }
         }, 90);
-    }
+    }, [])
 
     useEffect(() => {
         if (desktopStatus === 'stopping') onStop();
