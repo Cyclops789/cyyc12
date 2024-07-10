@@ -93,12 +93,22 @@ function Window({ children, window: cWindow }: Props) {
                     break;
 
                 case 'pacman':
-                    window.PACMAN?.destroy();
-                    break;
+                    try {
+                        window.PACMAN?.destroy();
+                    } catch (error) {
+                        console.error("There was an error destroying pacman window:", error);
+                    } finally {
+                        break;
+                    }
 
                 case 'webamp':
-                    window.WebAmpRef.close();
-                    break;
+                    try {
+                        window.WebAmpRef.close();
+                    } catch (error) {
+                        console.error("There was an error closing webamp window:", error);
+                    } finally {
+                        break;
+                    }
             }
         }, 200);
     }, [cWindow.window.name]);
@@ -107,6 +117,18 @@ function Window({ children, window: cWindow }: Props) {
         handleResizeFade((cWindow.window.minimize === 'enabled') ? 'out' : 'in');
         toggleWindowMinimize(cWindow.window.name, (cWindow.window.minimize === 'enabled') ? 'disabled' : 'enabled');
         updateActiveWindow((cWindow.window.minimize === 'enabled') ? cWindow.window.name : undefined);
+
+        if (cWindow.window.name === 'webamp') {
+            try {
+                if (cWindow.window.minimize === 'enabled') {
+                    window.WebAmpRef.reopen();
+                } else {
+                    window.WebAmpRef.close();
+                }
+            } catch (error) {
+                console.error("There was an error closing webamp window:", error);
+            }
+        }
     }, [cWindow.window.minimize]);
 
     return (
@@ -149,7 +171,7 @@ function Window({ children, window: cWindow }: Props) {
                 <div
                     ref={nodeRef}
                     css={[
-                        tw`border-2 cursor-none border-base-700 h-full w-full transform-gpu transition-[width,height,opacity] duration-[200ms] ease-out`,
+                        tw`border-2 cursor-none border-base-700 h-full w-full transform-gpu overflow-hidden transition-[width,height,opacity] duration-[200ms] ease-out`,
                         cWindow.window.fullscreen ? tw`rounded-t-lg` : tw`rounded-lg`,
                         (activeWindow !== cWindow.window.name) && tw`bg-base-800 border-base-800`,
                     ]}

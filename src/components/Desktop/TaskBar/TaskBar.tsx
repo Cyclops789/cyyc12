@@ -178,7 +178,7 @@ function TaskBar() {
                                 >
                                     <div css={tw`p-3 flex justify-between items-center`}>
                                         <div css={tw`flex items-center space-x-1`}>
-                                            <div css={tw`text-white text-xs capitalize`}>
+                                            <div css={tw`text-white text-xs capitalize overflow-hidden`}>
                                                 {currentSelectedFile?.name ?? gWindow.window.name}
                                             </div>
                                             {gWindow.window.name === "konsole" && (

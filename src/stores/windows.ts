@@ -231,7 +231,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 open: false,
                 minimize: undefined,
                 fullscreen: false,
-                order: 4,
+                order: 5,
                 functions: {
                     minimize: () => { },
                     close: () => { },
@@ -260,7 +260,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 open: false,
                 minimize: undefined,
                 fullscreen: false,
-                order: 4,
+                order: 6,
                 functions: {
                     minimize: () => { },
                     close: () => { },
@@ -289,7 +289,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 open: false,
                 minimize: undefined,
                 fullscreen: false,
-                order: 4,
+                order: 6,
                 functions: {
                     minimize: () => { },
                     close: () => { },
