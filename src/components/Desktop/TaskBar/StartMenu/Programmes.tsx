@@ -11,7 +11,7 @@ const ApplicationContainer = styled.div`
     ${tw`text-white h-[90px] w-[90px] flex items-center justify-center border border-transparent rounded cursor-pointer`}
 
     &:hover {
-        ${tw`border-red-600 bg-red-600/20`}
+        ${tw`border-base-600 bg-base-600/20`}
     }
 `;
 
@@ -42,7 +42,7 @@ function Programmes({ applicationsSearchQuery }: Props) {
                         >
                             <div>
                                 <div css={tw`flex justify-center`}>
-                                    <FontAwesomeIcon css={tw`text-red-600 text-[40px]`} icon={gWindow.desktop.child.icon} />
+                                    <FontAwesomeIcon css={tw`text-base-600 text-[40px]`} icon={gWindow.desktop.child.icon} />
                                 </div>
                                 <div css={tw`capitalize text-sm`}>{gWindow.window.name}</div>
                             </div>
@@ -55,7 +55,7 @@ function Programmes({ applicationsSearchQuery }: Props) {
                         >
                             <div>
                                 <div css={tw`flex justify-center`}>
-                                    <FontAwesomeIcon css={tw`text-red-600 text-[40px]`} icon={gWindow.desktop.child.icon} />
+                                    <FontAwesomeIcon css={tw`text-base-600 text-[40px]`} icon={gWindow.desktop.child.icon} />
                                 </div>
                                 <div css={tw`capitalize text-sm`}>{gWindow.window.name}</div>
                             </div>

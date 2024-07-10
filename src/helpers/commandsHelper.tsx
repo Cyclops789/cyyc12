@@ -25,7 +25,7 @@ const HelpContainer = styled.div`
 
 const GreenSpan = tw.span`text-green-500`;
 const BlueSpan = tw.span`text-blue-500`;
-const RedSpan = tw.span`text-red-500`;
+const RedSpan = tw.span`text-base-500`;
 const Link = tw.a`hover:underline`;
 const ListDirs = tw.div`flex items-center space-x-2`
 

@@ -8,6 +8,7 @@ import WindowContainer from '@/components/Desktop/Window/Window';
 import { useWindowsStore } from '@/stores/windows';
 import UserSelectionHandler from '@/components/Desktop/UserSelectionHandler';
 import ContextMenu from '@/components/Desktop/ContextMenu';
+import useThemeStore from "@/styles/useThemeStore";
 import tw from 'twin.macro';
 
 type Props = { children: React.ReactNode, selectAbleContainerRef: RefObject<HTMLDivElement> };
@@ -15,10 +16,12 @@ type Props = { children: React.ReactNode, selectAbleContainerRef: RefObject<HTML
 function DesktopHandler({ children, selectAbleContainerRef }: Props) {
     const { desktopStatus } = useGeneralStore();
     const { windows } = useWindowsStore();
+    const { baseColor } = useThemeStore();
 
     switch (desktopStatus) {
         case 'started':
             return (
+
                 <Loading>
                     <UserSelectionHandler {...{ selectAbleContainerRef }}>
                         <ContextMenu>
@@ -37,7 +40,6 @@ function DesktopHandler({ children, selectAbleContainerRef }: Props) {
                         </ContextMenu>
                     </UserSelectionHandler>
                 </Loading>
-
             )
 
         case 'starting':
@@ -58,7 +60,7 @@ function DesktopHandler({ children, selectAbleContainerRef }: Props) {
             return (
                 <div css={tw`w-screen h-screen flex justify-center items-center`}>
                     <div>
-                        <div css={tw`sm:hidden text-center text-white px-2 mb-4`}>This website works better on desktop, click the red button to get to the mobile portofolio.</div>
+                        <div css={tw`sm:hidden text-center text-white px-2 mb-4`}>This website works better on desktop, click the {baseColor === 'green' ? 'red' : baseColor} button to get to the mobile portofolio.</div>
                         <StartButtons />
                     </div>
                 </div>

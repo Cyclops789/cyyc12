@@ -27,9 +27,6 @@ export default {
       orange: {
         'base': colors.orange
       },
-      white: {
-        'base': colors.white
-      },
       green: {
         'base': colors.green
       },

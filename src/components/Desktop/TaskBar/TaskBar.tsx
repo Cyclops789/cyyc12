@@ -8,19 +8,20 @@ import Cat from '@/assets/cat.svg?react';
 import { useState } from 'react';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { getExtentionIcon } from '@/helpers/foldersHelper';
+import useThemeStore from '@/styles/useThemeStore';
 
 const TaskBarButton = styled.div`
-    ${tw`w-[35px] h-[35px] rounded flex justify-center items-center bg-red-900/90`} 
+    ${tw`w-[35px] h-[35px] rounded flex justify-center items-center bg-base-900/90`} 
 `;
 
 const SmallTaskCloseButton = styled.div`
     ${tw`border border-transparent rounded cursor-pointer`}
     &:hover {
-        ${tw`border-red-700`}
+        ${tw`border-base-700`}
     }
 
     &:active {
-        ${tw`bg-red-700/30`}
+        ${tw`bg-base-700/30`}
     }
 `;
 
@@ -28,7 +29,7 @@ const WindowSmallTaskManager = styled.div`
     ${tw`flex justify-center items-center ml-[5px] mb-[5px] h-[85px] w-[95%] border border-transparent rounded p-1 cursor-pointer`}
 
     &:hover {
-        ${tw`bg-red-400/20 border-red-700`}
+        ${tw`bg-base-400/20 border-base-700`}
     }
 `;
 
@@ -37,6 +38,7 @@ function TaskBar() {
     const [isStartMenuSticky, setStartMenuSticky] = useState<boolean>(false);
     const { setCommands, commands } = useCommandsStore();
     const { currentSelectedFile } = useFoldersStore();
+    const { rbgAt600, rbgAt700 } = useThemeStore();
 
     return (
         <>
@@ -48,10 +50,10 @@ function TaskBar() {
                         css={tw`overflow-hidden relative w-[40px] h-[50px] flex justify-center items-center hover:cursor-pointer`}
                     >
                         <div css={[
-                            tw`absolute -top-1 w-full h-[3px] bg-red-700`,
+                            tw`absolute -top-1 w-full h-[3px] bg-base-700`,
                             (activeWindow === 'startmenu' || isStartMenuSticky) && tw`!top-0`
                         ]} />
-                        <Cat css={tw`w-[33px]`} />
+                        <Cat fill={rbgAt700} css={tw`w-[33px]`} />
                     </div>
 
                     {windows?.filter((gWindow) => !gWindow.window.hidden.taskBar).map((gWindow, index) => (
@@ -96,7 +98,7 @@ function TaskBar() {
                                             onClick={() => gWindow.window.functions.close()}
                                         >
                                             <div css={tw`px-1`}>
-                                                <FontAwesomeIcon css={tw`text-red-700`} icon={faXmark} />
+                                                <FontAwesomeIcon css={tw`text-base-700`} icon={faXmark} />
                                             </div>
                                         </SmallTaskCloseButton>
                                     </div>
@@ -111,7 +113,7 @@ function TaskBar() {
                                             toggleWindowSmallTask(gWindow.window.name, false);
                                         }}
                                     >
-                                        <div css={tw`bg-red-700/30 rounded-full w-[50px] h-[50px] flex justify-center items-center`}>
+                                        <div css={tw`bg-base-700/30 rounded-full w-[50px] h-[50px] flex justify-center items-center`}>
                                             <FontAwesomeIcon css={tw`text-white text-[25px]`} icon={gWindow.desktop.child.icon} />
                                         </div>
                                     </WindowSmallTaskManager>
@@ -141,7 +143,7 @@ function TaskBar() {
                             >
                                 <div css={[
                                     tw`absolute top-0 w-full h-[2px] bg-transparent`,
-                                    (gWindow.window.open && activeWindow === gWindow.window.name) && tw`bg-red-600`,
+                                    (gWindow.window.open && activeWindow === gWindow.window.name) && tw`bg-base-600`,
                                 ]}>
 
                                 </div>
@@ -195,7 +197,7 @@ function TaskBar() {
                                             onClick={() => gWindow.window.functions.close()}
                                         >
                                             <div css={tw`px-1`}>
-                                                <FontAwesomeIcon css={tw`text-red-700`} icon={faXmark} />
+                                                <FontAwesomeIcon css={tw`text-base-700`} icon={faXmark} />
                                             </div>
                                         </SmallTaskCloseButton>
                                     </div>
@@ -210,7 +212,7 @@ function TaskBar() {
                                             toggleWindowSmallTask(gWindow.window.name, false);
                                         }}
                                     >
-                                        <div css={tw`bg-red-700/30 rounded-full w-[50px] h-[50px] flex justify-center items-center`}>
+                                        <div css={tw`bg-base-700/30 rounded-full w-[50px] h-[50px] flex justify-center items-center`}>
                                             <FontAwesomeIcon css={tw`text-white text-[25px]`} icon={getExtentionIcon(currentSelectedFile!.ext)} />
                                         </div>
                                     </WindowSmallTaskManager>
@@ -240,7 +242,7 @@ function TaskBar() {
                             >
                                 <div css={[
                                     tw`absolute top-0 w-full h-[2px] bg-transparent`,
-                                    (gWindow.window.open && activeWindow === gWindow.window.name) && tw`bg-red-600`,
+                                    (gWindow.window.open && activeWindow === gWindow.window.name) && tw`bg-base-600`,
                                 ]}>
 
                                 </div>

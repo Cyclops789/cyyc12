@@ -60,7 +60,7 @@ const InputSearchContainer = styled.div`
     ${tw`transition-all ease-in-out duration-150 mx-4 flex h-[85%] w-[70%] items-center bg-black/50 p-2 rounded-md border-2 border-transparent`}
 
     &:focus-within {
-        ${tw`border-red-700`}
+        ${tw`border-base-700`}
     }
 
     & input {

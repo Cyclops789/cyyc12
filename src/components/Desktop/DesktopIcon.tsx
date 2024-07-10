@@ -9,11 +9,10 @@ import { usePersistedLocatedState } from '@/helpers/hooks/usePersistedLocatedSta
 import Draggable from 'react-draggable';
 
 const Button = styled.button`
-    ${tw`w-[60px] h-[60px] rounded-lg`} 
-    background: repeating-linear-gradient(to top, #400605 0%, #CF1512 128%);
+    ${tw`w-[60px] h-[60px] rounded-lg bg-gradient-to-t from-base-600 via-base-800 to-base-900`} 
   
     &:active:hover {
-      background: repeating-linear-gradient(to top, #310504 0%, #970F0D 128%);
+        ${tw`bg-gradient-to-t from-base-700 via-base-900 to-base-900/90`} 
     }
 `;
 
@@ -23,8 +22,7 @@ const IconContainer = styled.div`
     &:not(.selected):hover {
         border-radius: 5px;
         border-width: 1px;
-        border-color: #DC2626; 
-        background-color: #dc26261e;
+        ${tw`border-base-600 bg-base-600/10`}
     }
 `;
 

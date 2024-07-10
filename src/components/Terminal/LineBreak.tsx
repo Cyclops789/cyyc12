@@ -8,8 +8,8 @@ function LineBreak({ command }: Props) {
     return (
         <div css={tw`text-green-400`}>
             <FontAwesomeIcon css={tw`text-blue-500 w-4`} icon={faCloud} />
-            <span css={tw`text-red-500`}> hamza</span>
-            <span css={tw`text-white`}>@</span>debian <FontAwesomeIcon css={tw`text-red-500 w-4`} icon={faBolt} />
+            <span css={tw`text-base-500`}> hamza</span>
+            <span css={tw`text-white`}>@</span>debian <FontAwesomeIcon css={tw`text-base-500 w-4`} icon={faBolt} />
             {' '}<span css={tw`text-white`}>{command}</span>
         </div>
     )

@@ -13,10 +13,10 @@ type Props = { isStartMenuSticky: boolean, setStartMenuSticky: Dispatch<SetState
 const ThumbTackStick = styled.div<{ $sticky: boolean }>`
     ${tw`rounded border border-transparent w-[35px] flex justify-center items-center`}
 
-    ${p => p.$sticky && tw`bg-red-700/30 border-red-600`}
+    ${p => p.$sticky && tw`bg-base-700/30 border-base-600`}
 
     &:hover {
-        ${tw`border-red-600`}
+        ${tw`border-base-600`}
     }
 
     & svg {
@@ -28,7 +28,7 @@ const InputSearch = styled.div`
     ${tw`bg-black/50 rounded border border-white/25 p-[3px]`}
 
     &:hover {
-        ${tw`border-red-600`}
+        ${tw`border-base-600`}
     }
 
     & input {
@@ -39,7 +39,7 @@ const InputSearch = styled.div`
     }
     
     &:focus-within {
-        ${tw`border-red-600`}
+        ${tw`border-base-600`}
 
         & svg {
             ${tw`w-0 mx-0`}
@@ -79,11 +79,11 @@ const PowerButton = styled.div`
     }
 
     &:hover {
-        ${tw`border-red-600`}
+        ${tw`border-base-600`}
     }
 
     &:active {
-        ${tw`bg-red-700/30 border-red-600`}
+        ${tw`bg-base-700/30 border-base-600`}
     }
 `;
 
@@ -106,7 +106,7 @@ function StartMenu({ isStartMenuSticky, setStartMenuSticky }: Props) {
 
                 <div css={tw`flex space-x-2`}>
                     <InputSearch>
-                        <FontAwesomeIcon css={tw`text-red-600 mx-2`} icon={faMagnifyingGlass} />
+                        <FontAwesomeIcon css={tw`text-base-600 mx-2`} icon={faMagnifyingGlass} />
                         <input
                             type={"text"}
                             placeholder={'Search...'}

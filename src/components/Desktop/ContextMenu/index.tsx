@@ -6,12 +6,13 @@ import { DESKTOP_CONTEXT_ID } from '@/helpers/contextHelper';
 import tw from 'twin.macro';
 import { useGeneralStore } from '@/stores/general';
 import { availableBackgrounds } from '@/stores/general';
-import './ContextMenu.css';
+import useThemeStore from "@/styles/useThemeStore";
 
 type Props = { children: React.ReactNode };
 
 function ContextMenu({ children }: Props) {
     const { activeWindow, } = useWindowsStore();
+    const { baseColor, setBaseColor } = useThemeStore();
     const { setActiveBackground, activeBackground } = useGeneralStore();
     const { show } = useContextMenu({ id: DESKTOP_CONTEXT_ID });
 
@@ -38,8 +39,6 @@ function ContextMenu({ children }: Props) {
             >
                 <Submenu label="Sort by">
                     <Item disabled id="sort.by.name" onClick={() => { }}>Name</Item>
-                    <Item disabled id="sort.by.size" onClick={() => { }}>Size</Item>
-                    <Item disabled id="sort.by.item-type" onClick={() => { }}>Item type</Item>
                     <Separator />
                     <Item disabled id="sort.by.asc" onClick={() => { }}>Ascending</Item>
                     <Item disabled id="sort.by.desc" onClick={() => { }}>Descending</Item>
@@ -72,12 +71,17 @@ function ContextMenu({ children }: Props) {
 
                 </Submenu>
                 <Submenu label="Theme">
-                    <Item
-                        onClick={() => { }}
-                    >
-                        <span css={'text-transform:capitalize;'}>Red</span>
-                    </Item>
-
+                    {["red", "yellow", "orange", "green"].map((color) => (
+                        <Item
+                            disabled={baseColor === color}
+                            onClick={() => {
+                                setBaseColor(color);
+                                window.location.reload();
+                            }}
+                        >
+                            <span css={tw`capitalize`}>{color}</span>
+                        </Item>
+                    ))}
                 </Submenu>
             </Menu>
             {children}

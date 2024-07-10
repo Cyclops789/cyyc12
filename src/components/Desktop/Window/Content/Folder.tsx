@@ -1,6 +1,6 @@
 import tw, { styled } from 'twin.macro';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { foldersStructure, foldersContent, getExtentionIcon } from '@/helpers/foldersHelper';
+import { foldersStructure, browserJsonPath, getExtentionIcon, IBrowserIndex } from '@/helpers/foldersHelper';
 import { useFoldersStore, type allowedFolders } from '@/stores/folders';
 import { useWindowsStore } from '@/stores/windows';
 import { useEffect } from 'react';
@@ -9,14 +9,14 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 const PlaceRow = styled.div<{ $selected: boolean }>`
     ${tw`flex space-x-2 cursor-pointer items-center bg-transparent p-1 rounded border border-transparent`}
 
-    ${(p) => p.$selected && tw`bg-red-500/10 border-red-800`}
+    ${(p) => p.$selected && tw`bg-base-500/10 border-base-800`}
 
     &:hover {
-        ${tw`bg-red-500/10`}
+        ${tw`bg-base-500/10`}
     }
 
     & svg {
-        ${tw`text-[20px] text-red-800`}
+        ${tw`text-[20px] text-base-800`}
     }
 
     & div {
@@ -28,11 +28,11 @@ const PathButton = styled.div`
     ${tw`bg-transparent capitalize flex justify-center text-white items-center px-2 border-x border-x-transparent`}
 
     &:active {
-        ${tw`border-x-red-800`}
+        ${tw`border-x-base-800`}
     }
 
     &:hover {
-        ${tw`bg-red-500/10`}
+        ${tw`bg-base-500/10`}
     }
     
     & svg {
@@ -44,7 +44,7 @@ const FileButton = styled.div`
     ${tw`flex space-x-1 cursor-pointer w-full`}
 
     &:hover .file-item {
-        ${tw`bg-red-500/10`}
+        ${tw`bg-base-500/10`}
     }
 `;
 
@@ -52,20 +52,18 @@ function Folder() {
     const { currentFolder, currentFolderBrowseIndex, setCurrentFolder, setCurrentFolderBrowserIndex, setCurrentSelectedFile } = useFoldersStore();
     const { toggleWindow, updateActiveWindow } = useWindowsStore();
 
-    useEffect(
-        () => setCurrentFolderBrowserIndex(
-            foldersContent.find(
-                folderContent => (
-                    currentFolder === folderContent.name
-                )
-            ) || null
-        ), [currentFolder]
-    );
+    useEffect(() => {
+        fetch(browserJsonPath).then(async (res) => setCurrentFolderBrowserIndex((await res.json() as IBrowserIndex[]).find(
+            folderContent => (
+                currentFolder === folderContent.name
+            )
+        ) || null));
+    }, [currentFolder]);
 
     return (
         <div css={tw`bg-custom1 w-full h-full select-none cursor-default overflow-hidden rounded-b-lg flex`}>
             <div
-                css={tw`bg-primary h-full w-[250px] border-r border-r-red-500/70`}
+                css={tw`bg-primary h-full w-[250px] border-r border-r-base-500/70`}
             >
 
                 <div css={tw`p-2 space-y-2 grid`}>
@@ -91,7 +89,7 @@ function Folder() {
                 css={tw`bg-secondary/70 h-full w-full`}
             >
                 <div
-                    css={tw`bg-primary border-b border-b-red-500/70 h-[50px] flex`}
+                    css={tw`bg-primary border-b border-b-base-500/70 h-[50px] flex`}
                 >
                     <PathButton>
                         <FontAwesomeIcon icon={faChevronRight} />
@@ -111,8 +109,13 @@ function Folder() {
                             ]}
                             onClick={() => {
                                 setCurrentSelectedFile(file);
-                                toggleWindow('file', true);
-                                updateActiveWindow('file');
+                                if(file.ext !== '.mp3') {
+                                    toggleWindow('file', true);
+                                    updateActiveWindow('file');
+                                } else {
+                                    toggleWindow('webamp', true);
+                                    updateActiveWindow('webamp');
+                                }
                             }}
                         >
                             <div
@@ -132,7 +135,7 @@ function Folder() {
                                 >
                                     <FontAwesomeIcon
                                         icon={getExtentionIcon(file.ext, file.type)}
-                                        css={tw`text-red-700 text-[25px]`}
+                                        css={tw`text-base-700 text-[25px]`}
                                     />
                                 </div>
 
