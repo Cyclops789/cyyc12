@@ -39,6 +39,7 @@ Desktop applications:
 - Add: [DOOM](https://js-dos.com/DOOM/)
 - ~~Add: [PACMAN](https://github.com/daleharvey/pacman)~~
 - Add: [SUPER MARIO](https://github.com/meth-meth-method/super-mario)
+- Add: allow sorting with file names [Desc / Asc]
 
 Terminal:
 - Add: Scroll to the bottom of the component **onCommandExecute**
@@ -47,5 +48,6 @@ Terminal:
 
 Folder:
 - ~~Add: content to public/static folders~~
-- ~~Add: show the static generated browse files in folder components~~ [90%] (~~It should fetch the text files for monaco editor and display videos~~ / audios)
+- ~~Add: show the static generated browse files in folder components~~ (~~It should fetch the text files for monaco editor and display videos / audios~~)
 - ~~Add: Show file content in a window component based on mime type [image / video / text]~~
+- Fix: zIndex for webamp container

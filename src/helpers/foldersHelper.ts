@@ -1,6 +1,5 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faHome, faMusic, faVideo, faCamera, faDesktop, faFile, faImage, faCode, faFilm, faFolder, faFilePdf, faFileText } from '@fortawesome/free-solid-svg-icons';
-import browser from '@/assets/json/browser.json';
+import { faHome, faMusic, faVideo, faCamera, faFile, faImage, faCode, faFilm, faFolder, faFilePdf, faFileText } from '@fortawesome/free-solid-svg-icons';
 import { faFileLines } from "@fortawesome/free-regular-svg-icons";
 
 interface Folder {
@@ -55,7 +54,7 @@ export const foldersStructure: FoldersStructure = {
     }
 } as const;
 
-export const foldersContent = browser as IBrowserIndex[];
+export const browserJsonPath = '/static/documents/browser.json';
 
 export const getExtentionIcon = (ext: allowedExtensions | string, type?: 'file' | 'folder'): IconProp => {
     if (type && type === 'folder') {
@@ -71,7 +70,7 @@ export const getExtentionIcon = (ext: allowedExtensions | string, type?: 'file' 
 
         case '.txt':
             return faFileText;
-            
+
         case '.json':
             return faCode;
 

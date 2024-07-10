@@ -1,6 +1,7 @@
+import { type MemoExoticComponent } from 'react';
 import { create } from 'zustand'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { faTerminal, faGamepad, faGears, faUser, faGlobe, faDiceD6, faUserAlt, faGhost, faFolder, faFile } from '@fortawesome/free-solid-svg-icons';
+import { faTerminal, faGamepad, faGears, faUser, faGlobe, faDiceD6, faUserAlt, faGhost, faFolder, faFile, faMusic } from '@fortawesome/free-solid-svg-icons';
 
 import Terminal from "@/components/Desktop/Window/Content/Terminal";
 import Portfolio from "@/components/Desktop/Window/Content/Portfolio";
@@ -8,6 +9,7 @@ import IceFox from "@/components/Desktop/Window/Content/IceFox";
 import PacMan from "@/components/Desktop/Window/Content/PacMan";
 import Folder from "@/components/Desktop/Window/Content/Folder";
 import File from "@/components/Desktop/Window/Content/File";
+import WebAmp from "@/components/Global/Audio";
 
 export const availableCategories = {
     categories_simple: ['games', 'development', 'personal', 'internet', 'folder'],
@@ -40,6 +42,7 @@ export type AvailableWindows =
     | 'pacman'
     | `explorer`
     | 'file'
+    | 'webamp'
     | 'startmenu'  // Just to track clicks
     | 'icons'      // Just to prevent UserSelection from starting inside an icon
     ;
@@ -63,6 +66,9 @@ export type WindowContainer = {
         desktop: boolean,
         startMenu: boolean,
         taskBar: boolean,
+    },
+    ignore?: {
+        window: boolean,
     },
     smallTask: boolean;
     hoverSmallTask: boolean;
@@ -272,6 +278,38 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 className: 'h-[65px] w-[65px]',
                 child: {
                     icon: faFile,
+                    css: 'font-size:40px;',
+                },
+            }
+        },
+        {
+            window: {
+                name: 'webamp',
+                category: 'folder',
+                open: false,
+                minimize: undefined,
+                fullscreen: false,
+                order: 4,
+                functions: {
+                    minimize: () => { },
+                    close: () => { },
+                },
+                hidden: {
+                    desktop: true,
+                    startMenu: true,
+                    taskBar: true,
+                },
+                ignore: {
+                    window: true,
+                },
+                smallTask: false,
+                hoverSmallTask: false,
+            },
+            windowChildren: WebAmp,
+            desktop: {
+                className: 'h-[65px] w-[65px]',
+                child: {
+                    icon: faMusic,
                     css: 'font-size:40px;',
                 },
             }

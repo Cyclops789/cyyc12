@@ -32,7 +32,7 @@ function File() {
                         alt={file.name}
                         srcSet={file.staticPath}
                     />
-                ) : (file.ext === '.mp4' || file.ext === '.mp3') ? (
+                ) : (file.ext === '.mp4') ? (
                     <Video
                         source={file.staticPath}
                         extension={file.ext}

@@ -95,6 +95,10 @@ function Window({ children, window: cWindow }: Props) {
                 case 'pacman':
                     window.PACMAN?.destroy();
                     break;
+
+                case 'webamp':
+                    window.WebAmpRef.close();
+                    break;
             }
         }, 200);
     }, [cWindow.window.name]);
@@ -106,57 +110,60 @@ function Window({ children, window: cWindow }: Props) {
     }, [cWindow.window.minimize]);
 
     return (
-        <Rnd
-            default={{
-                width: !cWindow.window.fullscreen ? initialWidth ?? 990 : window.innerWidth - 2,
-                height: !cWindow.window.fullscreen ? initialHeight ?? 490 : window.innerHeight - 50,
-                x: !cWindow.window.fullscreen ? Number(initialXPos) ?? 331 : 0,
-                y: !cWindow.window.fullscreen ? Number(initialYPos) ?? 205 : 0,
-            }}
-            size={{
-                width: !cWindow.window.fullscreen ? cWindow.window.size?.width ?? 990 : window.innerWidth - 2,
-                height: !cWindow.window.fullscreen ? cWindow.window.size?.height ?? 490 : window.innerHeight - 50
-            }}
-            position={{
-                x: !cWindow.window.fullscreen ? cWindow.window.pos?.x ?? 331 : 0,
-                y: !cWindow.window.fullscreen ? cWindow.window.pos?.y ?? 205 : 0,
-            }}
+        !cWindow.window.ignore?.window ?
+            <Rnd
+                default={{
+                    width: !cWindow.window.fullscreen ? initialWidth ?? 990 : window.innerWidth - 2,
+                    height: !cWindow.window.fullscreen ? initialHeight ?? 490 : window.innerHeight - 50,
+                    x: !cWindow.window.fullscreen ? Number(initialXPos) ?? 331 : 0,
+                    y: !cWindow.window.fullscreen ? Number(initialYPos) ?? 205 : 0,
+                }}
+                size={{
+                    width: !cWindow.window.fullscreen ? cWindow.window.size?.width ?? 990 : window.innerWidth - 2,
+                    height: !cWindow.window.fullscreen ? cWindow.window.size?.height ?? 490 : window.innerHeight - 50
+                }}
+                position={{
+                    x: !cWindow.window.fullscreen ? cWindow.window.pos?.x ?? 331 : 0,
+                    y: !cWindow.window.fullscreen ? cWindow.window.pos?.y ?? 205 : 0,
+                }}
 
-            enableResizing={!cWindow.window.fullscreen && cWindow.window.name !== 'pacman'}
-            disableDragging={cWindow.window.fullscreen}
-            onMouseDown={handleActiveWindow}
+                enableResizing={!cWindow.window.fullscreen && cWindow.window.name !== 'pacman'}
+                disableDragging={cWindow.window.fullscreen}
+                onMouseDown={handleActiveWindow}
 
-            onDragStart={handleWindowDrag}
-            onDragStop={handleWindowDrag}
-            onDrag={handleWindowDrag}
+                onDragStart={handleWindowDrag}
+                onDragStop={handleWindowDrag}
+                onDrag={handleWindowDrag}
 
-            onResizeStart={(_e, _direction, ref) => handleWindowResize(ref)}
-            onResizeStop={(_e, _direction, ref, _delta, position) => handleWindowResize(ref, position)}
-            onResize={(_e, _direction, ref, _delta, position) => handleWindowResize(ref, position)}
+                onResizeStart={(_e, _direction, ref) => handleWindowResize(ref)}
+                onResizeStop={(_e, _direction, ref, _delta, position) => handleWindowResize(ref, position)}
+                onResize={(_e, _direction, ref, _delta, position) => handleWindowResize(ref, position)}
 
-            minWidth={208}
-            minHeight={130}
+                minWidth={208}
+                minHeight={130}
 
-            css={[tw`shadow-md shadow-black rounded-lg transition-all duration-[150ms] ease-out`, hideRnd && tw`!hidden`]}
-            style={{ zIndex: 60 - windowOrder }}
-            dragHandleClassName={'dragHandler'}
-        >
-            <div
-                ref={nodeRef}
-                css={[
-                    tw`border-2 cursor-none border-red-700 h-full w-full transform-gpu transition-[width,height,opacity] duration-[200ms] ease-out`,
-                    cWindow.window.fullscreen ? tw`rounded-t-lg` : tw`rounded-lg`,
-                    (activeWindow !== cWindow.window.name) && tw`bg-red-800 border-red-800`,
-                ]}
+                css={[tw`shadow-md shadow-black rounded-lg transition-all duration-[150ms] ease-out`, hideRnd && tw`!hidden`]}
+                style={{ zIndex: 60 - windowOrder }}
+                dragHandleClassName={'dragHandler'}
             >
-                <Tab {...{ window: cWindow, handleWindowClose, handleWindowMinimize }} />
-                <WindowLayout>
-                    <Suspense fallback={<p>Working on it ....</p>}>
-                        {children}
-                    </Suspense>
-                </WindowLayout>
-            </div>
-        </Rnd>
+                <div
+                    ref={nodeRef}
+                    css={[
+                        tw`border-2 cursor-none border-base-700 h-full w-full transform-gpu transition-[width,height,opacity] duration-[200ms] ease-out`,
+                        cWindow.window.fullscreen ? tw`rounded-t-lg` : tw`rounded-lg`,
+                        (activeWindow !== cWindow.window.name) && tw`bg-base-800 border-base-800`,
+                    ]}
+                >
+                    <Tab {...{ window: cWindow, handleWindowClose, handleWindowMinimize }} />
+                    <WindowLayout>
+                        <Suspense fallback={<p>Working on it ....</p>}>
+                            {children}
+                        </Suspense>
+                    </WindowLayout>
+                </div>
+            </Rnd>
+            :
+            <>{children}</>
     );
 }
 

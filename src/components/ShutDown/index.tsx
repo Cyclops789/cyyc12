@@ -29,7 +29,7 @@ function ShutDown() {
                 windows.map((cWindow) => cWindow.window.open && cWindow.window.functions?.close());
             }
         }, 90);
-    }, [])
+    }, []);
 
     useEffect(() => {
         if (desktopStatus === 'stopping') onStop();

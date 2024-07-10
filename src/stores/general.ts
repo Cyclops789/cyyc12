@@ -5,7 +5,6 @@ export type DesktopActions   = 'start' | 'restart' | 'stop' | null;
 export type DeskTopStatus    = 'started' | 'starting' | 'loading' | 'stopping'  | 'stopped';
 export const availableBackgrounds = [
     'cmatrix.green',
-    'cmatrix.white',
     'cmatrix.orange',
     'cmatrix.yellow',
     'cmatrix.red',

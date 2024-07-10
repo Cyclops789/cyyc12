@@ -42,5 +42,5 @@ try {
         }));
     });
 } finally {
-    fs.writeFileSync(`${__dirname}/../src/assets/json/browser.json`, JSON.stringify(allowedFolders));
+    fs.writeFileSync(`${__dirname}/../public/static/documents/browser.json`, JSON.stringify(allowedFolders));
 }
