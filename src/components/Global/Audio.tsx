@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import type Webamp from "webamp";
 import { useFoldersStore } from "@/stores/folders";
 import { useWindowsStore } from "@/stores/windows";
+import { loadAssets } from "@/helpers/assetsHelper";
 
 declare global {
     interface Window {
@@ -9,14 +10,6 @@ declare global {
         WebAmpRef: Webamp;
     }
 }
-
-export const loadWebampAssets = async () => {
-    try {
-        await import(/* @vite-ignore */ '@/assets/js/webamp.js');
-    } catch (error) {
-        console.error('Could not import webamp assets!', error)
-    }
-};
 
 function WebampPlayer() {
     const divRef = useRef<HTMLDivElement | null>(null);
@@ -43,7 +36,7 @@ function WebampPlayer() {
         const updateWebAmpWindowOrder = () => updateActiveWindow('webamp');
         if (!webamp.current && divRef.current) {
             (async () => {
-                await loadWebampAssets().then(() => {
+                await loadAssets('@/assets/js/webamp.js', 'webamp').then(() => {
                     if (typeof window.Webamp !== 'undefined') {
                         if (divRef.current) {
                             // @ts-ignore this is valid

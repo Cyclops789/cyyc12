@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import tw from 'twin.macro';
+import { loadAssets } from '@/helpers/assetsHelper';
 
 declare global {
     interface Window {
@@ -11,20 +12,12 @@ declare global {
     }
 }
 
-export const loadPacManAssets = async () => {
-    try {
-        await import(/* @vite-ignore */ '@/assets/js/pacman.js');
-    } catch (error) {
-        throw new Error('Could not import pacman assets!')
-    }
-};
-
 function Pacman() {
     const pacmanRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         (async () => {
-            await loadPacManAssets().then(() => {
+            await loadAssets('@/assets/js/pacman.js', 'pacman').then(() => {
                 if (pacmanRef.current) {
                     try {
                         window.rPACMAN();
@@ -42,7 +35,10 @@ function Pacman() {
     
     return (
         <div css={tw`bg-custom1 w-full h-full cursor-auto overflow-hidden`}>
-            {/* Currently there is a bug where the sounds are getting played twice when you close / open pacman window */}
+            {/* 
+                Currently there is a bug where the sounds are getting played twice when you close / open pacman window 
+                Probably because the audio instances doesnt get destroyed, still working on it.
+            */}
             <div ref={pacmanRef}></div>
         </div>
     )
