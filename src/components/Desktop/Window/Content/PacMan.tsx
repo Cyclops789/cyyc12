@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import tw from 'twin.macro';
-import { loadAssets } from '@/helpers/assetsHelper';
+import { loadPacManAssets } from '@/helpers/assetsHelper';
 
 declare global {
     interface Window {
@@ -17,7 +17,7 @@ function Pacman() {
 
     useEffect(() => {
         (async () => {
-            await loadAssets('@/assets/js/pacman.js', 'pacman').then(() => {
+            await loadPacManAssets().then(() => {
                 if (pacmanRef.current) {
                     try {
                         window.rPACMAN();
