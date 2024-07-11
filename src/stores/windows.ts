@@ -1,15 +1,15 @@
-import { type MemoExoticComponent } from 'react';
+import { type LazyExoticComponent, lazy } from 'react';
 import { create } from 'zustand'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faTerminal, faGamepad, faGears, faUser, faGlobe, faDiceD6, faUserAlt, faGhost, faFolder, faFile, faMusic } from '@fortawesome/free-solid-svg-icons';
 
-import Terminal from "@/components/Desktop/Window/Content/Terminal";
-import Portfolio from "@/components/Desktop/Window/Content/Portfolio";
-import IceFox from "@/components/Desktop/Window/Content/IceFox";
-import PacMan from "@/components/Desktop/Window/Content/PacMan";
-import Folder from "@/components/Desktop/Window/Content/Folder";
-import File from "@/components/Desktop/Window/Content/File";
-import WebAmp from "@/components/Global/Audio";
+const Terminal = lazy(() => import("@/components/Desktop/Window/Content/Terminal"));
+const Portfolio = lazy(() => import("@/components/Desktop/Window/Content/Portfolio"));
+const IceFox = lazy(() => import("@/components/Desktop/Window/Content/IceFox"));
+const PacMan = lazy(() => import("@/components/Desktop/Window/Content/PacMan"));
+const Folder = lazy(() => import("@/components/Desktop/Window/Content/Folder"));
+const File = lazy(() => import("@/components/Desktop/Window/Content/File"));
+const WebAmp = lazy(() => import("@/components/Global/Audio"));
 
 export const availableCategories = {
     categories_simple: ['games', 'development', 'personal', 'internet', 'folder'],
@@ -76,7 +76,7 @@ export type WindowContainer = {
 
 export interface IAvailableWindows {
     window: WindowContainer,
-    windowChildren: () => React.JSX.Element,
+    windowChildren: LazyExoticComponent<() => JSX.Element>,
     desktop: {
         className?: string,
         child: {

@@ -178,9 +178,7 @@ function Window({ children, window: cWindow }: Props) {
                 >
                     <Tab {...{ window: cWindow, handleWindowClose, handleWindowMinimize }} />
                     <WindowLayout>
-                        <Suspense fallback={<p>Working on it ....</p>}>
-                            {children}
-                        </Suspense>
+                        {children}
                     </WindowLayout>
                 </div>
             </Rnd>
