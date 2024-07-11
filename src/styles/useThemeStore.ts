@@ -3,8 +3,10 @@ import { useMemo } from "react";
 import { twi } from "tw-to-css";
 
 export default () => {
-    const [baseColor, setBaseColor] = usePersistedLocatedState("theme", "red");
-    
+    const [color, setBaseColor] = usePersistedLocatedState("theme", "red");
+    // @ts-ignore this is valid
+    const baseColor = useMemo(() => color.replaceAll('"', ''), [color]);
+
     const rbgAt700 = useMemo(
         () => twi(`text-${baseColor ? baseColor : 'red'}-700`)
         .replace('color:', '')
@@ -20,5 +22,10 @@ export default () => {
         .replaceAll(',', ' ')
     , []);
 
-    return { baseColor, setBaseColor, rbgAt700, rbgAt600 };
+    return { 
+        baseColor, 
+        setBaseColor, 
+        rbgAt700, 
+        rbgAt600 
+    };
 }
