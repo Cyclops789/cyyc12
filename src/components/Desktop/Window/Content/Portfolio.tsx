@@ -2,7 +2,7 @@ import tw from 'twin.macro';
 
 function Portfolio() {
     return (
-        <div css={tw`bg-black w-full h-full cursor-text overflow-hidden rounded-b-lg`}>
+        <div css={tw`bg-black w-full h-full cursor-text overflow-hidden rounded-b-lg select-all`}>
             <iframe
                 src={"https://cyyc.lol"}
                 referrerPolicy={"no-referrer"}
