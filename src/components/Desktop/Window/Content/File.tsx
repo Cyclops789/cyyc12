@@ -28,6 +28,7 @@ function File() {
                     />
                 ) : (file.ext === '.jpeg' || file.ext === '.png' || file.ext === '.jpg' || file.ext === '.webp') ? (
                     <img
+                        loading={'lazy'}
                         src={file.staticPath}
                         alt={file.name}
                         srcSet={file.staticPath}

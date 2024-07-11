@@ -74,6 +74,7 @@ function ContextMenu({ children }: Props) {
                     {["red", "yellow", "orange", "green"].map((color) => (
                         <Item
                             disabled={baseColor === color}
+                            key={color}
                             onClick={() => {
                                 setBaseColor(color);
                                 window.location.reload();
