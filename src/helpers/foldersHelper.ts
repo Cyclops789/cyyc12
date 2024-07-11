@@ -56,7 +56,7 @@ export const foldersStructure: FoldersStructure = {
 
 export const browserJsonPath = '/static/documents/browser.json';
 
-export const getExtentionIcon = (ext: allowedExtensions | string, type?: 'file' | 'folder'): IconProp => {
+export const getExtentionIcon = (ext?: allowedExtensions | string, type?: 'file' | 'folder'): IconProp => {
     if (type && type === 'folder') {
         return faFolder;
     }

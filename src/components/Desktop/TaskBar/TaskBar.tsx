@@ -37,7 +37,7 @@ function TaskBar() {
     const { windows, activeWindow, updateActiveWindow, toggleWindow, toggleWindowSmallTask, toggleWindowHoverSmallTask } = useWindowsStore();
     const [isStartMenuSticky, setStartMenuSticky] = useState<boolean>(false);
     const { setCommands, commands } = useCommandsStore();
-    const { currentSelectedFile } = useFoldersStore();
+    const { currentMusicFile, currentSelectedFile } = useFoldersStore();
     const { rbgAt600, rbgAt700 } = useThemeStore();
 
     return (
@@ -179,7 +179,7 @@ function TaskBar() {
                                     <div css={tw`p-3 flex justify-between items-center`}>
                                         <div css={tw`flex items-center space-x-1`}>
                                             <div css={tw`text-white text-xs capitalize overflow-hidden`}>
-                                                {currentSelectedFile?.name ?? gWindow.window.name}
+                                                {currentMusicFile?.name ?? gWindow.window.name}
                                             </div>
                                             {gWindow.window.name === "konsole" && (
                                                 <>
@@ -213,7 +213,7 @@ function TaskBar() {
                                         }}
                                     >
                                         <div css={tw`bg-base-700/30 rounded-full w-[50px] h-[50px] flex justify-center items-center`}>
-                                            <FontAwesomeIcon css={tw`text-white text-[25px]`} icon={getExtentionIcon(currentSelectedFile!.ext)} />
+                                            <FontAwesomeIcon css={tw`text-white text-[25px]`} icon={getExtentionIcon(currentMusicFile?.ext || currentSelectedFile?.ext)} />
                                         </div>
                                     </WindowSmallTaskManager>
                                 </div>
@@ -247,7 +247,7 @@ function TaskBar() {
 
                                 </div>
                                 <TaskBarButton>
-                                    <FontAwesomeIcon icon={getExtentionIcon(currentSelectedFile!.ext)} />
+                                    <FontAwesomeIcon icon={getExtentionIcon(currentMusicFile?.ext || currentSelectedFile?.ext)} />
                                 </TaskBarButton>
                             </div>
                         </div>

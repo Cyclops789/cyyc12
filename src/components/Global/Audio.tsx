@@ -17,7 +17,7 @@ function WebampPlayer() {
     const webNodeRef = useRef<HTMLDivElement | null>(null);
     const [isRendered, setIsRendered] = useState(false);
 
-    const { currentSelectedFile } = useFoldersStore();
+    const { currentMusicFile } = useFoldersStore();
     const { windows, updateActiveWindow } = useWindowsStore();
     const WebAmpWindowOrder = useMemo(() => windows[6].window.order, [windows[6].window.order])
 
@@ -26,9 +26,9 @@ function WebampPlayer() {
             {
                 metaData: {
                     artist: "",
-                    title: currentSelectedFile?.name.split('.')[0]
+                    title: currentMusicFile?.name.split('.')[0]
                 },
-                url: currentSelectedFile?.staticPath
+                url: currentMusicFile?.staticPath
             }
         ]
     };

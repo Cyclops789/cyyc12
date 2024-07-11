@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { foldersStructure, browserJsonPath, getExtentionIcon, IBrowserIndex } from '@/helpers/foldersHelper';
 import { useFoldersStore, type allowedFolders } from '@/stores/folders';
 import { useWindowsStore } from '@/stores/windows';
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 const PlaceRow = styled.div<{ $selected: boolean }>`
@@ -49,16 +49,16 @@ const FileButton = styled.div`
 `;
 
 function Folder() {
-    const { currentFolder, currentFolderBrowseIndex, setCurrentFolder, setCurrentFolderBrowserIndex, setCurrentSelectedFile } = useFoldersStore();
+    const { currentFolder, setCurrentFolder, setCurrentSelectedFile, setCurrentMusicFile } = useFoldersStore();
     const { toggleWindow, updateActiveWindow } = useWindowsStore();
+    const [currentFolderBrowseIndex, setCurrentFolderBrowserIndex] = useState<IBrowserIndex[]>();
+    const currentFolderFiles = useMemo(() => currentFolderBrowseIndex?.find(
+        folderContent => (currentFolder === folderContent.name)
+    ) || null, [currentFolderBrowseIndex, currentFolder]);
 
     useEffect(() => {
-        fetch(browserJsonPath).then(async (res) => setCurrentFolderBrowserIndex((await res.json() as IBrowserIndex[]).find(
-            folderContent => (
-                currentFolder === folderContent.name
-            )
-        ) || null));
-    }, [currentFolder]);
+        fetch(browserJsonPath).then(async (res) => setCurrentFolderBrowserIndex(await res.json() as IBrowserIndex[]));
+    }, []);
 
     return (
         <div css={tw`bg-custom1 w-full h-full select-none cursor-default overflow-hidden rounded-b-lg flex`}>
@@ -95,24 +95,25 @@ function Folder() {
                         <FontAwesomeIcon icon={faChevronRight} />
                     </PathButton>
                     <PathButton>
-                        {currentFolderBrowseIndex?.name}
+                        {currentFolderFiles?.name}
                     </PathButton>
                 </div>
                 <div
                     css={tw`overflow-auto`}
                 >
-                    {currentFolderBrowseIndex?.files.map((file, index) => (
+                    {currentFolderFiles && currentFolderFiles.files.map((file, index) => (
                         <FileButton
                             key={file.name}
                             css={[
                                 index % 2 ? tw`bg-black/20` : tw`bg-black/10`
                             ]}
                             onClick={() => {
-                                setCurrentSelectedFile(file);
-                                if(file.ext !== '.mp3') {
+                                if (file.ext !== '.mp3') {
+                                    setCurrentSelectedFile(file);
                                     toggleWindow('file', true);
                                     updateActiveWindow('file');
                                 } else {
+                                    setCurrentMusicFile(file);
                                     toggleWindow('webamp', true);
                                     updateActiveWindow('webamp');
                                 }
@@ -121,8 +122,8 @@ function Folder() {
                             <div
                                 css={tw`flex pl-3`}
                             >
-                                <div css={[tw`h-full w-[2px] bg-gray-700`, (currentFolderBrowseIndex?.files.length - 1) === index && tw`h-[50%]`]} />
-                                <div css={[tw`mt-[17px] w-[15px] h-[2px] bg-gray-700`, currentFolderBrowseIndex?.files.length === 1 && tw`mt-[16px]`]} />
+                                <div css={[tw`h-full w-[2px] bg-gray-700`, (currentFolderFiles?.files.length - 1) === index && tw`h-[50%]`]} />
+                                <div css={[tw`mt-[17px] w-[15px] h-[2px] bg-gray-700`, currentFolderFiles?.files.length === 1 && tw`mt-[16px]`]} />
                             </div>
 
                             <div
