@@ -289,7 +289,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 open: false,
                 minimize: undefined,
                 fullscreen: false,
-                order: 6,
+                order: 7,
                 functions: {
                     minimize: () => { },
                     close: () => { },
