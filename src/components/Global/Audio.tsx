@@ -39,10 +39,13 @@ function WebampPlayer() {
                 await loadWebAmpAssets().then(() => {
                     if (typeof window.Webamp !== 'undefined') {
                         if (divRef.current) {
-                            // @ts-ignore this is valid
-                            webamp.current = window.WebAmpRef = new window.Webamp(conf);
-                            webamp.current.renderWhenReady(divRef.current).finally(() => setIsRendered(true));
-                            webamp.current.onClose(() => updateActiveWindow(undefined));
+                            const isExist = document.querySelectorAll('#webamp');
+                            if (isExist.length === 0) {
+                                // @ts-ignore this is valid
+                                webamp.current = window.WebAmpRef = new window.Webamp(conf);
+                                webamp.current.renderWhenReady(divRef.current).finally(() => setIsRendered(true));
+                                webamp.current.onClose(() => updateActiveWindow(undefined));
+                            }
                         }
                     } else {
                         console.log('window.Webamp is undefined');
@@ -64,7 +67,7 @@ function WebampPlayer() {
                 if (webNodeRef.current) {
                     console.log('[WEBAMP] Node was found, appending');
 
-                    webNodeRef.current.style.zIndex = `${60-WebAmpWindowOrder}`;
+                    webNodeRef.current.style.zIndex = `${60 - WebAmpWindowOrder}`;
                     webNodeRef.current.style.transitionProperty = `width,height,opacity`;
                     webNodeRef.current.style.transitionTimingFunction = `cubic-bezier(0.4, 0, 0.2, 1)`;
                     webNodeRef.current.style.transitionDuration = `150ms`;
@@ -86,7 +89,7 @@ function WebampPlayer() {
     };
 
     useEffect(() => {
-        if (webNodeRef.current) webNodeRef.current.style.zIndex = `${60-WebAmpWindowOrder}`;
+        if (webNodeRef.current) webNodeRef.current.style.zIndex = `${60 - WebAmpWindowOrder}`;
     }, [webNodeRef.current, WebAmpWindowOrder]);
 
     return (
