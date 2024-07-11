@@ -42,7 +42,7 @@ Desktop applications:
 - Add: allow sorting with file names [Desc / Asc]
 
 Terminal:
-- Add: Scroll to the bottom of the component **onCommandExecute**
+- ~~Add: Scroll to the bottom of the component **onCommandExecute**~~
 - ~~Add: fastfetch~~
 - ~~Add: insert last used command using arrow up / down~~
 
