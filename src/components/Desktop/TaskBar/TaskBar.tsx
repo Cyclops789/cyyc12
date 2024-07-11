@@ -3,12 +3,13 @@ import { useWindowsStore } from '@/stores/windows'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useCommandsStore } from '@/stores/commands';
 import { useFoldersStore } from '@/stores/folders';
-import StartMenu from '@/components/Desktop/TaskBar/StartMenu';
 import Cat from '@/assets/cat.svg?react';
-import { useState } from 'react';
+import { lazy, useState } from 'react';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { getExtentionIcon } from '@/helpers/foldersHelper';
 import useThemeStore from '@/styles/useThemeStore';
+
+const StartMenu = lazy(() => import('@/components/Desktop/TaskBar/StartMenu'));
 
 const CurrentPlayingMusic = styled.div`
     white-space: nowrap;
@@ -83,7 +84,7 @@ function TaskBar() {
     const [isStartMenuSticky, setStartMenuSticky] = useState<boolean>(false);
     const { setCommands, commands } = useCommandsStore();
     const { currentMusicFile, currentSelectedFile } = useFoldersStore();
-    const { rbgAt600, rbgAt700 } = useThemeStore();
+    const { rbgAt700 } = useThemeStore();
 
     return (
         <>
