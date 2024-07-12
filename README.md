@@ -12,6 +12,7 @@
 - ~~Fix: windows size when you reopen them~~ 95% (need to save the initial position and size in the localStorage)
 - ~~Fix: z-index (update when clicking on a window, probably using **X1**)~~
 - ~~Fix: limit width resizing when it reaches the tab text~~
+- Fix: windows pos / size should be saved after onDragStop / onResizeStop
 
 **[CORE]** Desktop:
 - ~~Add: task bar~~
