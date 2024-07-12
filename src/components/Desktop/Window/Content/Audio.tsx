@@ -3,6 +3,7 @@ import type Webamp from "webamp";
 import { useFoldersStore } from "@/stores/folders";
 import { useWindowsStore } from "@/stores/windows";
 import { loadWebAmpAssets } from "@/helpers/assetsHelper";
+import useAsynced from "@/helpers/hooks/useAsynced";
 
 declare global {
     interface Window {
@@ -16,9 +17,9 @@ function WebampPlayer() {
     const webamp = useRef<Webamp | null>(null);
     const webNodeRef = useRef<HTMLDivElement | null>(null);
     const [isRendered, setIsRendered] = useState(false);
-
-    const { currentMusicFile } = useFoldersStore();
+    const { getFileOfType, selectedFiles } = useFoldersStore();
     const { windows, updateActiveWindow } = useWindowsStore();
+    const file = useMemo(() => getFileOfType(['.mp3']), [selectedFiles]);
     const WebAmpWindowOrder = useMemo(() => windows[6].window.order, [windows[6].window.order])
 
     const conf = {
@@ -26,16 +27,16 @@ function WebampPlayer() {
             {
                 metaData: {
                     artist: "",
-                    title: currentMusicFile?.name.split('.')[0]
+                    title: file?.name.split('.')[0]
                 },
-                url: currentMusicFile?.staticPath
+                url: file?.staticPath
             }
         ]
     };
 
     useEffect(() => {
         if (!webamp.current && divRef.current) {
-            (async () => {
+            useAsynced(async () => {
                 await loadWebAmpAssets().then(() => {
                     if (typeof window.Webamp !== 'undefined') {
                         if (divRef.current) {
@@ -51,7 +52,7 @@ function WebampPlayer() {
                         console.log('window.Webamp is undefined');
                     }
                 })
-            })();
+            });
         }
 
         return () => {

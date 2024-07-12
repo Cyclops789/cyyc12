@@ -1,3 +1,3 @@
-export default function useAsynced(next: () => any) {
+export default function useAsynced(next: () => Promise<any>) {
     return (async () => await next())();
 }

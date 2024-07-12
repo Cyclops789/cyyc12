@@ -1,6 +1,6 @@
 import tw, { styled } from 'twin.macro';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { foldersStructure, browserJsonPath, getExtentionIcon, IBrowserIndex } from '@/helpers/foldersHelper';
+import { foldersStructure, browserJsonPath, getExtentionIcon, IBrowserIndex, getWindowNameFromExt } from '@/helpers/foldersHelper';
 import { useFoldersStore, type allowedFolders } from '@/stores/folders';
 import { useWindowsStore } from '@/stores/windows';
 import { useEffect, useMemo, useState } from 'react';
@@ -49,7 +49,7 @@ const FileButton = styled.div`
 `;
 
 function Folder() {
-    const { currentFolder, setCurrentFolder, setCurrentSelectedFile, setCurrentMusicFile } = useFoldersStore();
+    const { currentFolder, setCurrentFolder, addSelectedFile } = useFoldersStore();
     const { toggleWindow, updateActiveWindow } = useWindowsStore();
     const [currentFolderBrowseIndex, setCurrentFolderBrowserIndex] = useState<IBrowserIndex[]>();
     const currentFolderFiles = useMemo(() => currentFolderBrowseIndex?.find(
@@ -104,18 +104,14 @@ function Folder() {
                     {currentFolderFiles && currentFolderFiles.files.map((file, index) => (
                         <FileButton
                             key={file.name}
-                            css={[
-                                index % 2 ? tw`bg-black/20` : tw`bg-black/10`
-                            ]}
+                            css={[ index % 2 ? tw`bg-black/20` : tw`bg-black/10` ]}
                             onClick={() => {
-                                if (file.ext !== '.mp3') {
-                                    setCurrentSelectedFile(file);
-                                    toggleWindow('file', true);
-                                    updateActiveWindow('file');
-                                } else {
-                                    setCurrentMusicFile(file);
-                                    toggleWindow('webamp', true);
-                                    updateActiveWindow('webamp');
+                                try {
+                                    addSelectedFile(file);
+                                } finally {
+                                    const mWindow = getWindowNameFromExt(file.ext);
+                                    toggleWindow(mWindow, true);
+                                    updateActiveWindow(mWindow);
                                 }
                             }}
                         >

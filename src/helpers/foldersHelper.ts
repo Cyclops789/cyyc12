@@ -1,6 +1,7 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faHome, faMusic, faVideo, faCamera, faFile, faImage, faCode, faFilm, faFolder, faFilePdf, faFileText } from '@fortawesome/free-solid-svg-icons';
 import { faFileLines } from "@fortawesome/free-regular-svg-icons";
+import { AvailableWindows } from "@/stores/windows";
 
 interface Folder {
     icon: IconProp;
@@ -85,5 +86,31 @@ export const getExtentionIcon = (ext?: allowedExtensions | string, type?: 'file'
 
         default:
             return faFile;
+    }
+}
+
+export const getWindowNameFromExt = (ext: allowedExtensions): AvailableWindows => {
+    switch (ext) {
+        case '.jpg':
+        case '.jpeg':
+        case '.png':
+        case '.webp':
+            return 'image';
+
+        case '.json':
+        case '.txt':
+            return 'editor';
+
+        case '.pdf':
+            return 'pdfviewer';
+
+        case '.mp4':
+            return 'video';
+
+        case '.mp3':
+            return 'webamp';
+
+        default:
+            return 'explorer';
     }
 }

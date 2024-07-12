@@ -1,18 +1,21 @@
-import { type LazyExoticComponent, lazy } from 'react';
+import { type LazyExoticComponent, type MemoExoticComponent, lazy } from 'react';
 import { create } from 'zustand'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { faTerminal, faGamepad, faGears, faUser, faGlobe, faDiceD6, faUserAlt, faGhost, faFolder, faFile, faMusic } from '@fortawesome/free-solid-svg-icons';
+import { faTerminal, faGamepad, faGears, faUser, faGlobe, faDiceD6, faUserAlt, faGhost, faFolder, faFilm, faMusic, faPenToSquare, faFilePdf, faImage } from '@fortawesome/free-solid-svg-icons';
 
 const Terminal = lazy(() => import("@/components/Desktop/Window/Content/Terminal"));
 const Portfolio = lazy(() => import("@/components/Desktop/Window/Content/Portfolio"));
 const IceFox = lazy(() => import("@/components/Desktop/Window/Content/IceFox"));
 const PacMan = lazy(() => import("@/components/Desktop/Window/Content/PacMan"));
-const Folder = lazy(() => import("@/components/Desktop/Window/Content/Folder"));
-const File = lazy(() => import("@/components/Desktop/Window/Content/File"));
-const WebAmp = lazy(() => import("@/components/Global/Audio"));
+const Explorer = lazy(() => import("@/components/Desktop/Window/Content/Explorer"));
+const Image = lazy(() => import("@/components/Desktop/Window/Content/Image"));
+const WebAmp = lazy(() => import("@/components/Desktop/Window/Content/Audio"));
+const Editor = lazy(() => import('@/components/Desktop/Window/Content/Editor'));
+const Video = lazy(() => import('@/components/Desktop/Window/Content/Video'));
+const PDFViewer = lazy(() => import('@/components/Desktop/Window/Content/PDFViewer'));
 
 export const availableCategories = {
-    categories_simple: ['games', 'development', 'personal', 'internet', 'folder'],
+    categories_simple: ['games', 'development', 'personal', 'internet'],
     categories_full: [
         {
             name: 'games',
@@ -41,8 +44,11 @@ export type AvailableWindows =
     | 'icefox'
     | 'pacman'
     | `explorer`
-    | 'file'
     | 'webamp'
+    | 'editor'
+    | 'video'
+    | 'pdfviewer'
+    | 'image'
     | 'startmenu'  // Just to track clicks
     | 'icons'      // Just to prevent UserSelection from starting inside an icon
     ;
@@ -76,7 +82,7 @@ export type WindowContainer = {
 
 export interface IAvailableWindows {
     window: WindowContainer,
-    windowChildren: LazyExoticComponent<() => JSX.Element>,
+    windowChildren: LazyExoticComponent<() => JSX.Element | null > | LazyExoticComponent<MemoExoticComponent<() => JSX.Element | null >>,
     desktop: {
         className?: string,
         child: {
@@ -227,7 +233,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
         {
             window: {
                 name: 'explorer',
-                category: 'folder',
+                category: 'personal',
                 open: false,
                 minimize: undefined,
                 fullscreen: false,
@@ -244,7 +250,7 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 smallTask: false,
                 hoverSmallTask: false,
             },
-            windowChildren: Folder,
+            windowChildren: Explorer,
             desktop: {
                 className: 'h-[65px] w-[65px]',
                 child: {
@@ -255,41 +261,12 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
         },
         {
             window: {
-                name: 'file',
-                category: 'folder',
+                name: 'webamp',
+                category: 'personal',
                 open: false,
                 minimize: undefined,
                 fullscreen: false,
                 order: 6,
-                functions: {
-                    minimize: () => { },
-                    close: () => { },
-                },
-                hidden: {
-                    desktop: true,
-                    startMenu: true,
-                    taskBar: true,
-                },
-                smallTask: false,
-                hoverSmallTask: false,
-            },
-            windowChildren: File,
-            desktop: {
-                className: 'h-[65px] w-[65px]',
-                child: {
-                    icon: faFile,
-                    css: 'font-size:40px;',
-                },
-            }
-        },
-        {
-            window: {
-                name: 'webamp',
-                category: 'folder',
-                open: false,
-                minimize: undefined,
-                fullscreen: false,
-                order: 7,
                 functions: {
                     minimize: () => { },
                     close: () => { },
@@ -310,6 +287,134 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                 className: 'h-[65px] w-[65px]',
                 child: {
                     icon: faMusic,
+                    css: 'font-size:40px;',
+                },
+            }
+        },
+        {
+            window: {
+                name: 'editor',
+                category: 'development',
+                open: false,
+                minimize: undefined,
+                fullscreen: false,
+                order: 7,
+                functions: {
+                    minimize: () => { },
+                    close: () => { },
+                },
+                hidden: {
+                    desktop: false,
+                    startMenu: false,
+                    taskBar: false,
+                },
+                ignore: {
+                    window: false,
+                },
+                smallTask: false,
+                hoverSmallTask: false,
+            },
+            windowChildren: Editor,
+            desktop: {
+                className: 'h-[65px] w-[65px]',
+                child: {
+                    icon: faPenToSquare,
+                    css: 'font-size:40px;',
+                },
+            }
+        },
+        {
+            window: {
+                name: 'video',
+                category: 'personal',
+                open: false,
+                minimize: undefined,
+                fullscreen: false,
+                order: 8,
+                functions: {
+                    minimize: () => { },
+                    close: () => { },
+                },
+                hidden: {
+                    desktop: true,
+                    startMenu: true,
+                    taskBar: true,
+                },
+                ignore: {
+                    window: false,
+                },
+                smallTask: false,
+                hoverSmallTask: false,
+            },
+            windowChildren: Video,
+            desktop: {
+                className: 'h-[65px] w-[65px]',
+                child: {
+                    icon: faFilm,
+                    css: 'font-size:40px;',
+                },
+            }
+        },
+        {
+            window: {
+                name: 'pdfviewer',
+                category: 'personal',
+                open: false,
+                minimize: undefined,
+                fullscreen: false,
+                order: 9,
+                functions: {
+                    minimize: () => { },
+                    close: () => { },
+                },
+                hidden: {
+                    desktop: true,
+                    startMenu: true,
+                    taskBar: true,
+                },
+                ignore: {
+                    window: false,
+                },
+                smallTask: false,
+                hoverSmallTask: false,
+            },
+            windowChildren: PDFViewer,
+            desktop: {
+                className: 'h-[65px] w-[65px]',
+                child: {
+                    icon: faFilePdf,
+                    css: 'font-size:40px;',
+                },
+            }
+        },
+        {
+            window: {
+                name: 'image',
+                category: 'personal',
+                open: false,
+                minimize: undefined,
+                fullscreen: false,
+                order: 10,
+                functions: {
+                    minimize: () => { },
+                    close: () => { },
+                },
+                hidden: {
+                    desktop: true,
+                    startMenu: true,
+                    taskBar: true,
+                },
+                ignore: {
+                    window: false,
+                },
+                smallTask: false,
+                hoverSmallTask: false,
+            },
+            windowChildren: Image,
+            desktop: {
+                className: 'h-[65px] w-[65px]',
+                child: {
+                    icon: faImage,
                     css: 'font-size:40px;',
                 },
             }

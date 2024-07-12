@@ -4,9 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useCommandsStore } from '@/stores/commands';
 import { useFoldersStore } from '@/stores/folders';
 import Cat from '@/assets/cat.svg?react';
-import { lazy, useState } from 'react';
+import { lazy, useMemo, useState } from 'react';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { getExtentionIcon } from '@/helpers/foldersHelper';
 import useThemeStore from '@/styles/useThemeStore';
 
 const StartMenu = lazy(() => import('@/components/Desktop/TaskBar/StartMenu'));
@@ -83,7 +82,8 @@ function TaskBar() {
     const { windows, activeWindow, updateActiveWindow, toggleWindow, toggleWindowSmallTask, toggleWindowHoverSmallTask } = useWindowsStore();
     const [isStartMenuSticky, setStartMenuSticky] = useState<boolean>(false);
     const { setCommands, commands } = useCommandsStore();
-    const { currentMusicFile, currentSelectedFile } = useFoldersStore();
+    const { getFileOfType, selectedFiles } = useFoldersStore();
+    const file = useMemo(() => getFileOfType(['.mp3']), [selectedFiles]);
     const { rbgAt700 } = useThemeStore();
 
     return (
@@ -200,114 +200,39 @@ function TaskBar() {
                         </div>
                     ))}
 
-                    {windows[6].window.open &&
+                    {windows?.filter((gWindow) => gWindow.window.hidden.taskBar).map((gWindow, index) => (
+                        gWindow.window.open &&
                         <div
                             onMouseEnter={() => {
-                                toggleWindowHoverSmallTask(windows[6].window.name, true);
+                                toggleWindowHoverSmallTask(gWindow.window.name, true);
                             }}
                             onMouseLeave={() => {
-                                toggleWindowHoverSmallTask(windows[6].window.name, false);
-                                toggleWindowSmallTask(windows[6].window.name, false);
+                                toggleWindowHoverSmallTask(gWindow.window.name, false);
+                                toggleWindowSmallTask(gWindow.window.name, false);
                             }}
                             css={tw`relative`}
-                            key={windows[6].window.name}
+                            key={gWindow.window.name}
                         >
                             <div
                                 css={[
                                     tw`absolute rounded bottom-[50px] right-[-60px] bg-primary h-0 overflow-hidden transition-all ease-in-out duration-150 opacity-0 w-[170px]`,
                                     `box-shadow:0px 0px 0px rgba(0, 0, 0, 0.5),0px -1px 8px rgba(0, 0, 0, 0.5);`,
-                                    windows[6].window.smallTask && tw`h-[140px] opacity-100`,
+                                    gWindow.window.smallTask && tw`h-[140px] opacity-100`,
                                 ]}
                             >
                                 <div css={tw`p-3 flex justify-between items-center`}>
                                     <div css={tw`flex items-center space-x-1`}>
-                                        <div css={tw`text-white text-xs capitalize overflow-hidden w-[120px]`}>
-                                            <CurrentPlayingMusic>{currentMusicFile?.name ?? windows[6].window.name}</CurrentPlayingMusic>
+                                        <div
+                                            css={[
+                                                tw`text-white text-sm capitalize`,
+                                                gWindow.window.name === 'webamp' && tw`overflow-hidden w-[120px]`
+                                            ]}
+                                        >
+                                            {gWindow.window.name === 'webamp' ? (
+                                                <CurrentPlayingMusic>{file?.name ?? gWindow.window.name}</CurrentPlayingMusic>
+                                            ) : gWindow.window.name}
                                         </div>
-                                    </div>
-
-                                    <SmallTaskCloseButton
-                                        onClick={() => windows[6].window.functions.close()}
-                                    >
-                                        <div css={tw`px-1`}>
-                                            <FontAwesomeIcon css={tw`text-base-700`} icon={faXmark} />
-                                        </div>
-                                    </SmallTaskCloseButton>
-                                </div>
-
-                                <WindowSmallTaskManager
-                                    onClick={() => {
-                                        if (windows[6].window.minimize === 'enabled') {
-                                            windows[6].window.functions.minimize();
-                                        }
-                                        updateActiveWindow(windows[6].window.name);
-                                        toggleWindowHoverSmallTask(windows[6].window.name, false);
-                                        toggleWindowSmallTask(windows[6].window.name, false);
-                                    }}
-                                >
-                                    <div css={tw`bg-base-700/30 rounded-full w-[50px] h-[50px] flex justify-center items-center`}>
-                                        <FontAwesomeIcon css={tw`text-white text-[25px]`} icon={getExtentionIcon(currentMusicFile?.ext)} />
-                                    </div>
-                                </WindowSmallTaskManager>
-                            </div>
-
-                            <div
-                                onMouseEnter={() => windows[6].window.open && toggleWindowSmallTask(windows[6].window.name, true)}
-                                onMouseLeave={() => windows[6].window.open && setTimeout(() => !windows[6].window.hoverSmallTask && toggleWindowSmallTask(windows[6].window.name, false), 100)}
-                                title={windows[6].window.name.charAt(0).toUpperCase() + windows[6].window.name.slice(1)}
-                                css={[
-                                    tw`relative w-[50px] h-[50px] flex justify-center transition-colors ease-in-out duration-100 items-center hover:brightness-125`,
-                                    windows[6].window.open && tw`bg-[#494c51]`,
-                                ]}
-                                onClick={() => {
-                                    if (!windows[6].window.open) {
-                                        toggleWindow(windows[6].window.name, true);
-                                        updateActiveWindow(windows[6].window.name);
-                                        if (windows[6].window.name === 'konsole') {
-                                            setCommands(['cat', 'help']);
-                                        }
-                                    } else {
-                                        windows[6].window.functions.minimize();
-                                    }
-                                }}
-                            >
-                                <div css={[
-                                    tw`absolute top-0 w-full h-[2px] bg-transparent`,
-                                    (windows[6].window.open && activeWindow === windows[6].window.name) && tw`bg-base-600`,
-                                ]}>
-
-                                </div>
-                                <TaskBarButton>
-                                    <FontAwesomeIcon icon={getExtentionIcon(currentMusicFile?.ext)} />
-                                </TaskBarButton>
-                            </div>
-                        </div>
-                    }
-                    {windows[5].window.open &&
-                        <div
-                            onMouseEnter={() => {
-                                toggleWindowHoverSmallTask(windows[5].window.name, true);
-                            }}
-                            onMouseLeave={() => {
-                                toggleWindowHoverSmallTask(windows[5].window.name, false);
-                                toggleWindowSmallTask(windows[5].window.name, false);
-                            }}
-                            css={tw`relative`}
-                            key={windows[5].window.name}
-                        >
-                            <div
-                                css={[
-                                    tw`absolute rounded bottom-[50px] right-[-60px] bg-primary h-0 overflow-hidden transition-all ease-in-out duration-150 opacity-0 w-[170px]`,
-                                    `box-shadow:0px 0px 0px rgba(0, 0, 0, 0.5),0px -1px 8px rgba(0, 0, 0, 0.5);`,
-                                    windows[5].window.smallTask && tw`h-[140px] opacity-100`,
-                                ]}
-                            >
-                                <div css={tw`p-3 flex justify-between items-center`}>
-                                    <div css={tw`flex items-center space-x-1`}>
-                                        <div css={tw`text-white text-xs capitalize overflow-hidden`}>
-                                            {windows[5].window.name}
-                                        </div>
-                                        {windows[5].window.name === "konsole" && (
+                                        {gWindow.window.name === "konsole" && (
                                             <>
                                                 <div css={tw`text-white text-sm font-extralight`}>
                                                     -
@@ -320,7 +245,7 @@ function TaskBar() {
                                     </div>
 
                                     <SmallTaskCloseButton
-                                        onClick={() => windows[5].window.functions.close()}
+                                        onClick={() => gWindow.window.functions.close()}
                                     >
                                         <div css={tw`px-1`}>
                                             <FontAwesomeIcon css={tw`text-base-700`} icon={faXmark} />
@@ -330,52 +255,53 @@ function TaskBar() {
 
                                 <WindowSmallTaskManager
                                     onClick={() => {
-                                        if (windows[5].window.minimize === 'enabled') {
-                                            windows[5].window.functions.minimize();
+                                        if (gWindow.window.minimize === 'enabled') {
+                                            gWindow.window.functions.minimize();
                                         }
-                                        updateActiveWindow(windows[5].window.name);
-                                        toggleWindowHoverSmallTask(windows[5].window.name, false);
-                                        toggleWindowSmallTask(windows[5].window.name, false);
+                                        updateActiveWindow(gWindow.window.name);
+                                        toggleWindowHoverSmallTask(gWindow.window.name, false);
+                                        toggleWindowSmallTask(gWindow.window.name, false);
                                     }}
                                 >
                                     <div css={tw`bg-base-700/30 rounded-full w-[50px] h-[50px] flex justify-center items-center`}>
-                                        <FontAwesomeIcon css={tw`text-white text-[25px]`} icon={getExtentionIcon(currentSelectedFile?.ext)} />
+                                        <FontAwesomeIcon css={tw`text-white text-[25px]`} icon={gWindow.desktop.child.icon} />
                                     </div>
                                 </WindowSmallTaskManager>
                             </div>
 
                             <div
-                                onMouseEnter={() => windows[5].window.open && toggleWindowSmallTask(windows[5].window.name, true)}
-                                onMouseLeave={() => windows[5].window.open && setTimeout(() => !windows[5].window.hoverSmallTask && toggleWindowSmallTask(windows[5].window.name, false), 100)}
-                                title={windows[5].window.name.charAt(0).toUpperCase() + windows[5].window.name.slice(1)}
+                                onMouseEnter={() => gWindow.window.open && toggleWindowSmallTask(gWindow.window.name, true)}
+                                onMouseLeave={() => gWindow.window.open && setTimeout(() => !gWindow.window.hoverSmallTask && toggleWindowSmallTask(gWindow.window.name, false), 100)}
+                                key={`${index}-${gWindow.window.name}`}
+                                title={gWindow.window.name.charAt(0).toUpperCase() + gWindow.window.name.slice(1)}
                                 css={[
                                     tw`relative w-[50px] h-[50px] flex justify-center transition-colors ease-in-out duration-100 items-center hover:brightness-125`,
-                                    windows[5].window.open && tw`bg-[#494c51]`,
+                                    gWindow.window.open && tw`bg-[#494c51]`,
                                 ]}
                                 onClick={() => {
-                                    if (!windows[5].window.open) {
-                                        toggleWindow(windows[5].window.name, true);
-                                        updateActiveWindow(windows[5].window.name);
-                                        if (windows[5].window.name === 'konsole') {
+                                    if (!gWindow.window.open) {
+                                        toggleWindow(gWindow.window.name, true);
+                                        updateActiveWindow(gWindow.window.name);
+                                        if (gWindow.window.name === 'konsole') {
                                             setCommands(['cat', 'help']);
                                         }
                                     } else {
-                                        windows[5].window.functions.minimize();
+                                        gWindow.window.functions.minimize();
                                     }
                                 }}
                             >
                                 <div css={[
                                     tw`absolute top-0 w-full h-[2px] bg-transparent`,
-                                    (windows[5].window.open && activeWindow === windows[5].window.name) && tw`bg-base-600`,
+                                    (gWindow.window.open && activeWindow === gWindow.window.name) && tw`bg-base-600`,
                                 ]}>
 
                                 </div>
                                 <TaskBarButton>
-                                    <FontAwesomeIcon icon={getExtentionIcon(currentSelectedFile?.ext)} />
+                                    <FontAwesomeIcon icon={gWindow.desktop.child.icon} />
                                 </TaskBarButton>
                             </div>
                         </div>
-                    }
+                    ))}
                 </div>
             </div>
         </>

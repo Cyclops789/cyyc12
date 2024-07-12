@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faFileImport } from '@fortawesome/free-solid-svg-icons';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
+import { useFoldersStore } from '@/stores/folders';
 
 type Props = { source: string, name: string };
 
@@ -32,8 +33,13 @@ const ActionButton = styled.button<{ $forceHover?: boolean }>`
     }
 `;
 
-function PDFViewer({ source: src, name }: Props) {
-    const source = useMemo(() => ({ url: src }), [src]);
+function PDFViewer() {
+    const { getFileOfType, selectedFiles } = useFoldersStore();
+    const file = useMemo(() => getFileOfType(['.pdf']), [selectedFiles]);
+    
+    const source = useMemo(() => ({ url: file?.staticPath || "" }), [file]);
+    const name = useMemo(() => file?.name || "", [file]);
+    
     const pageRefs = useRef<HTMLDivElement[]>([]);
     const [numPages, setNumPages] = useState<number>();
     const [pageNumber, setPageNumber] = useState<number>(1);

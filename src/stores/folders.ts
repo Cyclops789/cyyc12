@@ -1,24 +1,41 @@
 import { create } from 'zustand';
-import type { IBrowserIndex, File } from '@/helpers/foldersHelper';
+import type { File, allowedExtensions } from '@/helpers/foldersHelper';
 export type allowedFolders = "desktop" | "music" | "pictures" | "videos" | "documents";
 
 export interface IFoldersStore {
-    currentMusicFile: File | null;
-    currentSelectedFile: File | null;
+    selectedFiles: File[];
     currentFolder: allowedFolders;
 
+    getFileOfType: (exts: allowedExtensions[]) => File | null;
     setCurrentFolder: (currentFolder: allowedFolders) => void;
-    setCurrentMusicFile: (currentMusicFile: File) => void;
-    setCurrentSelectedFile: (currentSelectedFile: File) => void;
+    setSelectedFiles: (selectedFiles: File[]) => void;
+    addSelectedFile: (selectedFile: File) => void;
+    removeSelectedFile: (selectedFile: File) => void;
 }
 
-export const useFoldersStore = create<IFoldersStore>((set) => ({
-    currentMusicFile: null,
-    currentSelectedFile: null,
+export const useFoldersStore = create<IFoldersStore>((set, get) => ({
+    selectedFiles: [],
     currentFolder: "desktop",
-    foldersBrowserHistory: [],
 
+    getFileOfType: (exts) => {
+        let file: File | null = null;
+        let files = get().selectedFiles;
+
+        try {
+            for (let index = 0; index < exts.length; index++) {
+                const ext = exts[index];
+                let tmpFile = files.find((file) => file.ext === ext);
+                if(tmpFile) {
+                    file = tmpFile;
+                    break;
+                }
+            }  
+        } finally {
+            return file;
+        }        
+    },
     setCurrentFolder: (currentFolder) => set(() => ({ currentFolder })),
-    setCurrentSelectedFile: (currentSelectedFile) => set(() => ({ currentSelectedFile })),
-    setCurrentMusicFile: (currentMusicFile) => set(() => ({ currentMusicFile })),
+    setSelectedFiles: (selectedFiles) => set(() => ({ selectedFiles })),
+    addSelectedFile: (selectedFile) => set(({ selectedFiles }) => (!selectedFiles.find((file) => file.name === selectedFile.name)) ? ({ selectedFiles: [selectedFile].concat(selectedFiles) }) : ({ selectedFiles })),
+    removeSelectedFile: (selectedFile) => set(({ selectedFiles }) => ({ selectedFiles: selectedFiles.filter((file) => file.name !== selectedFile.name) })),
 }));

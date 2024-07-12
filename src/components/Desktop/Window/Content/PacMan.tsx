@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import tw from 'twin.macro';
 import { loadPacManAssets } from '@/helpers/assetsHelper';
+import useAsynced from '@/helpers/hooks/useAsynced';
 
 declare global {
     interface Window {
@@ -16,17 +17,17 @@ function Pacman() {
     const pacmanRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        (async () => {
+        useAsynced(async () => {
             await loadPacManAssets().then(() => {
                 if (pacmanRef.current) {
                     try {
                         window.rPACMAN();
                     } finally {
-                        window.PACMAN?.init(pacmanRef.current, "./");  
+                        window.PACMAN?.init(pacmanRef.current, "./");
                     }
                 }
-            })
-        })();
+            });
+        });
 
         return () => {
             window.PACMAN?.destroy();

@@ -10,8 +10,7 @@ type Props = { window: IAvailableWindows, handleWindowClose: () => void, handleW
 
 function Tab({ window, handleWindowClose, handleWindowMinimize }: Props) {
     const { activeWindow, toggleWindowFullScreen, updateWindowPos } = useWindowsStore();
-    const { currentSelectedFile } = useFoldersStore();
-
+    
     return (
         <div
             draggable
@@ -29,8 +28,8 @@ function Tab({ window, handleWindowClose, handleWindowMinimize }: Props) {
             css={[tw`flex justify-between cursor-default bg-base-700`, (activeWindow !== window.window.name) && tw`bg-base-800`]} className={'dragHandler'}
         >
             <div css={[tw`bg-base-700 w-full h-[30px] flex justify-center items-center`, (activeWindow !== window.window.name) && tw`bg-base-800`]}>
-                <span css={[tw`text-white`, window.window.name !== 'file' && tw`capitalize`]}>
-                    {window.window.name === 'file' ? currentSelectedFile?.name ?? window.window.name : window.window.name}
+                <span css={[tw`text-white capitalize`]}>
+                    {window.window.name}
                 </span>
             </div>
 
