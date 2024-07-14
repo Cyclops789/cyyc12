@@ -1,60 +1,86 @@
-import { useRef, useState, useEffect, useMemo } from 'react';
-import * as monaco from 'monaco-editor';
-import Editor, { useMonaco } from '@monaco-editor/react';
-import EditorJson from '@/assets/json/EditorTheme.json';
 import tw from 'twin.macro';
+import * as monaco from 'monaco-editor';
 import { useFoldersStore } from '@/stores/folders';
 import type { File } from '@/helpers/foldersHelper';
+import { useRef, useState, useEffect, useMemo, useCallback, memo } from 'react';
+import { loader } from '@monaco-editor/react';
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
+import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 
-interface NewFile extends File { data: string; };
+self.MonacoEnvironment = {
+    getWorker(_, label) {
+        if (label === 'json') {
+            return new jsonWorker();
+        }
+        return new editorWorker();
+    },
+};
 
-export default function EditorEditor() {
-    const { getFileOfType } = useFoldersStore();
-    const file = getFileOfType(['.json', '.txt']) as NewFile | null;
+loader.config({ monaco });
+
+interface NewFile extends File { data: string; }
+
+function EditorEditor() {
+    const modelRef = useRef<monaco.editor.ITextModel | null>(null);
+    const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
+    const { getFileOfType, selectedFiles } = useFoldersStore();
+    const [cachedFiles, setCachedFiles] = useState<{ data: string, staticPath: string, ext: string }[]>([]);
+
+    const file = useMemo(() => {
+        return (getFileOfType(['.json', '.txt']) as NewFile | null) || { data: "", ext: ".txt", staticPath: "" };
+    }, [selectedFiles]);
+
+    const createEditor = useCallback((data: string, ext: string, model: monaco.editor.ITextModel) => {
+        return monaco.editor.create(
+            document.getElementById("monaco-editor")!,
+            {
+                value: data,
+                language: ext,
+                theme: 'vs-dark',
+                automaticLayout: true,
+                model
+            }
+        );
+    }, []);
+
+    const createModel = useCallback((data: string, ext: string) => {
+        return monaco.editor.createModel(data, ext);
+    }, []);
 
     useEffect(() => {
-        if (file) {
-            fetch(file.staticPath).then(async (res) => {
-                if (res.ok) {
-                    file.data = await res.text();
-                } else {
-                    file.data = "";
+        const fetchData = async () => {
+            if (file && file.staticPath !== "") {
+                const isCached = cachedFiles.find((cachedFile) => cachedFile.staticPath === file.staticPath);
+                if (!isCached) {
+                    const res = await fetch(file.staticPath);
+                    file.data = res.ok ? await res.text() : "";
+                    setCachedFiles((prevCachedFiles) => [...prevCachedFiles, { data: file.data, staticPath: file.staticPath, ext: file.ext }]);
                 }
-            });
-        }
-    }, [file]);
+            }
 
-    // useEffect(() => {
-    //     if (!editorRef.current && monacoEl.current && file) {
-    //         // We dont need to give it a type since vite already 
-    //         // converts json format into javascript object
-    //         console.log('file', file);
-    //         editorRef.current = monaco.editor.create(monacoEl.current, { value: file?.data, language: file?.ext.replace('.', ''), theme: "dracula", automaticLayout: true });
-    //     }
-    //     return () => editorRef.current?.dispose();
-    // }, [monacoEl.current, editorRef.current, file]);
+            editorRef.current?.dispose();
+            modelRef.current?.dispose();
+
+            modelRef.current = createModel(file.data ?? '', file.ext.replace('.', ''));
+            editorRef.current = createEditor(file.data ?? '', file.ext.replace('.', ''), modelRef.current);
+
+            editorRef.current?.render();
+        };
+
+        fetchData();
+
+        return () => {
+            editorRef.current?.dispose();
+            modelRef.current?.dispose();
+        };
+    }, [file, selectedFiles, cachedFiles, createEditor, createModel]);
 
     return (
-        file &&
-        <Editor
+        <div
+            id={"monaco-editor"}
             css={tw`w-full h-full`}
-            defaultLanguage={file.ext.replace('.', '')}
-            defaultValue={file.data}
-            onMount={(e) => {
-                try {
-                    monaco.editor.defineTheme('dracula', EditorJson as any);
-                    monaco.editor.setTheme('dracula');
-                    const model = e.getModel();
-                    
-                    if (model) {
-                        model.setValue(file.data);
-                    } else {
-                        console.log("Model is empty");
-                    }
-                } catch (error) {
-                    console.log('ERROR IN ONMOUNT: ', error);
-                }
-            }}
         />
     );
 };
+
+export default memo(EditorEditor);
