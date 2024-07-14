@@ -71,8 +71,8 @@ function Window({ children, window: cWindow }: Props) {
     const handleWindowResize = useCallback((ref: HTMLElement, p?: { x: number, y: number }) => {
         updateWindowSize(cWindow.window.name, { width: ref.offsetWidth, height: ref.offsetHeight });
 
-        if (ref.offsetWidth != 0) saveInitialWidth(`${ref.offsetWidth}`);
-        if (ref.offsetHeight != 0) saveInitialHeight(`${ref.offsetHeight}`);
+        if (ref.offsetWidth) saveInitialWidth(`${ref.offsetWidth}`);
+        if (ref.offsetHeight) saveInitialHeight(`${ref.offsetHeight}`);
         if (p) handleWindowDrag(null, p);
     }, []);
 
@@ -134,12 +134,6 @@ function Window({ children, window: cWindow }: Props) {
     return (
         !cWindow.window.ignore?.window ?
             <Rnd
-                default={{
-                    width: !cWindow.window.fullscreen ? initialWidth ?? 990 : window.innerWidth - 2,
-                    height: !cWindow.window.fullscreen ? initialHeight ?? 490 : window.innerHeight - 50,
-                    x: !cWindow.window.fullscreen ? Number(initialXPos) ?? 331 : 0,
-                    y: !cWindow.window.fullscreen ? Number(initialYPos) ?? 205 : 0,
-                }}
                 size={{
                     width: !cWindow.window.fullscreen ? cWindow.window.size?.width ?? 990 : window.innerWidth - 2,
                     height: !cWindow.window.fullscreen ? cWindow.window.size?.height ?? 490 : window.innerHeight - 50
@@ -167,6 +161,7 @@ function Window({ children, window: cWindow }: Props) {
                 css={[tw`shadow-md shadow-black rounded-lg transition-all duration-[150ms] ease-out`, hideRnd && tw`!hidden`]}
                 style={{ zIndex: 60 - windowOrder }}
                 dragHandleClassName={'dragHandler'}
+                resizeGrid={[50, 50]}
             >
                 <div
                     ref={nodeRef}
@@ -183,7 +178,7 @@ function Window({ children, window: cWindow }: Props) {
                 </div>
             </Rnd>
             :
-            <>{children}</>
+            <Suspense>{children}</Suspense>
     );
 }
 
