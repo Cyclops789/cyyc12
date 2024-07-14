@@ -8,7 +8,7 @@ export function useIndexedDbState({ schema }: Props): IDBDatabase | null {
     useEffect(() => {
         const db = window.indexedDB.open(schema, 3);
 
-        db.onerror = () => console.log(`Failed to load indexedDB for schema: ${schema} `, db.error);
+        db.onerror = () => console.error(`Failed to load indexedDB for schema: ${schema} `, db.error);
         db.onsuccess = () => setSchemaObject(db.result);
 
         return () => {

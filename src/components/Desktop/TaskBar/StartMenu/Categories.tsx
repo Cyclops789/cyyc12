@@ -38,7 +38,7 @@ function Categories() {
                     onClick={() => setActiveMenuCategory(category.name)}
                     key={category.name}
                     $active={activeMenuCategory === category.name}
-                    css={index === 0 && tw`mt-2`}
+                    css={!index && tw`mt-2`}
                     draggable
                 >
                     <div css={tw`w-[35px] mx-1`}>

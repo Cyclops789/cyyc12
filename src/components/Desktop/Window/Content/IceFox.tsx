@@ -160,7 +160,7 @@ function IceFox() {
                 >
                     <ActionButton
                         onClick={goBack}
-                        disabled={currentLinkIndex === 0 || searchLinksHistory.length === 1}
+                        disabled={!currentLinkIndex || searchLinksHistory.length === 1}
                     >
                         <div>
                             <FontAwesomeIcon icon={faArrowLeft} />

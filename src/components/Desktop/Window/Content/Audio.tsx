@@ -20,7 +20,7 @@ function WebampPlayer() {
     const { getFileOfType, selectedFiles } = useFoldersStore();
     const { windows, updateActiveWindow } = useWindowsStore();
     const file = useMemo(() => getFileOfType(['.mp3']), [selectedFiles]);
-    const WebAmpWindowOrder = useMemo(() => windows[6].window.order, [windows[6].window.order])
+    const WebAmpWindowOrder = useMemo(() => windows[5].window.order, [windows[5].window.order]);
 
     const conf = {
         initialTracks: [
@@ -38,10 +38,14 @@ function WebampPlayer() {
         if (!webamp.current && divRef.current) {
             useAsynced(async () => {
                 await loadWebAmpAssets().then(() => {
+                    if(!window.Webamp.browserIsSupported()) {
+                        return console.error("[INFO] webamp is not supported in this browser");
+                    }
+
                     if (typeof window.Webamp !== 'undefined') {
                         if (divRef.current) {
                             const isExist = document.querySelectorAll('#webamp');
-                            if (isExist.length === 0) {
+                            if (!isExist.length) {
                                 // @ts-ignore this is valid
                                 webamp.current = window.WebAmpRef = new window.Webamp(conf);
                                 webamp.current.renderWhenReady(divRef.current).finally(() => setIsRendered(true));
@@ -49,7 +53,7 @@ function WebampPlayer() {
                             }
                         }
                     } else {
-                        console.log('window.Webamp is undefined');
+                        console.log('[INFO] window.Webamp is undefined');
                     }
                 })
             });
@@ -84,10 +88,6 @@ function WebampPlayer() {
             webNodeRef.current?.removeEventListener('mousedown', updateWebAmpWindowOrder);
         }
     }, [webNodeRef.current, isRendered]);
-
-    if (typeof window.Webamp !== 'undefined' && !window.Webamp.browserIsSupported()) {
-        return <div>Webamp is not supported in this browser</div>;
-    };
 
     useEffect(() => {
         if (webNodeRef.current) webNodeRef.current.style.zIndex = `${60 - WebAmpWindowOrder}`;
