@@ -1,4 +1,4 @@
-import React, { type RefObject } from 'react'
+import React, { useEffect, type RefObject } from 'react'
 import { useGeneralStore } from '@/stores/general'
 import StartButtons from '@/components/Global/StartButtons';
 import BootUp from '@/components/BootUp';
@@ -15,13 +15,30 @@ type Props = { children: React.ReactNode, selectAbleContainerRef: RefObject<HTML
 
 function DesktopHandler({ children, selectAbleContainerRef }: Props) {
     const { desktopStatus } = useGeneralStore();
-    const { windows } = useWindowsStore();
+    const { windows, updateWindowPos, updateWindowSize } = useWindowsStore();
     const { baseColor } = useThemeStore();
+
+    useEffect(() => {
+        console.log("[INFO] Setting up the initial size and pos for all windows");
+        windows.forEach((gWindow) => {
+            const sizeWidth = Number(localStorage.getItem(`${gWindow.window.name}.size.width`));
+            const sizeHeight = Number(localStorage.getItem(`${gWindow.window.name}.size.height`));
+            const posX = Number(localStorage.getItem(`${gWindow.window.name}.pos.x`));
+            const posY = Number(localStorage.getItem(`${gWindow.window.name}.pos.y`));
+
+            if (sizeHeight && sizeWidth) {
+                updateWindowSize(gWindow.window.name, { width: sizeWidth, height: sizeHeight });
+            };
+
+            if (posX && posY) {
+                updateWindowPos(gWindow.window.name, { x: posX, y: posY });
+            };
+        });
+    }, []);
 
     switch (desktopStatus) {
         case 'started':
             return (
-
                 <Loading>
                     <UserSelectionHandler {...{ selectAbleContainerRef }}>
                         <ContextMenu>

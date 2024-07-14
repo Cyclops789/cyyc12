@@ -122,6 +122,10 @@ export const useWindowsStore = create<IGeneralStore>((set) => ({
                     minimize: () => { },
                     close: () => { },
                 },
+                size: {
+                    width: 1200,
+                    height: 650,
+                },
                 hidden: {
                     desktop: false,
                     startMenu: false,
