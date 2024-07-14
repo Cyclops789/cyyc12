@@ -30,7 +30,7 @@ function Programmes({ applicationsSearchQuery }: Props) {
     }, []);
 
     return (
-        <div css={tw`w-[60%] grid grid-cols-4 gap-x-2 p-2 h-full`}>
+        <div css={tw`w-[60%] grid grid-cols-4 gap-2 p-2 overflow-y-auto place-content-start`}>
             {gWindows.filter(gWindow => !gWindow.window.hidden.startMenu).map((gWindow) => (
                 (activeMenuCategory === gWindow.window.category || activeMenuCategory === null) &&
                 (
