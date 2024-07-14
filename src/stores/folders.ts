@@ -25,17 +25,24 @@ export const useFoldersStore = create<IFoldersStore>((set, get) => ({
             for (let index = 0; index < exts.length; index++) {
                 const ext = exts[index];
                 let tmpFile = files.find((file) => file.ext === ext);
-                if(tmpFile) {
+                if (tmpFile) {
                     file = tmpFile;
                     break;
                 }
-            }  
+            }
         } finally {
             return file;
-        }        
+        }
     },
     setCurrentFolder: (currentFolder) => set(() => ({ currentFolder })),
     setSelectedFiles: (selectedFiles) => set(() => ({ selectedFiles })),
-    addSelectedFile: (selectedFile) => set(({ selectedFiles }) => (!selectedFiles.find((file) => file.name === selectedFile.name)) ? ({ selectedFiles: [selectedFile].concat(selectedFiles) }) : ({ selectedFiles })),
+    addSelectedFile: (selectedFile) => set(({ selectedFiles }) => {
+        const targetedFile = selectedFiles.findIndex((file) => file.name === selectedFile.name);
+        if (targetedFile === -1) {
+            return { selectedFiles: [selectedFile].concat(selectedFiles) };
+        } else {
+            return { selectedFiles: selectedFiles.splice(selectedFiles.length - 1, 0, selectedFiles.splice(targetedFile, 1)[0]) };
+        }
+    }),
     removeSelectedFile: (selectedFile) => set(({ selectedFiles }) => ({ selectedFiles: selectedFiles.filter((file) => file.name !== selectedFile.name) })),
 }));
