@@ -16,3 +16,11 @@ export const loadPacManAssets = async () => {
         console.error(`Could not import pacman assets!`, error);
     }
 };
+
+export const loadBrowserDetectorAssets = async () => {
+    try {
+        await import(/* @vite-ignore */ '@/assets/js/browser.js');
+    } catch (error) {
+        console.error(`Could not import browser assets!`, error);
+    }
+};

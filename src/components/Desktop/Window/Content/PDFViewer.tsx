@@ -1,4 +1,4 @@
-import { Fragment, memo, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Document, Page } from 'react-pdf';
 import printJS from 'print-js';
 import tw, { styled } from 'twin.macro';
@@ -7,14 +7,6 @@ import { faDownload, faFileImport } from '@fortawesome/free-solid-svg-icons';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import { useFoldersStore } from '@/stores/folders';
-
-type Props = { source: string, name: string };
-
-declare global {
-    interface Window {
-        chrome: any;
-    }
-}
 
 const ActionButton = styled.button<{ $forceHover?: boolean }>`
     ${tw`p-2 bg-white/10 flex justify-center items-center rounded-full cursor-pointer`}
@@ -35,6 +27,7 @@ const ActionButton = styled.button<{ $forceHover?: boolean }>`
 
 function PDFViewer() {
     const { getFileOfType, selectedFiles } = useFoldersStore();
+    const { isChrome, isEdgeChromium, isEdge } = window.getBrowsers;
     const file = useMemo(() => getFileOfType(['.pdf']), [selectedFiles]);
     
     const source = useMemo(() => ({ url: file?.staticPath || "" }), [file]);
@@ -44,47 +37,41 @@ function PDFViewer() {
     const [numPages, setNumPages] = useState<number>();
     const [pageNumber, setPageNumber] = useState<number>(1);
 
-    const printDoc = async () => {
+    const printDoc = useCallback(async () => {
         printJS({
             printable: source,
             type: "pdf",
         })
-    }
+    }, [source]);
 
-    const downloadDoc = async () => {
+    const downloadDoc = useCallback(async () => {
         const link = document.createElement("a");
 
         link.href = source.url;
         link.download = name;
 
         link.click();
-    }
+    }, [source]);
 
-    const jumpToPage = (page: number) => {
+    const jumpToPage = useCallback((page: number) => {
         if(typeof window !== 'undefined') {
             // Chrome based browsers doesnt fire scrollIntoView at all when its set to smooth 
-            switch (typeof window.chrome) {
-                case 'undefined':
-                    pageRefs.current[page].scrollIntoView({ behavior: 'smooth' });
-                    break;
-            
-                default:
-                    pageRefs.current[page].scrollIntoView({ behavior: 'instant' });
-                    break;
+            if (isChrome || isEdge || isEdgeChromium) {
+                pageRefs.current[page].scrollIntoView({ behavior: 'instant' });
+            } else {
+                pageRefs.current[page].scrollIntoView({ behavior: 'smooth' });
             }
         }
         setPageNumber(page);
-    };
+    }, [pageRefs.current]);
 
-    function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
-        setNumPages(numPages);
-    }
+    const onDocumentLoadSuccess = useCallback(({ numPages }: { numPages: number }): void => setNumPages(numPages), []);
 
     return (
         <div
             css={tw`h-full w-full bg-secondary overflow-y-auto text-white`}
         >
-            <div css={tw`h-[50px] w-full bg-primary border-b border-b-white/10 flex justify-between items-center p-3`}>
+            <div css={tw`h-[50px] w-full bg-primary border-b border-b-white/10 flex justify-between items-center p-3 select-none`}>
                 <div css={tw`capitalize`}>
                     {name.split('.')[0]}
                 </div>
