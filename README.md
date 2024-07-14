@@ -55,4 +55,4 @@ Folder:
 
 **[CORE]**:
 - ~~Add: dynamic import for window children~~
-- Fix: Split [ Editor | Image | Video | PDFViewer ] so each file can be on its draggable window
+- ~~Fix: Split [ Editor | Image | Video | PDFViewer ] so each file can be on its draggable window~~
