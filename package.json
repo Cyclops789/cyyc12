@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "yarn build:pre && tsc && vite build",
     "build:pre": "node scripts/browserIndex.cjs",
     "build:test": "yarn build && python3 -m http.server -d dist/",
