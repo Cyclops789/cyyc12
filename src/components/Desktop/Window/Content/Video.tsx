@@ -13,6 +13,7 @@ const StyledVideoPlayer = styled.div`
 
   .video-js {
     height: 100%;
+    width: 100%;
   }
 `;
 
@@ -41,6 +42,8 @@ function Video() {
                 player.controls(true);
                 player.responsive(true);
                 player.muted(true);
+                player.preload("auto");
+                
 
                 player.width(windowWidth || 990);
 
@@ -76,7 +79,6 @@ function Video() {
         <div data-vjs-player>
             <StyledVideoPlayer
                 ref={videoRef}
-                css={tw`h-full w-full`}
             />
         </div>
     )
