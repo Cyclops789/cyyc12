@@ -1,12 +1,32 @@
-import { Fragment, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Document, Page } from 'react-pdf';
+import { Fragment, memo, useCallback, useMemo, useRef, useState } from 'react';
+import { pdfjs, Document, Page } from 'react-pdf';
 import printJS from 'print-js';
 import tw, { styled } from 'twin.macro';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faFileImport } from '@fortawesome/free-solid-svg-icons';
+import { useFoldersStore } from '@/stores/folders';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
-import { useFoldersStore } from '@/stores/folders';
+
+// @ts-expect-error This does not exist outside of polyfill which this is doing
+if (typeof Promise.withResolvers === 'undefined') {
+    if (typeof window !== 'undefined')
+        // @ts-expect-error This does not exist outside of polyfill which this is doing
+        window.Promise.withResolvers = function () {
+            let resolve, reject;
+            const promise = new Promise((res, rej) => {
+                resolve = res;
+                reject = rej;
+            });
+            return { promise, resolve, reject };
+        };
+}
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+    'pdfjs-dist/legacy/build/pdf.worker.min.mjs',
+    import.meta.url
+).toString();
+
 
 const ActionButton = styled.button<{ $forceHover?: boolean }>`
     ${tw`p-2 bg-white/10 flex justify-center items-center rounded-full cursor-pointer`}
