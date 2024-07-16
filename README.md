@@ -17,7 +17,7 @@
 **[CORE]** Desktop:
 - ~~Add: task bar~~
 - ~~Add: Start menu~~
-- Add: Context menu [50%] (working on file uploads)
+- ~~Add: Context menu~~
 - ~~Fix: add scale animation when you close / minimize window though TaskBar~~
 - ~~Add: active windwos / opened windows (Using **X1**)~~
 - ~~Fix: DesktopHandler should use full screen size~~
@@ -40,7 +40,7 @@ Desktop applications:
 - Add: [DOOM](https://js-dos.com/DOOM/)
 - ~~Add: [PACMAN](https://github.com/daleharvey/pacman)~~
 - Add: [SUPER MARIO](https://github.com/meth-meth-method/super-mario)
-- Add: allow sorting with file names [Desc / Asc]
+- ~~Add: allow sorting with file names / categories [Desc / Asc]~~
 
 Terminal:
 - ~~Add: Scroll to the bottom of the component **onCommandExecute**~~

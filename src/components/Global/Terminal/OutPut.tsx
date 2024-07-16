@@ -1,7 +1,7 @@
 import React, { useEffect, type MutableRefObject } from 'react';
 import { useCommandsStore } from '@/stores/commands';
 import { getCommandOutputs } from '@/helpers/commandsHelper';
-import LineBreak from '@/components/Terminal/LineBreak';
+import LineBreak from '@/components/Global/Terminal/LineBreak';
 import tw from 'twin.macro';
 
 type Props = { pageRefs: MutableRefObject<HTMLDivElement[]> };

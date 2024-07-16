@@ -1,7 +1,6 @@
-import TerminalLabel from "@/components/Terminal/TerminalLabel";
-import CommandInput from "@/components/Terminal/CommandInput";
-import OutPuts from "@/components/Terminal/OutPut";
-import tw from 'twin.macro';
+import TerminalLabel from "@/components/Global/Terminal/TerminalLabel";
+import CommandInput from "@/components/Global/Terminal/CommandInput";
+import OutPuts from "@/components/Global/Terminal/OutPut";
 import { useRef } from "react";
 
 function Terminal() {
@@ -9,10 +8,8 @@ function Terminal() {
 
     return (
         <TerminalLabel>
-            <div css={tw`p-2`}>
-                <OutPuts {...{ pageRefs }} />
-                <CommandInput />
-            </div>
+            <OutPuts {...{ pageRefs }} />
+            <CommandInput />
         </TerminalLabel>
     )
 }

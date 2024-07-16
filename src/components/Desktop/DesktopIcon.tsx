@@ -56,7 +56,7 @@ function DesktopIcon({ children, css, title, className }: Props) {
     return (
         <Draggable
             // grid={[50, 50]}
-            defaultPosition={{
+            position={{
                 x: Number(initialXDragPosition), 
                 y: Number(initialYDragPosition),
             }}

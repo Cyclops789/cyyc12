@@ -7,13 +7,15 @@ import tw from 'twin.macro';
 import { useGeneralStore } from '@/stores/general';
 import { availableBackgrounds } from '@/stores/general';
 import useThemeStore from "@/styles/useThemeStore";
+import { sortBy, sortMethods, useDesktopStore } from '@/stores/desktop';
 
 type Props = { children: React.ReactNode };
 
 function ContextMenu({ children }: Props) {
-    const { activeWindow, } = useWindowsStore();
+    const { activeWindow, windows } = useWindowsStore();
     const { baseColor, setBaseColor } = useThemeStore();
     const { setActiveBackground, activeBackground } = useGeneralStore();
+    const { setSortBy, setSortMethod, sortMethod, sortBy } = useDesktopStore();
     const { show } = useContextMenu({ id: DESKTOP_CONTEXT_ID });
 
     const matchShortcutR = (e: KeyboardEvent): boolean => (e.key === 'r');
@@ -22,7 +24,17 @@ function ContextMenu({ children }: Props) {
         if (activeWindow === undefined) {
             show({ event, props: { key: 'value' } });
         }
-    }, [activeWindow])
+    }, [activeWindow]);
+
+    const sortDesktopIcons = useCallback((by: sortBy | null, method?: sortMethods) => {
+        windows.forEach((gWindow) => {
+            localStorage.setItem(`${gWindow.window.name}.drag.pos.x`, `0`);
+            localStorage.setItem(`${gWindow.window.name}.drag.pos.y`, `0`);
+        });
+
+        if(method) setSortMethod(method);
+        if(by) setSortBy(by);
+    }, []);
 
     useEffect(() => {
         document.addEventListener('contextmenu', showContextMenu);
@@ -38,14 +50,14 @@ function ContextMenu({ children }: Props) {
                 css={tw`z-[50]`}
             >
                 <Submenu label="Sort by">
-                    <Item disabled id="sort.by.name" onClick={() => { }}>Name</Item>
+                    <Item disabled={sortBy === 'name'} onClick={() => sortDesktopIcons('name')}>Name</Item>
+                    <Item disabled={sortBy === 'category'} onClick={() => sortDesktopIcons('category')}>Group</Item>
                     <Separator />
-                    <Item disabled id="sort.by.asc" onClick={() => { }}>Ascending</Item>
-                    <Item disabled id="sort.by.desc" onClick={() => { }}>Descending</Item>
+                    <Item disabled={sortMethod === 'asc'} onClick={() => sortDesktopIcons(null, 'asc')}>Ascending</Item>
+                    <Item disabled={sortMethod === 'desc'} onClick={() => sortDesktopIcons(null, 'desc')}>Descending</Item>
                 </Submenu>
 
                 <Item
-                    id="reload"
                     onClick={() => window.location.reload()}
                     css={tw`text-white`}
                     keyMatcher={matchShortcutR}
