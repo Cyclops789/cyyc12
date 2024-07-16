@@ -27,10 +27,12 @@ function ContextMenu({ children }: Props) {
     }, [activeWindow]);
 
     const sortDesktopIcons = useCallback((by: sortBy | null, method?: sortMethods) => {
-        windows.forEach((gWindow) => {
-            localStorage.setItem(`${gWindow.window.name}.drag.pos.x`, `0`);
-            localStorage.setItem(`${gWindow.window.name}.drag.pos.y`, `0`);
-        });
+        if(typeof window !== 'undefined') {
+            windows.forEach((gWindow) => {
+                localStorage.setItem(`${gWindow.window.name}.drag.pos.x`, `0`);
+                localStorage.setItem(`${gWindow.window.name}.drag.pos.y`, `0`);
+            });
+        }
 
         if(method) setSortMethod(method);
         if(by) setSortBy(by);

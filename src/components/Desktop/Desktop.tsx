@@ -10,7 +10,6 @@ type Props = { selectAbleContainerRef: RefObject<HTMLDivElement> };
 function Desktop({ selectAbleContainerRef }: Props) {
     const { windows } = useWindowsStore();
     const [currentWindows, setCurrentWindows] = useState<IAvailableWindows[]>(windows);
-    const desktopRef = useRef<HTMLDivElement>(null);
     const { updateActiveWindow } = useWindowsStore();
     const { sortMethod, sortBy } = useDesktopStore();
 
@@ -48,12 +47,10 @@ function Desktop({ selectAbleContainerRef }: Props) {
                 setCurrentWindows((currentWindows) => currentWindows.reverse());
                 break;
         }
-
     }, [sortBy, sortMethod]);
 
     return (
         <div
-            ref={desktopRef}
             onMouseDown={() => updateActiveWindow(undefined)}
             css={tw`z-[9] fixed w-screen h-screen`}
         >
