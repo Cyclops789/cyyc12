@@ -2,7 +2,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import svgr from "vite-plugin-svgr";
-import path from 'path'
+import { VitePWA } from 'vite-plugin-pwa';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,5 +28,12 @@ export default defineConfig({
       },
     }),
     svgr(),
+    VitePWA({ 
+      registerType: 'autoUpdate',
+      workbox: {
+        globPatterns: ['**/*.{js,mjs,css,html,ico,png,svg,pdf,json,mp3,ogg,txt}'],
+        maximumFileSizeToCacheInBytes: 5000000, // 5mb
+      }
+    }),
   ],
 })
