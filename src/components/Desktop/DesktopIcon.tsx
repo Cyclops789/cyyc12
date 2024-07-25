@@ -101,6 +101,4 @@ function DesktopIcon({ children, css, title, className }: Props) {
     )
 }
 
-
-
 export default DesktopIcon;
